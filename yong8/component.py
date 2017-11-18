@@ -45,6 +45,11 @@ class ConstraintComponent(ConstraintBoundaryShape):
 			drawingSystem.appendConstraint(self.getVarOccupationBoundaryCenterX() == targetShape.getVarOccupationBoundaryCenterX())
 			drawingSystem.appendConstraint(self.getVarOccupationBoundaryCenterY() == targetShape.getVarOccupationBoundaryCenterY())
 
+		for layoutConstraint in self.layoutConstraints:
+			targetShape = layoutConstraint.getTargetShape()
+			drawingSystem.appendConstraint(self.getVarOccupationBoundaryCenterX() == targetShape.getVarOccupationBoundaryCenterX())
+			drawingSystem.appendConstraint(self.getVarOccupationBoundaryCenterY() == targetShape.getVarOccupationBoundaryCenterY())
+
 	def appendObjective(self, drawingSystem):
 		super().appendObjective(drawingSystem)
 		drawingSystem.appendObjective(-self.getVarOccupationBoundaryWidth()*2)
