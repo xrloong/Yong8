@@ -21,11 +21,22 @@ class ConstraintComponentTestCase(BaseTestCase):
 		s = injector.get(BeelineSegment_橫)
 		stroke = injector.get(ConstraintStroke)
 		stroke.setSegments([s]);
-		layoutConstraint = LayoutConstraint()
-		layoutConstraint.setAlignCenter(stroke)
 		component = injector.get(ConstraintComponent)
 		component.setStrokes([stroke])
-		component.appendLayoutConstraint(layoutConstraint)
+
+		layoutConstraint1 = LayoutConstraint()
+		layoutConstraint1.setAlignCenter(stroke)
+
+		layoutConstraint2 = LayoutConstraint()
+		layoutConstraint2.setAsRow(component.getVarOccupationBoundaryWidth() == stroke.getVarOccupationBoundaryWidth())
+
+		layoutConstraint3 = LayoutConstraint()
+		layoutConstraint3.setAsMinimize(component.getVarOccupationBoundaryHeight()*2)
+
+		component.appendLayoutConstraint(layoutConstraint1)
+		component.appendLayoutConstraint(layoutConstraint2)
+		component.appendLayoutConstraint(layoutConstraint3)
+
 
 		component.appendVariables(drawingSystem)
 		component.appendConstraints(drawingSystem)
@@ -48,19 +59,26 @@ class ConstraintComponentTestCase(BaseTestCase):
 		s1 = injector.get(BeelineSegment_橫)
 		stroke1 = injector.get(ConstraintStroke)
 		stroke1.setSegments([s1]);
-		layoutConstraint1 = LayoutConstraint()
-		layoutConstraint1.setAlignCenter(stroke1)
 
 		s2 = injector.get(BeelineSegment_豎)
 		stroke2 = injector.get(ConstraintStroke)
 		stroke2.setSegments([s2]);
-		layoutConstraint2 = LayoutConstraint()
-		layoutConstraint2.setAlignCenter(stroke2)
 
 		component = injector.get(ConstraintComponent)
 		component.setStrokes([stroke1, stroke2])
+
+		layoutConstraint1 = LayoutConstraint()
+		layoutConstraint1.setAlignCenter(stroke1)
+		layoutConstraint2 = LayoutConstraint()
+		layoutConstraint2.setAlignCenter(stroke2)
+		layoutConstraint3 = LayoutConstraint()
+		layoutConstraint3.setAsRow(component.getVarOccupationBoundaryWidth() == stroke1.getVarOccupationBoundaryWidth())
+		layoutConstraint4 = LayoutConstraint()
+		layoutConstraint4.setAsRow(component.getVarOccupationBoundaryHeight() == stroke2.getVarOccupationBoundaryHeight())
 		component.appendLayoutConstraint(layoutConstraint1)
 		component.appendLayoutConstraint(layoutConstraint2)
+		component.appendLayoutConstraint(layoutConstraint3)
+		component.appendLayoutConstraint(layoutConstraint4)
 
 		component.appendVariables(drawingSystem)
 		component.appendConstraints(drawingSystem)
