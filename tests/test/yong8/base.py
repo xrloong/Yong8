@@ -36,3 +36,10 @@ class BaseTestCase(unittest.TestCase):
 
 		return Injector([configure, DrawingModule()])
 
+	def assertSequenceAlmostEqual(self, seq1, seq2):
+		def almost_equal(value_1, value_2):
+			return self.assertAlmostEqual(value_1, value_2)
+
+		for values in zip(seq1, seq2):
+			almost_equal(*values)
+

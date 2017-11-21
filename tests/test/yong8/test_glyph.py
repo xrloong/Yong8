@@ -33,7 +33,7 @@ class ConstraintGlyphTestCase(BaseTestCase):
 
 		drawingSystem.solve()
 
-		self.assertEqual(glyph.getOccupationBoundary(), (40.0, 20.0, 215.0, 235.0))
+		self.assertSequenceAlmostEqual(glyph.getOccupationBoundary(), (40.0, 20.0, 215.0, 235.0))
 
 	def testEmptyGlyph(self):
 		injector = self.getInjector()
@@ -48,8 +48,8 @@ class ConstraintGlyphTestCase(BaseTestCase):
 
 		drawingSystem.solve()
 
-		self.assertEqual(glyph.getOccupationBoundary(), (40.0, 20.0, 215.0, 235.0))
-		self.assertEqual(glyph.getMargin(), (40.0, 20.0, 215.0, 235.0))
+		self.assertSequenceAlmostEqual(glyph.getOccupationBoundary(), (40.0, 20.0, 215.0, 235.0))
+		self.assertSequenceAlmostEqual(glyph.getMargin(), (40.0, 20.0, 215.0, 235.0))
 
 	def testGlyphMargin(self):
 		injector = self.getInjector()
@@ -64,6 +64,6 @@ class ConstraintGlyphTestCase(BaseTestCase):
 
 		drawingSystem.solve()
 
-		self.assertEqual(glyph.getOccupationBoundary(), (40.0, 20.0, 215.0, 235.0))
-		self.assertEqual(glyph.getMargin(), (40.0, 20.0, 215.0, 235.0))
+		self.assertSequenceAlmostEqual(glyph.getOccupationBoundary(), (40.0, 20.0, 215.0, 235.0))
+		self.assertSequenceAlmostEqual(glyph.getMargin(), (40.0, 20.0, 215.0, 235.0))
 

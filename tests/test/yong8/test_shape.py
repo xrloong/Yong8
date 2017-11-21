@@ -35,10 +35,10 @@ class ConstraintShapeTestCase(BaseTestCase):
 
 		drawingSystem.solve()
 
-		self.assertEqual(shape.getExtensionSize(), (144, 68))
-		self.assertEqual(shape.getExtensionBoundaryCenter(), (110.0, 95.0))
-		self.assertEqual(shape.getOccupationSize(), (144, 68))
-		self.assertEqual(shape.getOccupationBoundaryCenter(), (110.0, 95.0))
+		self.assertSequenceAlmostEqual(shape.getExtensionSize(), (144, 68))
+		self.assertSequenceAlmostEqual(shape.getExtensionBoundaryCenter(), (110.0, 95.0))
+		self.assertSequenceAlmostEqual(shape.getOccupationSize(), (144, 68))
+		self.assertSequenceAlmostEqual(shape.getOccupationBoundaryCenter(), (110.0, 95.0))
 
 	def testConstraintBoundaryShape_BindingOccupationBoundary(self):
 		injector = self.getInjector()
@@ -53,10 +53,10 @@ class ConstraintShapeTestCase(BaseTestCase):
 
 		drawingSystem.solve()
 
-		self.assertEqual(shape.getExtensionSize(), (144, 68))
-		self.assertEqual(shape.getExtensionBoundaryCenter(), (110.0, 95.0))
-		self.assertEqual(shape.getOccupationSize(), (144, 68))
-		self.assertEqual(shape.getOccupationBoundaryCenter(), (110.0, 95.0))
+		self.assertSequenceAlmostEqual(shape.getExtensionSize(), (144, 68))
+		self.assertSequenceAlmostEqual(shape.getExtensionBoundaryCenter(), (110.0, 95.0))
+		self.assertSequenceAlmostEqual(shape.getOccupationSize(), (144, 68))
+		self.assertSequenceAlmostEqual(shape.getOccupationBoundaryCenter(), (110.0, 95.0))
 
 	def testConstraintBoundaryShape_BindingSizeCenter(self):
 		injector = self.getInjector()
@@ -72,8 +72,8 @@ class ConstraintShapeTestCase(BaseTestCase):
 
 		drawingSystem.solve()
 
-		self.assertEqual(shape.getExtensionSize(), (144, 68))
-		self.assertEqual(shape.getExtensionBoundary(), (38, 61, 182, 129))
-		self.assertEqual(shape.getOccupationSize(), (144, 68))
-		self.assertEqual(shape.getOccupationBoundaryCenter(), (110.0, 95.0))
+		self.assertSequenceAlmostEqual(shape.getExtensionSize(), (144, 68))
+		self.assertSequenceAlmostEqual(shape.getExtensionBoundary(), (38, 61, 182, 129))
+		self.assertSequenceAlmostEqual(shape.getOccupationSize(), (144, 68))
+		self.assertSequenceAlmostEqual(shape.getOccupationBoundaryCenter(), (110.0, 95.0))
 
