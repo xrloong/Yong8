@@ -52,8 +52,8 @@ class ConstraintComponent(ConstraintBoundaryShape):
 
 	def appendObjective(self, drawingSystem):
 		super().appendObjective(drawingSystem)
-		drawingSystem.appendObjective(-self.getVarOccupationBoundaryWidth()*2)
-		drawingSystem.appendObjective(-self.getVarOccupationBoundaryHeight()*2)
+		drawingSystem.appendObjective(self.getVarOccupationBoundaryWidth()*-2)
+		drawingSystem.appendObjective(self.getVarOccupationBoundaryHeight()*-2)
 
 		for stroke in self.strokes:
 			stroke.appendObjective(drawingSystem)
