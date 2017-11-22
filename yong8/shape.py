@@ -452,3 +452,9 @@ class ConstraintPath(ConstraintBoundaryShape):
 	def appendObjective(self, drawingSystem):
 		super().appendObjective(drawingSystem)
 
+	def resolveStartPoint(self):
+		return (self.getVarStartX(), self.getVarStartY())
+
+	def resolveEndPoint(self):
+		return (self.getVarEndX(), self.getVarEndY())
+

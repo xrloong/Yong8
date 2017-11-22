@@ -10,6 +10,7 @@ class ConstraintType(Enum):
 	Maximize = 3
 	Minimize = 4
 	AlignToCenter = 5
+	PointMatchPoint = 6
 
 class LayoutConstraint:
 	def __init__(self):
@@ -31,9 +32,13 @@ class LayoutConstraint:
 		self.type = ConstraintType.Minimize
 		self.objective = objective
 
-	def setAlignCenter(self, shape):
+	def setAsAlignCenter(self, shape):
 		self.type = ConstraintType.AlignToCenter
 		self.targetShape = shape
+
+	def setAsPointMatchPoint(self, point1, point2):
+		self.type = ConstraintType.PointMatchPoint
+		self.pointMatchPoint = (point1, point2)
 
 	def isRow(self):
 		return self.type == ConstraintType.Row
@@ -50,6 +55,9 @@ class LayoutConstraint:
 	def isToAlignCenter(self):
 		return self.type == ConstraintType.AlignToCenter
 
+	def isPointMatchPoint(self):
+		return self.type == ConstraintType.PointMatchPoint
+
 	def getTargetShape(self):
 		return self.targetShape
 
@@ -58,6 +66,9 @@ class LayoutConstraint:
 
 	def getObjective(self):
 		return self.objective
+
+	def getPointMatchPoint(self):
+		return self.pointMatchPoint
 
 class ConstraintComponent(ConstraintBoundaryShape):
 	@inject
@@ -93,6 +104,11 @@ class ConstraintComponent(ConstraintBoundaryShape):
 			drawingSystem.appendConstraint(self.getVarOccupationBoundaryCenterY() == targetShape.getVarOccupationBoundaryCenterY())
 		if layoutConstraint.isRow():
 			drawingSystem.appendConstraint(layoutConstraint.getRowConstraint())
+		if layoutConstraint.isPointMatchPoint():
+			pointMatchPoint = layoutConstraint.getPointMatchPoint()
+			point1, point2 = pointMatchPoint
+			drawingSystem.appendConstraint(point1[0] == point2[0])
+			drawingSystem.appendConstraint(point1[1] == point2[1])
 
 
 	def appendObjective(self, drawingSystem):
@@ -107,3 +123,4 @@ class ConstraintComponent(ConstraintBoundaryShape):
 			drawingSystem.appendObjective(layoutConstraint.getObjective())
 		if layoutConstraint.isMinimize():
 			drawingSystem.appendObjective(layoutConstraint.getObjective()*-1)
+
