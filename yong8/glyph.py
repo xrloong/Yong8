@@ -12,6 +12,13 @@ class ConstraintGlyph(ConstraintBoundaryShape):
 	def getComponentName(self):
 		return "glyph"
 
+	def resolve(self, uuid):
+		for component in self.components:
+			c = componenet.resolve(uuid)
+			if c != None:
+				return c
+		return None
+
 	def setComponents(self, components):
 		self.components = components
 

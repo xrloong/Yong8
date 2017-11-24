@@ -83,6 +83,13 @@ class ConstraintComponent(ConstraintBoundaryShape):
 	def getComponentName(self):
 		return "stroke_group"
 
+	def resolve(self, uuid):
+		for stroke in self.strokes:
+			s = stroke.resolve(uuid)
+			if s != None:
+				return s
+		return None
+
 	def setStrokes(self, strokes):
 		self.strokes = strokes
 

@@ -132,11 +132,11 @@ class ConstraintComponentTestCase(BaseTestCase):
 		layoutConstraint2.setAsRow(EQ(component.getVarOccupationBoundaryHeight(), stroke2.getVarOccupationBoundaryHeight()))
 
 		layoutConstraint3 = LayoutConstraint()
-		layoutConstraint3.setAsPointMatchPoint(stroke1.resolveStartPoint(), stroke2.resolveStartPoint())
+		layoutConstraint3.setAsPointMatchPoint(stroke1.resolvePointStart(), stroke2.resolvePointStart())
 		layoutConstraint4 = LayoutConstraint()
-		layoutConstraint4.setAsPointMatchPoint(stroke1.resolveEndPoint(), stroke3.resolveStartPoint())
+		layoutConstraint4.setAsPointMatchPoint(stroke1.resolvePointEnd(), stroke3.resolvePointStart())
 		layoutConstraint5 = LayoutConstraint()
-		layoutConstraint5.setAsPointMatchPoint(stroke2.resolveEndPoint(), stroke3.resolveEndPoint())
+		layoutConstraint5.setAsPointMatchPoint(stroke2.resolvePointEnd(), stroke3.resolvePointEnd())
 
 		component.appendLayoutConstraint(layoutConstraint1)
 		component.appendLayoutConstraint(layoutConstraint2)

@@ -14,6 +14,13 @@ class ConstraintStroke(ConstraintPath):
 	def getComponentName(self):
 		return "stroke"
 
+	def resolve(self, uuid):
+		for segment in self.segments:
+			s = segment.resolve(uuid)
+			if s != None:
+				return s
+		return None
+
 	def setSegments(self, segments, weights = None):
 		if weights == None:
 			weights = list(segment.getPathParams().getWeights() for segment in segments)

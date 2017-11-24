@@ -61,6 +61,12 @@ class ConstraintBoundaryShape(ConstraintShape):
 		self.expMaxX = self.occupationBoundaryRight
 		self.expMaxY = self.occupationBoundaryBottom
 
+	def resolve(self, uuid):
+		if self.uuid == uuid:
+			return self
+		else:
+			return None
+
 	def getComponentName(self):
 		return "shape"
 
@@ -288,6 +294,144 @@ class ConstraintBoundaryShape(ConstraintShape):
 		drawingSystem.appendObjective(self.getVarExtensionBoundaryWidth() * -1)
 		drawingSystem.appendObjective(self.getVarExtensionBoundaryHeight() * -1)
 
+	def resolveScalarOccupationLeft(self):
+		return self.occupationBoundaryLeft
+
+	def resolveScalarOccupationTop(self):
+		return self.occupationBoundaryTop
+
+	def resolveScalarOccupationRight(self):
+		return self.occupationBoundaryRight
+
+	def resolveScalarOccupationBottom(self):
+		return self.occupationBoundaryBottom
+
+	def resolveScalarOccupationWidth(self):
+		return self.occupationBoundaryWidth
+
+	def resolveScalarOccupationHeight(self):
+		return self.occupationBoundaryHeight
+
+	def resolveScalarOccupationCenterX(self):
+		return self.occupationBoundaryCenterX
+
+	def resolveScalarOccupationCenterY(self):
+		return self.occupationBoundaryCenterY
+
+	def resolvePairOccupationSize(self):
+		return (self.resolveScalarOccupationWidth(), self.resolveScalarOccupationHeight())
+
+	def resolvePointOccupationTopLeft(self):
+		return (self.resolveScalarOccupationLeft(), self.resolveScalarOccupationTop())
+
+	def resolvePointOccupationTopCenter(self):
+		return (self.resolveScalarOccupationCenterX(), self.resolveScalarOccupationTop())
+
+	def resolvePointOccupationTopRight(self):
+		return (self.resolveScalarOccupationRight(), self.resolveScalarOccupationTop())
+
+	def resolvePointOccupationLeftCenter(self):
+		return (self.resolveScalarOccupationLeft(), self.resolveScalarOccupationCenterY())
+
+	def resolvePointOccupationCenter(self):
+		return (self.resolveScalarOccupationCenterX(), self.resolveScalarOccupationCenterY())
+
+	def resolvePointOccupationRightCenter(self):
+		return (self.resolveScalarOccupationRight(), self.resolveScalarOccupationCenterY())
+
+	def resolvePointOccupationBottomLeft(self):
+		return (self.resolveScalarOccupationLeft(), self.resolveScalarOccupationBottom())
+
+	def resolvePointOccupationBottomCenter(self):
+		return (self.resolveScalarOccupationCenterX(), self.resolveScalarOccupationBottom())
+
+	def resolvePointOccupationBottomRight(self):
+		return (self.resolveScalarOccupationRight(), self.resolveScalarOccupationBottom())
+
+	def resolveQuaternaryOccupationBoundary(self):
+		return (
+			self.resolveScalarOccupationLeft(),
+			self.resolveScalarOccupationTop(),
+			self.resolveScalarOccupationRight(),
+			self.resolveScalarOccupationBottom()
+			)
+
+
+	def resolveScalarExtensionLeft(self):
+		return self.extensionBoundaryLeft
+
+	def resolveScalarExtensionTop(self):
+		return self.extensionBoundaryTop
+
+	def resolveScalarExtensionRight(self):
+		return self.extensionBoundaryRight
+
+	def resolveScalarExtensionBottom(self):
+		return self.extensionBoundaryBottom
+
+	def resolveScalarExtensionWidth(self):
+		return self.extensionBoundaryWidth
+
+	def resolveScalarExtensionHeight(self):
+		return self.extensionBoundaryHeight
+
+	def resolveScalarExtensionCenterX(self):
+		return self.extensionBoundaryCenterX
+
+	def resolveScalarExtensionCenterY(self):
+		return self.extensionBoundaryCenterY
+
+	def resolvePairExtensionSize(self):
+		return (self.resolveScalarExtensionWidth(), self.resolveScalarExtensionHeight())
+
+	def resolvePointExtensionTopLeft(self):
+		return (self.resolveScalarExtensionLeft(), self.resolveScalarExtensionTop())
+
+	def resolvePointExtensionTopCenter(self):
+		return (self.resolveScalarExtensionCenterX(), self.resolveScalarExtensionTop())
+
+	def resolvePointExtensionTopRight(self):
+		return (self.resolveScalarExtensionRight(), self.resolveScalarExtensionTop())
+
+	def resolvePointExtensionLeftCenter(self):
+		return (self.resolveScalarExtensionLeft(), self.resolveScalarExtensionCenterY())
+
+	def resolvePointExtensionCenter(self):
+		return (self.resolveScalarExtensionCenterX(), self.resolveScalarExtensionCenterY())
+
+	def resolvePointExtensionRightCenter(self):
+		return (self.resolveScalarExtensionRight(), self.resolveScalarExtensionCenterY())
+
+	def resolvePointExtensionBottomLeft(self):
+		return (self.resolveScalarExtensionLeft(), self.resolveScalarExtensionBottom())
+
+	def resolvePointExtensionBottomCenter(self):
+		return (self.resolveScalarExtensionCenterX(), self.resolveScalarExtensionBottom())
+
+	def resolvePointExtensionBottomRight(self):
+		return (self.resolveScalarExtensionRight(), self.resolveScalarExtensionBottom())
+
+	def resolveQuaternaryExtensionBoundary(self):
+		return (
+			self.resolveScalarExtensionLeft(),
+			self.resolveScalarExtensionTop(),
+			self.resolveScalarExtensionRight(),
+			self.resolveScalarExtensionBottom()
+			)
+
+
+	def resolveScalarWidth(self):
+		return self.resolveScalarExtensionWidth()
+
+	def resolveScalarHeight(self):
+		return self.resolveScalarExtensionHeight()
+
+	def resolvePairSize(self):
+		return self.resolvePairExtensionSize()
+
+	def resolveQuaternaryBoundary(self):
+		return self.resolveExtensionBoundary()
+
 class PathParams:
 	def __init__(self):
 		self.layout_width_weight = 0
@@ -453,9 +597,9 @@ class ConstraintPath(ConstraintBoundaryShape):
 	def appendObjective(self, drawingSystem):
 		super().appendObjective(drawingSystem)
 
-	def resolveStartPoint(self):
+	def resolvePointStart(self):
 		return (self.getVarStartX(), self.getVarStartY())
 
-	def resolveEndPoint(self):
+	def resolvePointEnd(self):
 		return (self.getVarEndX(), self.getVarEndY())
 
