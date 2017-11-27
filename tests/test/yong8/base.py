@@ -23,8 +23,32 @@ class BaseTestCase(unittest.TestCase):
 		from yong8.solver import PuLPGlyphSolver
 		return PuLPGlyphSolver.generateInstanceByCOIN()
 
+	def getGlyphSolverByCvxpyCBC(self):
+		from yong8.solver import CvxpyGlyphSolver
+		return CvxpyGlyphSolver.generateInstanceByCBC()
+
+	def getGlyphSolverByCvxpyGLPK(self):
+		from yong8.solver import CvxpyGlyphSolver
+		return CvxpyGlyphSolver.generateInstanceByGLPK()
+
+	def getGlyphSolverByCvxpyECOS(self):
+		from yong8.solver import CvxpyGlyphSolver
+		return CvxpyGlyphSolver.generateInstanceByECOS()
+
+	def getGlyphSolverByCvxpyCVXOPT(self):
+		from yong8.solver import CvxpyGlyphSolver
+		return CvxpyGlyphSolver.generateInstanceByCVXOPT()
+
+	def getGlyphSolverByCvxpySCS(self):
+		from yong8.solver import CvxpyGlyphSolver
+		return CvxpyGlyphSolver.generateInstanceBySCS()
+
+	def getGlyphSolverByCvxpyElemental(self):
+		from yong8.solver import CvxpyGlyphSolver
+		return CvxpyGlyphSolver.generateInstanceByElemental()
+
 	def getGlyphSolver(self):
-		return self.getGlyphSolverByPulpCOIN()
+		return self.getGlyphSolverByCvxpyECOS()
 
 	def getInjector(self):
 		from injector import Injector
