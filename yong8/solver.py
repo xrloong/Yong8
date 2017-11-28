@@ -62,12 +62,23 @@ class PuLPVariableGenerator(AbsVariableGenerator):
 	def interpreteVariable(self, variable):
 		return variable.value()
 
-class PuLPGlyphSolver(AbsGlyphSolver, metaclass=abc.ABCMeta):
-	def __init__(self):
+class PuLPGlyphSolver(AbsGlyphSolver):
+	def __init__(self, solver):
 		from pulp import LpProblem
 		from pulp import LpMaximize, LpMinimize
 
 		self.prob = LpProblem("myProb", LpMaximize)
+		self.solver =solver(msg=False)
+
+	@classmethod
+	def generateInstanceByGLPK(cls):
+		from pulp import GLPK
+		return PuLPGlyphSolver(GLPK)
+
+	@classmethod
+	def generateInstanceByCOIN(cls):
+		from pulp import COIN
+		return PuLPGlyphSolver(COIN)
 
 	def getVariableGenerator(self):
 		return PuLPVariableGenerator()
@@ -84,13 +95,6 @@ class PuLPGlyphSolver(AbsGlyphSolver, metaclass=abc.ABCMeta):
 		else:
 			self.prob.objective = objective
 
-class GLPKGlyphSolver(PuLPGlyphSolver, metaclass=abc.ABCMeta):
 	def solve(self):
-		from pulp import GLPK
-		status = self.prob.solve(GLPK(msg = False))
-
-class COINGlyphSolver(PuLPGlyphSolver, metaclass=abc.ABCMeta):
-	def solve(self):
-		from pulp import COIN
-		status = self.prob.solve(COIN(msg = False))
+		status = self.prob.solve(self.solver)
 

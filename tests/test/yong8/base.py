@@ -11,20 +11,20 @@ class BaseTestCase(unittest.TestCase):
 	def tearDown(self):
 		pass
 
-	def getCassowaryGlyphSolver(self):
+	def getGlyphSolverByCassowary(self):
 		from yong8.solver import CassowaryGlyphSolver
 		return CassowaryGlyphSolver()
 
-	def getGLPKGlyphSolver(self):
-		from yong8.solver import GLPKGlyphSolver
-		return GLPKGlyphSolver()
+	def getGlyphSolverByPulpGLPK(self):
+		from yong8.solver import PuLPGlyphSolver
+		return PuLPGlyphSolver.generateInstanceByGLPK()
 
-	def getCOINGlyphSolver(self):
-		from yong8.solver import COINGlyphSolver
-		return COINGlyphSolver()
+	def getGlyphSolverByPulpCOIN(self):
+		from yong8.solver import PuLPGlyphSolver
+		return PuLPGlyphSolver.generateInstanceByCOIN()
 
 	def getGlyphSolver(self):
-		return self.getCOINGlyphSolver()
+		return self.getGlyphSolverByPulpCOIN()
 
 	def getInjector(self):
 		from injector import Injector
