@@ -1,5 +1,126 @@
 import abc
 
+class A:
+	def __init__(self, symexpr = 0):
+		self.symexpr = symexpr
+
+	def __str__(self):
+		return str(self.symexpr)
+
+	def setSymExpr(self, symexpr):
+		self.symexpr = symexpr
+
+	def getSymExpr(self):
+		return self.symexpr
+
+	def __neg__(self):
+		symexpr = -self.getSymExpr()
+		return E(symexpr)
+
+	def __radd__(self, other):
+		return self.__add__(other)
+
+	def __add__(self, other):
+		if isinstance(other, int) or isinstance(other, float):
+			symexpr = self.getSymExpr() + other
+		else:
+			symexpr = self.getSymExpr() + other.getSymExpr()
+		return E(symexpr)
+
+	def __rsub__(self, other):
+		return -self+other
+
+	def __sub__(self, other):
+		if isinstance(other, int) or isinstance(other, float):
+			symexpr = self.getSymExpr() - other
+		else:
+			symexpr = self.getSymExpr() - other.getSymExpr()
+		return E(symexpr)
+
+	def __rmul__(self, other):
+		return self.__mul__(other)
+
+	def __mul__(self, mul):
+		if isinstance(mul, int) or isinstance(mul, float):
+			symexpr = self.getSymExpr() * mul
+		else:
+			symexpr = self.getSymExpr() * mul.getSymExpr()
+		return E(symexpr)
+
+	def __rtruediv__(self, other):
+		if isinstance(other, int) or isinstance(other, float):
+			symexpr = other / self.getSymExpr()
+		else:
+			symexpr = other.getSymExpr() / self.getSymExpr()
+		return E(symexpr)
+
+	def __truediv__(self, other):
+		if isinstance(other, int) or isinstance(other, float):
+			symexpr = self.getSymExpr() / other
+		else:
+			symexpr = self.getSymExpr() / other.getSymExpr()
+		return E(symexpr)
+
+	def __eq__(self, other):
+		from sympy import Eq
+		if isinstance(other, int) or isinstance(other, float):
+			symexpr = Eq(self.getSymExpr(), other, evaluate=False)
+		else:
+			symexpr = Eq(self.getSymExpr(), other.getSymExpr(), evaluate=False)
+		return C(symexpr)
+
+	def __ne__(self, other):
+		from sympy import Ne
+		if isinstance(other, int) or isinstance(other, float):
+			symexpr = Ne(self.getSymExpr(), other)
+		else:
+			symexpr = Ne(self.getSymExpr(), other.getSymExpr())
+		return C(symexpr)
+
+	def __ge__(self, other):
+		if isinstance(other, int) or isinstance(other, float):
+			symexpr = self.getSymExpr() >= other
+		else:
+			symexpr = self.getSymExpr() >= other.getSymExpr()
+		return C(symexpr)
+
+	def __gt__(self, other):
+		if isinstance(other, int) or isinstance(other, float):
+			symexpr = self.getSymExpr() > other
+		else:
+			symexpr = self.getSymExpr() > other.getSymExpr()
+		return C(symexpr)
+
+	def __le__(self, other):
+		if isinstance(other, int) or isinstance(other, float):
+			symexpr = self.getSymExpr() <= other
+		else:
+			symexpr = self.getSymExpr() <= other.getSymExpr()
+		return C(symexpr)
+
+	def __lt__(self, other):
+		if isinstance(other, int) or isinstance(other, float):
+			symexpr = self.getSymExpr() < other
+		else:
+			symexpr = self.getSymExpr() < other.getSymExpr()
+		return C(symexpr)
+
+class V(A):
+	def __init__(self, name):
+		from sympy import Symbol
+
+		self.name = name
+		super().__init__(Symbol(name))
+
+class E(A):
+	def __init__(self, symexpr):
+		super().__init__(symexpr)
+
+class C(A):
+	def __init__(self, symexpr):
+		super().__init__(symexpr)
+
+
 class AbsVariableGenerator(object, metaclass=abc.ABCMeta):
 	def generateVariable(self, totalName):
 		raise NotImplementedError('users must define generateVariable() to use this base class')
@@ -10,16 +131,63 @@ class AbsVariableGenerator(object, metaclass=abc.ABCMeta):
 class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 	def __init__(self):
 		self.variableGenerator = self.generateVariableGenerator();
+		self.variableMap = {}
 
 	def getVariableGenerator(self):
 		return self.variableGenerator
 
 	def generateVariable(self, prefix, name):
 		totalName = prefix+"."+name
-		return self.variableGenerator.generateVariable(totalName)
+
+		v = V(totalName)
+
+		solverVariable = self.variableGenerator.generateVariable(totalName)
+		v.solverVariable = solverVariable
+
+		self.variableMap[totalName] = solverVariable
+		return v
 
 	def interpreteVariable(self, variable):
-		return self.variableGenerator.interpreteVariable(variable)
+		return self.variableGenerator.interpreteVariable(variable.solverVariable)
+
+	def getSolverVariable(self, variable):
+		return self.variableMap[variable.name]
+
+	def convertSymExpr(self, symExpr):
+		if symExpr.is_Number:
+			return float(symExpr)
+		if symExpr.is_Relational:
+			from sympy import Le, Lt, Ge, Gt, Eq
+			if isinstance(symExpr, Eq):
+				return self.convertSymExpr(symExpr.lhs) == self.convertSymExpr(symExpr.rhs)
+			elif isinstance(symExpr, Lt):
+				return self.convertSymExpr(symExpr.lhs) < self.convertSymExpr(symExpr.rhs)
+			elif isinstance(symExpr, Le):
+				return self.convertSymExpr(symExpr.lhs) <= self.convertSymExpr(symExpr.rhs)
+			elif isinstance(symExpr, Gt):
+				return self.convertSymExpr(symExpr.lhs) > self.convertSymExpr(symExpr.rhs)
+			elif isinstance(symExpr, Ge):
+				return self.convertSymExpr(symExpr.lhs) >= self.convertSymExpr(symExpr.rhs)
+		elif symExpr.is_Symbol:
+			variableName=symExpr.name
+			return self.variableMap[variableName]
+
+		elif symExpr.is_Add:
+			r = 0
+			(c, exprs) = symExpr.as_coeff_add()
+			r=self.convertSymExpr(c)
+			for e in exprs:
+				r = r+self.convertSymExpr(e)
+			return r
+		elif symExpr.is_Mul:
+			r = 0
+			(c, exprs) = symExpr.as_coeff_mul()
+			r=self.convertSymExpr(c)
+			for e in exprs:
+				r = r*self.convertSymExpr(e)
+			return r
+		else:
+			return symExpr
 
 	def generateVariableGenerator(self):
 		raise NotImplementedError('users must define generateVariableGenerator() to use this base class')
@@ -54,14 +222,14 @@ class CassowaryGlyphSolver(AbsGlyphSolver):
 		return CassowaryVariableGenerator()
 
 	def addVariable(self, variable):
-		self.solver.add_var(variable)
+		self.solver.add_var(self.getSolverVariable(variable))
 
 	def appendConstraint(self, constraint):
-		self.solver.add_constraint(constraint)
+		self.solver.add_constraint(self.convertSymExpr(constraint.getSymExpr()))
 
 	def appendObjective(self, objective):
 		from cassowary import STRONG
-		self.solver.add_constraint(objective >= 2**32, STRONG)
+		self.solver.add_constraint(self.convertSymExpr(objective.getSymExpr()) >= 2**32, STRONG)
 
 	def solve(self):
 		# Cassowary use incremental solving.
@@ -100,16 +268,17 @@ class PuLPGlyphSolver(AbsGlyphSolver):
 		return PuLPVariableGenerator()
 
 	def addVariable(self, variable):
-		self.prob.addVariable(variable)
+		self.prob.addVariable(self.getSolverVariable(variable))
 
 	def appendConstraint(self, constraint):
-		self.prob += constraint
+		self.prob += self.convertSymExpr(constraint.getSymExpr())
 
 	def appendObjective(self, objective):
+		convertedObjective = self.convertSymExpr(objective.getSymExpr())
 		if self.prob.objective != None:
-			self.prob.objective = self.prob.objective + objective
+			self.prob.objective = self.prob.objective + convertedObjective
 		else:
-			self.prob.objective = objective
+			self.prob.objective = convertedObjective
 
 	def solve(self):
 		status = self.prob.solve(self.solver)
@@ -167,10 +336,10 @@ class CvxpyGlyphSolver(AbsGlyphSolver):
 		pass
 
 	def appendConstraint(self, constraint):
-		self.constraints.append(constraint)
+		self.constraints.append(self.convertSymExpr(constraint.getSymExpr()))
 
 	def appendObjective(self, objective):
-		self.objective += objective
+		self.objective += self.convertSymExpr(objective.getSymExpr())
 
 	def solve(self):
 		from cvxpy import Problem
