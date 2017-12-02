@@ -8,6 +8,9 @@ class AbsVariableGenerator(object, metaclass=abc.ABCMeta):
 		raise NotImplementedError('users must define interpreteVariable() to use this base class')
 
 class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
+	def __init__(self):
+		pass
+
 	def getVariableGenerator(self):
 		raise NotImplementedError('users must define getVariableGenerator() to use this base class')
 
@@ -33,6 +36,8 @@ class CassowaryVariableGenerator(AbsVariableGenerator):
 
 class CassowaryGlyphSolver(AbsGlyphSolver):
 	def __init__(self):
+		super().__init__()
+
 		from cassowary import SimplexSolver
 		self.solver = SimplexSolver()
 
@@ -64,6 +69,8 @@ class PuLPVariableGenerator(AbsVariableGenerator):
 
 class PuLPGlyphSolver(AbsGlyphSolver):
 	def __init__(self, solver):
+		super().__init__()
+
 		from pulp import LpProblem
 		from pulp import LpMaximize, LpMinimize
 
@@ -108,6 +115,8 @@ class CvxpyVariableGenerator(AbsVariableGenerator):
 
 class CvxpyGlyphSolver(AbsGlyphSolver):
 	def __init__(self, solver):
+		super().__init__()
+
 		self.objective = 0
 		self.constraints = []
 		self.solver = solver
