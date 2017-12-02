@@ -3,17 +3,18 @@ import uuid
 
 from injector import inject
 
+from .constants import GlyphSolver
 from .constants import VariableGenerator
 
 class ConstraintShape(object, metaclass=abc.ABCMeta):
 	@inject
-	def __init__(self, variableGenerator: VariableGenerator):
+	def __init__(self, glyphSolver: GlyphSolver):
 		super().__init__()
 
-		self.variableGenerator = variableGenerator
+		self.glyphSolver = glyphSolver
 
-	def getVariableGenerator(self):
-		return self.variableGenerator
+	def getGlyphSolver(self):
+		return self.glyphSolver
 
 	def draw(self, drawingSystem):
 		raise NotImplementedError('users must define draw to use this base class')
@@ -32,28 +33,28 @@ class ConstraintBoundaryShape(ConstraintShape):
 	def __init__(self):
 		super().__init__()
 
-		variableGenerator = self.getVariableGenerator()
+		glyphSolver = self.getGlyphSolver()
 
 		self.uuid = uuid.uuid4()
 
 		componentPrefix = self.getComponentPrefix()
-		self.occupationBoundaryLeft = variableGenerator.generateVariable(componentPrefix, "occupation_boundary_left")
-		self.occupationBoundaryTop = variableGenerator.generateVariable(componentPrefix, "occupation_boundary_top")
-		self.occupationBoundaryRight = variableGenerator.generateVariable(componentPrefix, "occupation_boundary_right")
-		self.occupationBoundaryBottom = variableGenerator.generateVariable(componentPrefix, "occupation_boundary_bottom")
-		self.occupationBoundaryWidth = variableGenerator.generateVariable(componentPrefix, "occupation_boundary_width")
-		self.occupationBoundaryHeight = variableGenerator.generateVariable(componentPrefix, "occupation_boundary_height")
-		self.occupationBoundaryCenterX = variableGenerator.generateVariable(componentPrefix, "occupation_boundary_centerX")
-		self.occupationBoundaryCenterY = variableGenerator.generateVariable(componentPrefix, "occupation_boundary_centerY")
+		self.occupationBoundaryLeft = glyphSolver.generateVariable(componentPrefix, "occupation_boundary_left")
+		self.occupationBoundaryTop = glyphSolver.generateVariable(componentPrefix, "occupation_boundary_top")
+		self.occupationBoundaryRight = glyphSolver.generateVariable(componentPrefix, "occupation_boundary_right")
+		self.occupationBoundaryBottom = glyphSolver.generateVariable(componentPrefix, "occupation_boundary_bottom")
+		self.occupationBoundaryWidth = glyphSolver.generateVariable(componentPrefix, "occupation_boundary_width")
+		self.occupationBoundaryHeight = glyphSolver.generateVariable(componentPrefix, "occupation_boundary_height")
+		self.occupationBoundaryCenterX = glyphSolver.generateVariable(componentPrefix, "occupation_boundary_centerX")
+		self.occupationBoundaryCenterY = glyphSolver.generateVariable(componentPrefix, "occupation_boundary_centerY")
 
-		self.extensionBoundaryLeft = variableGenerator.generateVariable(componentPrefix, "extension_boundary_left")
-		self.extensionBoundaryTop = variableGenerator.generateVariable(componentPrefix, "extension_boundary_top")
-		self.extensionBoundaryRight = variableGenerator.generateVariable(componentPrefix, "extension_boundary_right")
-		self.extensionBoundaryBottom = variableGenerator.generateVariable(componentPrefix, "extension_boundary_bottom")
-		self.extensionBoundaryWidth = variableGenerator.generateVariable(componentPrefix, "extension_boundary_width")
-		self.extensionBoundaryHeight = variableGenerator.generateVariable(componentPrefix, "extension_boundary_height")
-		self.extensionBoundaryCenterX = variableGenerator.generateVariable(componentPrefix, "extension_boundary_centerX")
-		self.extensionBoundaryCenterY = variableGenerator.generateVariable(componentPrefix, "extension_boundary_centerY")
+		self.extensionBoundaryLeft = glyphSolver.generateVariable(componentPrefix, "extension_boundary_left")
+		self.extensionBoundaryTop = glyphSolver.generateVariable(componentPrefix, "extension_boundary_top")
+		self.extensionBoundaryRight = glyphSolver.generateVariable(componentPrefix, "extension_boundary_right")
+		self.extensionBoundaryBottom = glyphSolver.generateVariable(componentPrefix, "extension_boundary_bottom")
+		self.extensionBoundaryWidth = glyphSolver.generateVariable(componentPrefix, "extension_boundary_width")
+		self.extensionBoundaryHeight = glyphSolver.generateVariable(componentPrefix, "extension_boundary_height")
+		self.extensionBoundaryCenterX = glyphSolver.generateVariable(componentPrefix, "extension_boundary_centerX")
+		self.extensionBoundaryCenterY = glyphSolver.generateVariable(componentPrefix, "extension_boundary_centerY")
 
 		self.expMinX = self.occupationBoundaryLeft
 		self.expMinY = self.occupationBoundaryTop
@@ -141,42 +142,42 @@ class ConstraintBoundaryShape(ConstraintShape):
 		return self.extensionBoundaryCenterY
 
 	def getOccupationBoundary(self):
-		variableGenerator = self.getVariableGenerator()
+		glyphSolver = self.getGlyphSolver()
 		return (
-			variableGenerator.interpreteVariable(self.getVarOccupationBoundaryLeft()),
-			variableGenerator.interpreteVariable(self.getVarOccupationBoundaryTop()),
-			variableGenerator.interpreteVariable(self.getVarOccupationBoundaryRight()),
-			variableGenerator.interpreteVariable(self.getVarOccupationBoundaryBottom()),
+			glyphSolver.interpreteVariable(self.getVarOccupationBoundaryLeft()),
+			glyphSolver.interpreteVariable(self.getVarOccupationBoundaryTop()),
+			glyphSolver.interpreteVariable(self.getVarOccupationBoundaryRight()),
+			glyphSolver.interpreteVariable(self.getVarOccupationBoundaryBottom()),
 			)
 
 	def getExtensionBoundary(self):
-		variableGenerator = self.getVariableGenerator()
+		glyphSolver = self.getGlyphSolver()
 		return (
-			variableGenerator.interpreteVariable(self.getVarExtensionBoundaryLeft()),
-			variableGenerator.interpreteVariable(self.getVarExtensionBoundaryTop()),
-			variableGenerator.interpreteVariable(self.getVarExtensionBoundaryRight()),
-			variableGenerator.interpreteVariable(self.getVarExtensionBoundaryBottom()),
+			glyphSolver.interpreteVariable(self.getVarExtensionBoundaryLeft()),
+			glyphSolver.interpreteVariable(self.getVarExtensionBoundaryTop()),
+			glyphSolver.interpreteVariable(self.getVarExtensionBoundaryRight()),
+			glyphSolver.interpreteVariable(self.getVarExtensionBoundaryBottom()),
 			)
 
 	def getOccupationBoundaryCenter(self):
-		variableGenerator = self.getVariableGenerator()
-		return (variableGenerator.interpreteVariable(self.getVarOccupationBoundaryCenterX()),
-			variableGenerator.interpreteVariable(self.getVarOccupationBoundaryCenterY()))
+		glyphSolver = self.getGlyphSolver()
+		return (glyphSolver.interpreteVariable(self.getVarOccupationBoundaryCenterX()),
+			glyphSolver.interpreteVariable(self.getVarOccupationBoundaryCenterY()))
 
 	def getExtensionBoundaryCenter(self):
-		variableGenerator = self.getVariableGenerator()
-		return (variableGenerator.interpreteVariable(self.getVarExtensionBoundaryCenterX()),
-			variableGenerator.interpreteVariable(self.getVarExtensionBoundaryCenterY()))
+		glyphSolver = self.getGlyphSolver()
+		return (glyphSolver.interpreteVariable(self.getVarExtensionBoundaryCenterX()),
+			glyphSolver.interpreteVariable(self.getVarExtensionBoundaryCenterY()))
 
 	def getOccupationSize(self):
-		variableGenerator = self.getVariableGenerator()
-		return (variableGenerator.interpreteVariable(self.getVarOccupationBoundaryWidth()),
-			variableGenerator.interpreteVariable(self.getVarOccupationBoundaryHeight()))
+		glyphSolver = self.getGlyphSolver()
+		return (glyphSolver.interpreteVariable(self.getVarOccupationBoundaryWidth()),
+			glyphSolver.interpreteVariable(self.getVarOccupationBoundaryHeight()))
 
 	def getExtensionSize(self):
-		variableGenerator = self.getVariableGenerator()
-		return (variableGenerator.interpreteVariable(self.getVarExtensionBoundaryWidth()),
-			variableGenerator.interpreteVariable(self.getVarExtensionBoundaryHeight()))
+		glyphSolver = self.getGlyphSolver()
+		return (glyphSolver.interpreteVariable(self.getVarExtensionBoundaryWidth()),
+			glyphSolver.interpreteVariable(self.getVarExtensionBoundaryHeight()))
 
 
 	def getExpMinX(self):
@@ -376,11 +377,11 @@ class ConstraintPath(ConstraintBoundaryShape):
 		self.pathParams = PathParams()
 
 		componentPrefix = self.getComponentPrefix()
-		variableGenerator = self.getVariableGenerator()
-		self.startX = variableGenerator.generateVariable(componentPrefix, "start_x")
-		self.startY = variableGenerator.generateVariable(componentPrefix, "start_y")
-		self.endX = variableGenerator.generateVariable(componentPrefix, "end_x")
-		self.endY = variableGenerator.generateVariable(componentPrefix, "end_y")
+		glyphSolver = self.getGlyphSolver()
+		self.startX = glyphSolver.generateVariable(componentPrefix, "start_x")
+		self.startY = glyphSolver.generateVariable(componentPrefix, "start_y")
+		self.endX = glyphSolver.generateVariable(componentPrefix, "end_x")
+		self.endY = glyphSolver.generateVariable(componentPrefix, "end_y")
 
 	def __ne__(self, other):
 		return not self.__eq__(other)
@@ -404,14 +405,14 @@ class ConstraintPath(ConstraintBoundaryShape):
 		return self.pathParams
 
 	def getStartPoint(self):
-		variableGenerator = self.getVariableGenerator()
-		return (variableGenerator.interpreteVariable(self.startX),
-			variableGenerator.interpreteVariable(self.startY))
+		glyphSolver = self.getGlyphSolver()
+		return (glyphSolver.interpreteVariable(self.startX),
+			glyphSolver.interpreteVariable(self.startY))
 
 	def getEndPoint(self):
-		variableGenerator = self.getVariableGenerator()
-		return (variableGenerator.interpreteVariable(self.endX),
-			variableGenerator.interpreteVariable(self.endY))
+		glyphSolver = self.getGlyphSolver()
+		return (glyphSolver.interpreteVariable(self.endX),
+			glyphSolver.interpreteVariable(self.endY))
 
 	def getVarStartX(self):
 		return self.startX

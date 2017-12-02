@@ -10,10 +10,10 @@ class BaseConstraintBeelineSegment(ConstraintPath):
 		super().__init__()
 
 		componentPrefix = self.getComponentPrefix()
-		variableGenerator = self.getVariableGenerator()
+		glyphSolver = self.getGlyphSolver()
 		self.params = [
-			variableGenerator.generateVariable(componentPrefix, "param_0"),
-			variableGenerator.generateVariable(componentPrefix, "param_1"),
+			glyphSolver.generateVariable(componentPrefix, "param_0"),
+			glyphSolver.generateVariable(componentPrefix, "param_1"),
 			]
 		self.setDirConfig(dirConfig)
 
@@ -177,12 +177,12 @@ class BaseConstraintQCurveSegment(ConstraintPath):
 		super().__init__()
 
 		componentPrefix = self.getComponentPrefix()
-		variableGenerator = self.getVariableGenerator()
+		glyphSolver = self.getGlyphSolver()
 		self.params = [
-			variableGenerator.generateVariable(componentPrefix, "param_0"),
-			variableGenerator.generateVariable(componentPrefix, "param_1"),
-			variableGenerator.generateVariable(componentPrefix, "param_2"),
-			variableGenerator.generateVariable(componentPrefix, "param_3"),
+			glyphSolver.generateVariable(componentPrefix, "param_0"),
+			glyphSolver.generateVariable(componentPrefix, "param_1"),
+			glyphSolver.generateVariable(componentPrefix, "param_2"),
+			glyphSolver.generateVariable(componentPrefix, "param_3"),
 				]
 
 	def getComponentName(self):

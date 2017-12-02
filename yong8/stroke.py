@@ -6,10 +6,10 @@ class ConstraintStroke(ConstraintPath):
 	@inject
 	def __init__(self):
 		super().__init__()
-		variableGenerator = self.getVariableGenerator()
+		glyphSolver = self.getGlyphSolver()
 		componentPrefix = self.getComponentPrefix()
-		self.unitWidth = variableGenerator.generateVariable(componentPrefix, "unit_width")
-		self.unitHeight = variableGenerator.generateVariable(componentPrefix, "unit_height")
+		self.unitWidth = glyphSolver.generateVariable(componentPrefix, "unit_width")
+		self.unitHeight = glyphSolver.generateVariable(componentPrefix, "unit_height")
 
 	def getComponentName(self):
 		return "stroke"

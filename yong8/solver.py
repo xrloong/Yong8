@@ -9,11 +9,19 @@ class AbsVariableGenerator(object, metaclass=abc.ABCMeta):
 
 class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 	def __init__(self):
-		pass
+		self.variableGenerator = self.generateVariableGenerator();
 
 	def getVariableGenerator(self):
-		raise NotImplementedError('users must define getVariableGenerator() to use this base class')
+		return self.variableGenerator
 
+	def generateVariable(self, prefix, name):
+		return self.variableGenerator.generateVariable(prefix, name)
+
+	def interpreteVariable(self, variable):
+		return self.variableGenerator.interpreteVariable(variable)
+
+	def generateVariableGenerator(self):
+		raise NotImplementedError('users must define generateVariableGenerator() to use this base class')
 	def addVariable(self, variable):
 		raise NotImplementedError('users must define addVariable() to use this base class')
 
@@ -41,7 +49,7 @@ class CassowaryGlyphSolver(AbsGlyphSolver):
 		from cassowary import SimplexSolver
 		self.solver = SimplexSolver()
 
-	def getVariableGenerator(self):
+	def generateVariableGenerator(self):
 		return CassowaryVariableGenerator()
 
 	def addVariable(self, variable):
@@ -87,7 +95,7 @@ class PuLPGlyphSolver(AbsGlyphSolver):
 		from pulp import COIN
 		return PuLPGlyphSolver(COIN)
 
-	def getVariableGenerator(self):
+	def generateVariableGenerator(self):
 		return PuLPVariableGenerator()
 
 	def addVariable(self, variable):
@@ -151,7 +159,7 @@ class CvxpyGlyphSolver(AbsGlyphSolver):
 		from cvxpy import ELEMENTAL
 		return CvxpyGlyphSolver(ELEMENTAL)
 
-	def getVariableGenerator(self):
+	def generateVariableGenerator(self):
 		return CvxpyVariableGenerator()
 
 	def addVariable(self, variable):

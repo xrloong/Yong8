@@ -8,7 +8,6 @@ class ConstraintGlyph(ConstraintBoundaryShape):
 		super().__init__()
 
 		componentPrefix = self.getComponentPrefix()
-		variableGenerator = self.getVariableGenerator()
 
 	def getComponentName(self):
 		return "glyph"
@@ -18,11 +17,11 @@ class ConstraintGlyph(ConstraintBoundaryShape):
 
 	def getMargin(self):
 		return self.getOccupationBoundary()
-		variableGenerator = self.getVariableGenerator()
-		return (variableGenerator.interpreteVariable(self.marginLeft),
-			variableGenerator.interpreteVariable(self.marginTop),
-			variableGenerator.interpreteVariable(self.marginRight),
-			variableGenerator.interpreteVariable(self.marginBottom))
+		glyphSolver = self.getVariableGenerator()
+		return (glyphSolver.interpreteVariable(self.marginLeft),
+			glyphSolver.interpreteVariable(self.marginTop),
+			glyphSolver.interpreteVariable(self.marginRight),
+			glyphSolver.interpreteVariable(self.marginBottom))
 
 	def appendVariables(self, drawingSystem):
 		super().appendVariables(drawingSystem)
@@ -37,7 +36,7 @@ class ConstraintGlyph(ConstraintBoundaryShape):
 		marginHorizontal = drawingGlyphPolicy.getMarginHorizontal()
 		marginVertical = drawingGlyphPolicy.getMarginVertical()
 
-		drawingSystem.appendConstraint(self.getVarExtensionBoundaryLeft()  == 0)
+		drawingSystem.appendConstraint(self.getVarExtensionBoundaryLeft() == 0)
 		drawingSystem.appendConstraint(self.getVarExtensionBoundaryTop() == 0)
 		drawingSystem.appendConstraint(self.getVarExtensionBoundaryRight() == size[0])
 		drawingSystem.appendConstraint(self.getVarExtensionBoundaryBottom() == size[1])
