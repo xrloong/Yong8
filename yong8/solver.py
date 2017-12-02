@@ -1,7 +1,7 @@
 import abc
 
 class AbsVariableGenerator(object, metaclass=abc.ABCMeta):
-	def generateVariable(self, prefix, name):
+	def generateVariable(self, totalName):
 		raise NotImplementedError('users must define generateVariable() to use this base class')
 
 	def interpreteVariable(self, variable):
@@ -15,7 +15,8 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 		return self.variableGenerator
 
 	def generateVariable(self, prefix, name):
-		return self.variableGenerator.generateVariable(prefix, name)
+		totalName = prefix+"."+name
+		return self.variableGenerator.generateVariable(totalName)
 
 	def interpreteVariable(self, variable):
 		return self.variableGenerator.interpreteVariable(variable)
@@ -35,9 +36,9 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 		raise NotImplementedError('users must define solve() to use this base class')
 
 class CassowaryVariableGenerator(AbsVariableGenerator):
-	def generateVariable(self, prefix, name):
+	def generateVariable(self, totalName):
 		from cassowary import Variable
-		return Variable(prefix+"."+name)
+		return Variable(totalName)
 
 	def interpreteVariable(self, variable):
 		return variable.value
@@ -68,9 +69,9 @@ class CassowaryGlyphSolver(AbsGlyphSolver):
 		pass
 
 class PuLPVariableGenerator(AbsVariableGenerator):
-	def generateVariable(self, prefix, name):
+	def generateVariable(self, totalName):
 		from pulp import LpVariable
-		return LpVariable(prefix+"."+name)
+		return LpVariable(totalName)
 
 	def interpreteVariable(self, variable):
 		return variable.value()
@@ -114,7 +115,7 @@ class PuLPGlyphSolver(AbsGlyphSolver):
 		status = self.prob.solve(self.solver)
 
 class CvxpyVariableGenerator(AbsVariableGenerator):
-	def generateVariable(self, prefix, name):
+	def generateVariable(self, totalName):
 		from cvxpy import Variable
 		return Variable()
 
