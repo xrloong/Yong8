@@ -156,7 +156,7 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 	def convertSymExpr(self, symExpr):
 		if symExpr.is_Number:
 			return float(symExpr)
-		if symExpr.is_Relational:
+		elif symExpr.is_Relational:
 			from sympy import Le, Lt, Ge, Gt, Eq
 			if isinstance(symExpr, Eq):
 				return self.convertSymExpr(symExpr.lhs) == self.convertSymExpr(symExpr.rhs)
