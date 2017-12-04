@@ -133,19 +133,32 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 		self.variableGenerator = self.generateVariableGenerator();
 		self.variableMap = {}
 
+		self.varibleInToOutMap = {}
+		self.varibleOutToInMap = {}
+
+		self.variableCounter = 0
+
 	def getVariableGenerator(self):
 		return self.variableGenerator
 
 	def generateVariable(self, prefix, name):
-		totalName = prefix+"."+name
+		variableOutName = prefix+"."+name
+		variableInName = "x{0}".format(self.variableCounter)
+		self.variableCounter += 1
 
-		v = V(totalName)
+		v = V(variableInName)
 
-		solverVariable = self.variableGenerator.generateVariable(totalName)
+		solverVariable = self.variableGenerator.generateVariable(variableInName)
 		v.solverVariable = solverVariable
 
-		self.variableMap[totalName] = solverVariable
+		self.variableMap[variableInName] = solverVariable
+		self.varibleInToOutMap[variableInName] = variableOutName
+		self.varibleOutToInMap[variableOutName] = variableInName
+
 		return v
+
+	def getVariableByInName(self, variableInName):
+		return self.variableMap[variableInName]
 
 	def interpreteVariable(self, variable):
 		return self.variableGenerator.interpreteVariable(variable.solverVariable)
@@ -170,7 +183,7 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 				return self.convertSymExpr(symExpr.lhs) >= self.convertSymExpr(symExpr.rhs)
 		elif symExpr.is_Symbol:
 			variableName=symExpr.name
-			return self.variableMap[variableName]
+			return self.getVariableByInName(variableName)
 
 		elif symExpr.is_Add:
 			r = 0
