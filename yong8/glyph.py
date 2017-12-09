@@ -15,6 +15,9 @@ class ConstraintGlyph(ConstraintBoundaryShape):
 	def setComponents(self, components):
 		self.components = components
 
+	def getComponents(self):
+		return self.components
+
 	def getMargin(self):
 		return self.getOccupationBoundary()
 		glyphSolver = self.getVariableGenerator()
@@ -25,7 +28,7 @@ class ConstraintGlyph(ConstraintBoundaryShape):
 
 	def appendVariables(self, drawingSystem):
 		super().appendVariables(drawingSystem)
-		for component in self.components:
+		for component in self.getComponents():
 			component.appendVariables(drawingSystem)
 
 	def appendConstraints(self, drawingSystem):

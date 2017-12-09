@@ -82,6 +82,14 @@ class ConstraintComponent(ConstraintBoundaryShape):
 	def setStrokes(self, strokes):
 		self.strokes = strokes
 
+	def getStrokes(self):
+		return self.strokes
+
+	def appendVariables(self, drawingSystem):
+		super().appendVariables(drawingSystem)
+		for stroke in self.getStrokes():
+			stroke.appendVariables(drawingSystem)
+
 	def appendLayoutConstraint(self, layoutConstraint):
 		self.layoutConstraints.append(layoutConstraint)
 

@@ -105,6 +105,13 @@ class ConstraintStroke(ConstraintPath):
 	def draw(self, drawingSystem):
 		pass
 
+	def appendVariables(self, drawingSystem):
+		super().appendVariables(drawingSystem)
+		drawingSystem.addVariable(self.unitWidth)
+		drawingSystem.addVariable(self.unitHeight)
+		for segment in self.getSegments():
+			segment.appendVariables(drawingSystem)
+
 	def appendConstraints(self, drawingSystem):
 		super().appendConstraints(drawingSystem)
 		for segment in self.segments:
