@@ -12,8 +12,8 @@ class ConstraintGlyph(ConstraintBoundaryShape):
 	def getComponentName(self):
 		return "glyph"
 
-	def setComponents(self, strokeGroups):
-		self.strokeGroups = strokeGroups
+	def setComponents(self, components):
+		self.components = components
 
 	def getMargin(self):
 		return self.getOccupationBoundary()
@@ -25,8 +25,8 @@ class ConstraintGlyph(ConstraintBoundaryShape):
 
 	def appendVariables(self, drawingSystem):
 		super().appendVariables(drawingSystem)
-		for strokeGroup in self.strokeGroups:
-			strokeGroup.appendVariables(drawingSystem)
+		for component in self.components:
+			component.appendVariables(drawingSystem)
 
 	def appendConstraints(self, drawingSystem):
 		super().appendConstraints(drawingSystem)
@@ -44,12 +44,12 @@ class ConstraintGlyph(ConstraintBoundaryShape):
 		drawingSystem.appendConstraint(self.getVarOccupationBoundaryTop() - self.getVarExtensionBoundaryTop() == marginVertical)
 		drawingSystem.appendConstraint(self.getVarExtensionBoundaryRight() - self.getVarOccupationBoundaryRight() == marginHorizontal)
 		drawingSystem.appendConstraint(self.getVarExtensionBoundaryBottom() - self.getVarOccupationBoundaryBottom() == marginVertical)
-		for strokeGroup in self.strokeGroups:
-			strokeGroup.appendConstraints(drawingSystem)
+		for component in self.components:
+			component.appendConstraints(drawingSystem)
 
 	def appendObjective(self, drawingSystem):
 		super().appendObjective(drawingSystem)
 
-		for strokeGroup in self.strokeGroups:
-			strokeGroup.appendObjective(drawingSystem)
+		for component in self.components:
+			component.appendObjective(drawingSystem)
 
