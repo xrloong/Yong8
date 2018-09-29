@@ -199,8 +199,13 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 			for e in exprs:
 				r = r*self.convertSymExpr(e)
 			return r
+		elif symExpr.is_Pow:
+			(base, exp)=symExpr.as_base_exp()
+			baseVariable = self.convertSymExpr(base)
+			expValue = self.convertSymExpr(exp)
+			return pow(baseVariable, expValue)
 		else:
-			return symExpr
+			return None
 
 	def generateVariableGenerator(self):
 		raise NotImplementedError('users must define generateVariableGenerator() to use this base class')
