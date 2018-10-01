@@ -318,34 +318,14 @@ class CvxpyGlyphSolver(AbsGlyphSolver):
 		self.solver = solver
 
 	@classmethod
-	def generateInstanceByCBC(cls):
-		from cvxpy import CBC
-		return CvxpyGlyphSolver(CBC)
-
-	@classmethod
 	def generateInstanceByGLPK(cls):
 		from cvxpy import GLPK
 		return CvxpyGlyphSolver(GLPK)
 
 	@classmethod
-	def generateInstanceByCVXOPT(cls):
-		from cvxpy import CVXOPT
-		return CvxpyGlyphSolver(CVXOPT)
-
-	@classmethod
-	def generateInstanceBySCS(cls):
-		from cvxpy import SCS
-		return CvxpyGlyphSolver(SCS)
-
-	@classmethod
 	def generateInstanceByECOS(cls):
 		from cvxpy import ECOS
 		return CvxpyGlyphSolver(ECOS)
-
-	@classmethod
-	def generateInstanceByElemental(cls):
-		from cvxpy import ELEMENTAL
-		return CvxpyGlyphSolver(ELEMENTAL)
 
 	def generateVariableGenerator(self):
 		return CvxpyVariableGenerator()
