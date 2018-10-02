@@ -64,6 +64,12 @@ class BaseConstraintBeelineSegment(ConstraintPath):
 	def __str__(self):
 		return "{1}-{2}, {0}, {3}".format(self.getBoundary(), self.getStartPoint(), self.getEndPoint(), self.params)
 
+	def getPointAt(self, t):
+		pointStart = self.resolvePointStart();
+		pointEnd = self.resolvePointEnd();
+		return ((1-t) * pointStart[0] + t * pointEnd[0],
+			(1-t) * pointStart[1] + t * pointEnd[1])
+
 	def getVarVectorX(self):
 		return self.params[0]
 

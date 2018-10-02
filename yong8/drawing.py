@@ -38,3 +38,9 @@ class ConstraintDrawingSystem:
 	def getGlyphSolver(self):
 		return self.glyphSolver
 
+	def dumpVariables(self):
+		glyphSolver = self.glyphSolver
+		variableMap = glyphSolver.variableMap
+		for (name, var) in variableMap.items():
+			print(name, self.glyphSolver.varibleInToOutMap[name], var)
+

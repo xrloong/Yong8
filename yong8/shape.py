@@ -62,6 +62,9 @@ class ConstraintBoundaryShape(ConstraintShape):
 		self.expMaxX = self.occupationBoundaryRight
 		self.expMaxY = self.occupationBoundaryBottom
 
+	def getId(self):
+		return self.uuid
+
 	def resolve(self, uuid):
 		if self.uuid == uuid:
 			return self

@@ -3,6 +3,15 @@ from enum import Enum
 
 from .constants import Optimization
 from .shape import ConstraintBoundaryShape
+from .stroke import generateVariable
+
+class IntersectionPos(Enum):
+	Unknown = 0
+	BeforeStart = 1
+	Start = 2
+	BetweenStartEnd = 3
+	End = 4
+	AfterEnd = 5
 
 class ConstraintType(Enum):
 	Non = 0
@@ -12,6 +21,7 @@ class ConstraintType(Enum):
 	Minimize = 4
 	AlignToCenter = 5
 	PointMatchPoint = 6
+	SegmentsIntersection = 7
 
 class LayoutConstraint:
 	def __init__(self):
@@ -41,6 +51,15 @@ class LayoutConstraint:
 		self.type = ConstraintType.PointMatchPoint
 		self.pointMatchPoint = (point1, point2)
 
+	def setAsSegmentsIntersection(self, segment1, segment2, intersectionPos1 = IntersectionPos.BetweenStartEnd, intersectionPos2 = IntersectionPos.BetweenStartEnd):
+		self.type = ConstraintType.SegmentsIntersection
+		self.segments = (segment1, segment2)
+		self.intersectionPos = (intersectionPos1, intersectionPos2)
+		intersection_prfix = "intersection-{0}-{1}".format(segment1.getId(), segment2.getId())
+		t1 = generateVariable(intersection_prfix, "t1")
+		t2 = generateVariable(intersection_prfix, "t2")
+		self.intersections = (t1, t2)
+
 	def isRow(self):
 		return self.type == ConstraintType.Row
 
@@ -59,6 +78,9 @@ class LayoutConstraint:
 	def isPointMatchPoint(self):
 		return self.type == ConstraintType.PointMatchPoint
 
+	def isSegmentsIntersection(self):
+		return self.type == ConstraintType.SegmentsIntersection
+
 	def getTargetShape(self):
 		return self.targetShape
 
@@ -70,6 +92,9 @@ class LayoutConstraint:
 
 	def getPointMatchPoint(self):
 		return self.pointMatchPoint
+
+	def getSegments(self):
+		return self.segments
 
 class ConstraintComponent(ConstraintBoundaryShape):
 	@inject
@@ -125,6 +150,42 @@ class ConstraintComponent(ConstraintBoundaryShape):
 			point1, point2 = pointMatchPoint
 			problem.appendConstraint(point1[0] == point2[0])
 			problem.appendConstraint(point1[1] == point2[1])
+
+		if layoutConstraint.isSegmentsIntersection():
+			segment1, segment2 = layoutConstraint.getSegments()
+			(t1, t2) = layoutConstraint.intersections
+			(pos1, pos2) = layoutConstraint.intersectionPos
+			point1 = segment1.getPointAt(t1)
+			point2 = segment2.getPointAt(t2)
+			problem.addVariable(t1)
+			problem.addVariable(t2)
+
+			problem.appendConstraint(point1[0] == point2[0])
+			problem.appendConstraint(point1[1] == point2[1])
+
+			if pos1 == IntersectionPos.BeforeStart:
+				problem.appendConstraint(t1 < 0)
+			elif pos1 == IntersectionPos.Start:
+				problem.appendConstraint(t1 == 0)
+			elif pos1 == IntersectionPos.BetweenStartEnd:
+				problem.appendConstraint(0 < t1)
+				problem.appendConstraint(t1 < 1)
+			elif pos1 == IntersectionPos.End:
+				problem.appendConstraint(t1 == 1)
+			elif pos1 == IntersectionPos.AfterEnd:
+				problem.appendConstraint(t1 > 1)
+
+			if pos2 == IntersectionPos.BeforeStart:
+				problem.appendConstraint(t2 < 0)
+			elif pos2 == IntersectionPos.Start:
+				problem.appendConstraint(t2 == 0)
+			elif pos2 == IntersectionPos.BetweenStartEnd:
+				problem.appendConstraint(0 < t2)
+				problem.appendConstraint(t2 < 1)
+			elif pos2 == IntersectionPos.End:
+				problem.appendConstraint(t2 == 1)
+			elif pos2 == IntersectionPos.AfterEnd:
+				problem.appendConstraint(t2 > 1)
 
 
 	def appendObjective(self, problem):
