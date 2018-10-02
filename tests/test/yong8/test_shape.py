@@ -61,7 +61,6 @@ class ConstraintShapeTestCase(BaseTestCase):
 	def testConstraintBoundaryShape_BindingSizeCenter(self):
 		injector = self.getInjector()
 		drawingSystem = injector.get(DrawingSystem)
-		drawingSystem = drawingSystem.getGlyphSolver()
 
 		shape = injector.get(ConstraintBoundaryShape)
 
