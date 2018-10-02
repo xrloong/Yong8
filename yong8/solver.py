@@ -1,7 +1,5 @@
 import abc
 
-from .symbol import V
-
 class AbsVariableGenerator(object, metaclass=abc.ABCMeta):
 	def generateVariable(self, totalName):
 		raise NotImplementedError('users must define generateVariable() to use this base class')
@@ -27,22 +25,22 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 		variableInName = "x{0}".format(self.variableCounter)
 		self.variableCounter += 1
 
-		v = V(variableInName)
+		from .symbol import Symbol
+		symbol = Symbol(variableInName)
 
 		solverVariable = self.variableGenerator.generateVariable(variableInName)
-		v.solverVariable = solverVariable
 
 		self.variableMap[variableInName] = solverVariable
 		self.varibleInToOutMap[variableInName] = variableOutName
 		self.varibleOutToInMap[variableOutName] = variableInName
 
-		return v
+		return symbol
 
 	def getVariableByInName(self, variableInName):
 		return self.variableMap[variableInName]
 
 	def interpreteVariable(self, variable):
-		return self.variableGenerator.interpreteVariable(variable.solverVariable)
+		return self.variableGenerator.interpreteVariable(self.getSolverVariable(variable))
 
 	def getSolverVariable(self, variable):
 		return self.variableMap[variable.name]
@@ -124,11 +122,11 @@ class CassowaryGlyphSolver(AbsGlyphSolver):
 		self.solver.add_var(self.getSolverVariable(variable))
 
 	def appendConstraint(self, constraint):
-		self.solver.add_constraint(self.convertSymExpr(constraint.getSymExpr()))
+		self.solver.add_constraint(self.convertSymExpr(constraint))
 
 	def appendObjective(self, objective):
 		from cassowary import STRONG
-		self.solver.add_constraint(self.convertSymExpr(objective.getSymExpr()) >= 2**32, STRONG)
+		self.solver.add_constraint(self.convertSymExpr(objective) >= 2**32, STRONG)
 
 	def solve(self):
 		# Cassowary use incremental solving.
@@ -165,10 +163,10 @@ class PuLPGlyphSolver(AbsGlyphSolver):
 		self.prob.addVariable(self.getSolverVariable(variable))
 
 	def appendConstraint(self, constraint):
-		self.prob += self.convertSymExpr(constraint.getSymExpr())
+		self.prob += self.convertSymExpr(constraint)
 
 	def appendObjective(self, objective):
-		convertedObjective = self.convertSymExpr(objective.getSymExpr())
+		convertedObjective = self.convertSymExpr(objective)
 		if self.prob.objective != None:
 			self.prob.objective = self.prob.objective + convertedObjective
 		else:
@@ -205,10 +203,10 @@ class CvxpyGlyphSolver(AbsGlyphSolver):
 		pass
 
 	def appendConstraint(self, constraint):
-		self.constraints.append(self.convertSymExpr(constraint.getSymExpr()))
+		self.constraints.append(self.convertSymExpr(constraint))
 
 	def appendObjective(self, objective):
-		self.objective += self.convertSymExpr(objective.getSymExpr())
+		self.objective += self.convertSymExpr(objective)
 
 	def solve(self):
 		from cvxpy import Problem

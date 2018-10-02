@@ -52,7 +52,8 @@ class ConstraintDrawingSystem:
 		self._appendConstraint(constraint)
 
 	def constraintsEq(self, first, second):
-		self._appendConstraint(first == second)
+		from .symbol import Eq
+		self._appendConstraint(Eq(first, second, evaluate=False))
 
 	def constraintsLe(self, first, second):
 		self._appendConstraint(first <= second)
