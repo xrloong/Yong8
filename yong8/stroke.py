@@ -119,38 +119,38 @@ class ConstraintStroke(ConstraintPath):
 		# PuLP will collect variables in constraints and objective functions.
 		# After solving the problem, it'll assigne value back to the variables.
 		# It cause that some variables appearing the problem but not it the collected set.
-		drawingSystem.appendConstraint(self.unitWidth == self.unitWidth)
-		drawingSystem.appendConstraint(self.unitHeight == self.unitHeight)
+		drawingSystem.constraintsEq(self.unitWidth, self.unitWidth)
+		drawingSystem.constraintsEq(self.unitHeight, self.unitHeight)
 
 		for segment in self.segments:
 			segment.appendConstraints(drawingSystem)
-			drawingSystem.appendConstraint(self.getVarBoundaryLeft() <= segment.getVarBoundaryLeft())
-			drawingSystem.appendConstraint(self.getVarBoundaryTop() <= segment.getVarBoundaryTop())
-			drawingSystem.appendConstraint(self.getVarBoundaryRight() >= segment.getVarBoundaryRight())
-			drawingSystem.appendConstraint(self.getVarBoundaryBottom() >= segment.getVarBoundaryBottom())
+			drawingSystem.constraintsLe(self.getVarBoundaryLeft(), segment.getVarBoundaryLeft())
+			drawingSystem.constraintsLe(self.getVarBoundaryTop(), segment.getVarBoundaryTop())
+			drawingSystem.constraintsGe(self.getVarBoundaryRight(), segment.getVarBoundaryRight())
+			drawingSystem.constraintsGe(self.getVarBoundaryBottom(), segment.getVarBoundaryBottom())
 
 		# append constraints for arranging segments' width and height
 		for segment, weight in zip(self.segments, self.weights):
 			w, h = weight
-			drawingSystem.appendConstraint(self.unitWidth * w == segment.getVarVectorX())
-			drawingSystem.appendConstraint(self.unitHeight * h == segment.getVarVectorY())
+			drawingSystem.constraintsEq(self.unitWidth * w, segment.getVarVectorX())
+			drawingSystem.constraintsEq(self.unitHeight * h, segment.getVarVectorY())
 
 		if self.segments:
 			firstSegment = self.segments[0]
 			lastSegment = self.segments[-1]
 
-			drawingSystem.appendConstraint(self.getVarStartX() == firstSegment.getVarStartX())
-			drawingSystem.appendConstraint(self.getVarStartY() == firstSegment.getVarStartY())
+			drawingSystem.constraintsEq(self.getVarStartX(), firstSegment.getVarStartX())
+			drawingSystem.constraintsEq(self.getVarStartY(), firstSegment.getVarStartY())
 
 			for currSegment, nextSegment in zip(self.segments[:-1], self.segments[1:]):
-				drawingSystem.appendConstraint(currSegment.getVarEndX() == nextSegment.getVarStartX())
-				drawingSystem.appendConstraint(currSegment.getVarEndY() == nextSegment.getVarStartY())
+				drawingSystem.constraintsEq(currSegment.getVarEndX(), nextSegment.getVarStartX())
+				drawingSystem.constraintsEq(currSegment.getVarEndY(), nextSegment.getVarStartY())
 
-			drawingSystem.appendConstraint(self.getVarEndX() == lastSegment.getVarEndX())
-			drawingSystem.appendConstraint(self.getVarEndY() == lastSegment.getVarEndY())
+			drawingSystem.constraintsEq(self.getVarEndX(), lastSegment.getVarEndX())
+			drawingSystem.constraintsEq(self.getVarEndY(), lastSegment.getVarEndY())
 		else:
-			drawingSystem.appendConstraint(self.getVarStartX() == self.getVarEndX())
-			drawingSystem.appendConstraint(self.getVarStartY() == self.getVarEndY())
+			drawingSystem.constraintsEq(self.getVarStartX(), self.getVarEndX())
+			drawingSystem.constraintsEq(self.getVarStartY(), self.getVarEndY())
 
 	def appendObjective(self, drawingSystem):
 		super().appendObjective(drawingSystem)

@@ -227,60 +227,60 @@ class ConstraintBoundaryShape(ConstraintShape):
 
 	def appendConstraintsForBoundary(self, drawingSystem):
 		# occupation constraints
-		drawingSystem.appendConstraint(self.getVarOccupationBoundaryLeft() <= self.getVarOccupationBoundaryRight())
-		drawingSystem.appendConstraint(self.getVarOccupationBoundaryTop() <= self.getVarOccupationBoundaryBottom())
-		drawingSystem.appendConstraint(self.getVarOccupationBoundaryCenterX()*2 == self.getVarOccupationBoundaryLeft() + self.getVarOccupationBoundaryRight())
-		drawingSystem.appendConstraint(self.getVarOccupationBoundaryCenterY()*2 == self.getVarOccupationBoundaryTop() + self.getVarOccupationBoundaryBottom())
-		drawingSystem.appendConstraint(self.getVarOccupationBoundaryWidth() == self.getVarOccupationBoundaryRight() - self.getVarOccupationBoundaryLeft())
-		drawingSystem.appendConstraint(self.getVarOccupationBoundaryHeight() == self.getVarOccupationBoundaryBottom() - self.getVarOccupationBoundaryTop())
+		drawingSystem.constraintsLe(self.getVarOccupationBoundaryLeft(), self.getVarOccupationBoundaryRight())
+		drawingSystem.constraintsLe(self.getVarOccupationBoundaryTop(), self.getVarOccupationBoundaryBottom())
+		drawingSystem.constraintsEq(self.getVarOccupationBoundaryCenterX()*2, self.getVarOccupationBoundaryLeft() + self.getVarOccupationBoundaryRight())
+		drawingSystem.constraintsEq(self.getVarOccupationBoundaryCenterY()*2, self.getVarOccupationBoundaryTop() + self.getVarOccupationBoundaryBottom())
+		drawingSystem.constraintsEq(self.getVarOccupationBoundaryWidth(), self.getVarOccupationBoundaryRight() - self.getVarOccupationBoundaryLeft())
+		drawingSystem.constraintsEq(self.getVarOccupationBoundaryHeight(), self.getVarOccupationBoundaryBottom() - self.getVarOccupationBoundaryTop())
 
 		# extension constraints
-		drawingSystem.appendConstraint(self.getVarExtensionBoundaryLeft() <= self.getVarExtensionBoundaryRight())
-		drawingSystem.appendConstraint(self.getVarExtensionBoundaryTop() <= self.getVarExtensionBoundaryBottom())
-		drawingSystem.appendConstraint(self.getVarExtensionBoundaryCenterX()*2 == self.getVarExtensionBoundaryLeft() + self.getVarExtensionBoundaryRight())
-		drawingSystem.appendConstraint(self.getVarExtensionBoundaryCenterY()*2 == self.getVarExtensionBoundaryTop() + self.getVarExtensionBoundaryBottom())
-		drawingSystem.appendConstraint(self.getVarExtensionBoundaryWidth() == self.getVarExtensionBoundaryRight() - self.getVarExtensionBoundaryLeft())
-		drawingSystem.appendConstraint(self.getVarExtensionBoundaryHeight() == self.getVarExtensionBoundaryBottom() - self.getVarExtensionBoundaryTop())
+		drawingSystem.constraintsLe(self.getVarExtensionBoundaryLeft(), self.getVarExtensionBoundaryRight())
+		drawingSystem.constraintsLe(self.getVarExtensionBoundaryTop(), self.getVarExtensionBoundaryBottom())
+		drawingSystem.constraintsEq(self.getVarExtensionBoundaryCenterX()*2, self.getVarExtensionBoundaryLeft() + self.getVarExtensionBoundaryRight())
+		drawingSystem.constraintsEq(self.getVarExtensionBoundaryCenterY()*2, self.getVarExtensionBoundaryTop() + self.getVarExtensionBoundaryBottom())
+		drawingSystem.constraintsEq(self.getVarExtensionBoundaryWidth(), self.getVarExtensionBoundaryRight() - self.getVarExtensionBoundaryLeft())
+		drawingSystem.constraintsEq(self.getVarExtensionBoundaryHeight(), self.getVarExtensionBoundaryBottom() - self.getVarExtensionBoundaryTop())
 
-		drawingSystem.appendConstraint(self.getVarExtensionBoundaryLeft() <= self.getVarOccupationBoundaryLeft())
-		drawingSystem.appendConstraint(self.getVarExtensionBoundaryTop() <= self.getVarOccupationBoundaryTop())
-		drawingSystem.appendConstraint(self.getVarExtensionBoundaryRight() >= self.getVarOccupationBoundaryRight())
-		drawingSystem.appendConstraint(self.getVarExtensionBoundaryBottom() >= self.getVarOccupationBoundaryBottom())
+		drawingSystem.constraintsLe(self.getVarExtensionBoundaryLeft(), self.getVarOccupationBoundaryLeft())
+		drawingSystem.constraintsLe(self.getVarExtensionBoundaryTop(), self.getVarOccupationBoundaryTop())
+		drawingSystem.constraintsGe(self.getVarExtensionBoundaryRight(), self.getVarOccupationBoundaryRight())
+		drawingSystem.constraintsGe(self.getVarExtensionBoundaryBottom(), self.getVarOccupationBoundaryBottom())
 
 		# make occupation to match the shape
-		drawingSystem.appendConstraint(self.getVarOccupationBoundaryLeft() == self.getExpMinX())
-		drawingSystem.appendConstraint(self.getVarOccupationBoundaryTop() == self.getExpMinY())
-		drawingSystem.appendConstraint(self.getVarOccupationBoundaryRight() == self.getExpMaxX())
-		drawingSystem.appendConstraint(self.getVarOccupationBoundaryBottom() == self.getExpMaxY())
+		drawingSystem.constraintsEq(self.getVarOccupationBoundaryLeft(), self.getExpMinX())
+		drawingSystem.constraintsEq(self.getVarOccupationBoundaryTop(), self.getExpMinY())
+		drawingSystem.constraintsEq(self.getVarOccupationBoundaryRight(), self.getExpMaxX())
+		drawingSystem.constraintsEq(self.getVarOccupationBoundaryBottom(), self.getExpMaxY())
 
 		# put occupation be at the center of extesion
-		drawingSystem.appendConstraint(self.getVarExtensionBoundaryCenterX() == self.getVarOccupationBoundaryCenterX())
-		drawingSystem.appendConstraint(self.getVarExtensionBoundaryCenterY() == self.getVarOccupationBoundaryCenterY())
+		drawingSystem.constraintsEq(self.getVarExtensionBoundaryCenterX(), self.getVarOccupationBoundaryCenterX())
+		drawingSystem.constraintsEq(self.getVarExtensionBoundaryCenterY(), self.getVarOccupationBoundaryCenterY())
 
 	def appendConstraintsWithBoundary(self, drawingSystem, boundary):
 		self.appendConstraintsWithExtensionBoundary(drawingSystem, boundary)
 
 	def appendConstraintsWithOccupationBoundary(self, drawingSystem, boundary):
 		left, top, right, bottom = boundary
-		drawingSystem.appendConstraint(self.getVarOccupationBoundaryLeft() == left)
-		drawingSystem.appendConstraint(self.getVarOccupationBoundaryTop() == top)
-		drawingSystem.appendConstraint(self.getVarOccupationBoundaryRight() == right)
-		drawingSystem.appendConstraint(self.getVarOccupationBoundaryBottom() == bottom)
+		drawingSystem.constraintsEq(self.getVarOccupationBoundaryLeft(), left)
+		drawingSystem.constraintsEq(self.getVarOccupationBoundaryTop(), top)
+		drawingSystem.constraintsEq(self.getVarOccupationBoundaryRight(), right)
+		drawingSystem.constraintsEq(self.getVarOccupationBoundaryBottom(), bottom)
 
 	def appendConstraintsWithExtensionBoundary(self, drawingSystem, boundary):
 		left, top, right, bottom = boundary
-		drawingSystem.appendConstraint(self.getVarExtensionBoundaryLeft() == left)
-		drawingSystem.appendConstraint(self.getVarExtensionBoundaryTop() == top)
-		drawingSystem.appendConstraint(self.getVarExtensionBoundaryRight() == right)
-		drawingSystem.appendConstraint(self.getVarExtensionBoundaryBottom() == bottom)
+		drawingSystem.constraintsEq(self.getVarExtensionBoundaryLeft(), left)
+		drawingSystem.constraintsEq(self.getVarExtensionBoundaryTop(), top)
+		drawingSystem.constraintsEq(self.getVarExtensionBoundaryRight(), right)
+		drawingSystem.constraintsEq(self.getVarExtensionBoundaryBottom(), bottom)
 
 	def appendConstraintsWithSizeCenter(self, drawingSystem, size, center):
 		width, height = size
 		centerX, centerY = center
-		drawingSystem.appendConstraint(self.getVarBoundaryWidth() == width)
-		drawingSystem.appendConstraint(self.getVarBoundaryHeight() == height)
-		drawingSystem.appendConstraint(self.getVarBoundaryCenterX() == centerX)
-		drawingSystem.appendConstraint(self.getVarBoundaryCenterY() == centerY)
+		drawingSystem.constraintsEq(self.getVarBoundaryWidth(), width)
+		drawingSystem.constraintsEq(self.getVarBoundaryHeight(), height)
+		drawingSystem.constraintsEq(self.getVarBoundaryCenterX(), centerX)
+		drawingSystem.constraintsEq(self.getVarBoundaryCenterY(), centerY)
 
 	def appendObjective(self, drawingSystem):
 		drawingSystem.appendObjective(self.getVarOccupationBoundaryWidth())
@@ -434,17 +434,17 @@ class ConstraintPath(ConstraintBoundaryShape):
 		drawingSystem.addVariable(self.endY)
 
 	def appendConstraintsForPoints(self, drawingSystem):
-		drawingSystem.appendConstraint(self.getVarBoundaryLeft() <= self.startX)
-		drawingSystem.appendConstraint(self.getVarBoundaryLeft() <= self.endX)
+		drawingSystem.constraintsLe(self.getVarBoundaryLeft(), self.startX)
+		drawingSystem.constraintsLe(self.getVarBoundaryLeft(), self.endX)
 
-		drawingSystem.appendConstraint(self.getVarBoundaryTop() <= self.startY)
-		drawingSystem.appendConstraint(self.getVarBoundaryTop() <= self.endY)
+		drawingSystem.constraintsLe(self.getVarBoundaryTop(), self.startY)
+		drawingSystem.constraintsLe(self.getVarBoundaryTop(), self.endY)
 
-		drawingSystem.appendConstraint(self.getVarBoundaryRight() >= self.startX)
-		drawingSystem.appendConstraint(self.getVarBoundaryRight() >= self.endX)
+		drawingSystem.constraintsGe(self.getVarBoundaryRight(), self.startX)
+		drawingSystem.constraintsGe(self.getVarBoundaryRight(), self.endX)
 
-		drawingSystem.appendConstraint(self.getVarBoundaryBottom() >= self.startY)
-		drawingSystem.appendConstraint(self.getVarBoundaryBottom() >= self.endY)
+		drawingSystem.constraintsGe(self.getVarBoundaryBottom(), self.startY)
+		drawingSystem.constraintsGe(self.getVarBoundaryBottom(), self.endY)
 
 	def appendConstraints(self, drawingSystem):
 		super().appendConstraints(drawingSystem)

@@ -125,4 +125,6 @@ class C(A):
 Symbol = V
 Expr = E
 Relational = C
+def EQ(first, second):
+	return (first==second)
 

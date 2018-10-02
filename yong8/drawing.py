@@ -48,7 +48,25 @@ class ConstraintDrawingSystem:
 		else:
 			raise TypeError("Should be Symbol but is {0}".format(type(variable)))
 
-	def appendConstraint(self, constraint):
+	def constraints(self, constraint):
+		self._appendConstraint(constraint)
+
+	def constraintsEq(self, first, second):
+		self._appendConstraint(first == second)
+
+	def constraintsLe(self, first, second):
+		self._appendConstraint(first <= second)
+
+	def constraintsLt(self, first, second):
+		self._appendConstraint(first < second)
+
+	def constraintsGe(self, first, second):
+		self._appendConstraint(first >= second)
+
+	def constraintsGt(self, first, second):
+		self._appendConstraint(first > second)
+
+	def _appendConstraint(self, constraint):
 		from .symbol import Relational
 		if isinstance(constraint, Relational):
 			self.glyphSolver.appendConstraint(constraint)

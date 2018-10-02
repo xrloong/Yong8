@@ -17,8 +17,12 @@ class LayoutConstraint:
 		self.type = ConstraintType.Non
 
 	def setAsRow(self, constraint):
-		self.type = ConstraintType.Row
-		self.constraint = constraint
+		from .symbol import Relational
+		if isinstance(constraint, Relational):
+			self.type = ConstraintType.Row
+			self.constraint = constraint
+		else:
+			raise TypeError("Should be Relational but is {0}".format(type(constraint)))
 
 	def setAsObjective(self, objective):
 		self.type = ConstraintType.Objective
@@ -97,10 +101,10 @@ class ConstraintComponent(ConstraintBoundaryShape):
 		super().appendConstraints(drawingSystem)
 		for stroke in self.strokes:
 			stroke.appendConstraints(drawingSystem)
-			drawingSystem.appendConstraint(self.getVarOccupationBoundaryLeft() <= stroke.getVarOccupationBoundaryLeft())
-			drawingSystem.appendConstraint(self.getVarOccupationBoundaryTop() <= stroke.getVarOccupationBoundaryTop())
-			drawingSystem.appendConstraint(self.getVarOccupationBoundaryRight() >= stroke.getVarOccupationBoundaryRight())
-			drawingSystem.appendConstraint(self.getVarOccupationBoundaryBottom() >= stroke.getVarOccupationBoundaryBottom())
+			drawingSystem.constraintsLe(self.getVarOccupationBoundaryLeft(), stroke.getVarOccupationBoundaryLeft())
+			drawingSystem.constraintsLe(self.getVarOccupationBoundaryTop(), stroke.getVarOccupationBoundaryTop())
+			drawingSystem.constraintsGe(self.getVarOccupationBoundaryRight(), stroke.getVarOccupationBoundaryRight())
+			drawingSystem.constraintsGe(self.getVarOccupationBoundaryBottom(), stroke.getVarOccupationBoundaryBottom())
 
 		for layoutConstraint in self.layoutConstraints:
 			self.appendContraintFromLayoutConstraint(drawingSystem, layoutConstraint)
@@ -108,15 +112,15 @@ class ConstraintComponent(ConstraintBoundaryShape):
 	def appendContraintFromLayoutConstraint(self, drawingSystem, layoutConstraint):
 		if layoutConstraint.isToAlignCenter():
 			targetShape = layoutConstraint.getTargetShape()
-			drawingSystem.appendConstraint(self.getVarOccupationBoundaryCenterX() == targetShape.getVarOccupationBoundaryCenterX())
-			drawingSystem.appendConstraint(self.getVarOccupationBoundaryCenterY() == targetShape.getVarOccupationBoundaryCenterY())
+			drawingSystem.constraintsEq(self.getVarOccupationBoundaryCenterX(), targetShape.getVarOccupationBoundaryCenterX())
+			drawingSystem.constraintsEq(self.getVarOccupationBoundaryCenterY(), targetShape.getVarOccupationBoundaryCenterY())
 		if layoutConstraint.isRow():
-			drawingSystem.appendConstraint(layoutConstraint.getRowConstraint())
+			drawingSystem.constraints(layoutConstraint.getRowConstraint())
 		if layoutConstraint.isPointMatchPoint():
 			pointMatchPoint = layoutConstraint.getPointMatchPoint()
 			point1, point2 = pointMatchPoint
-			drawingSystem.appendConstraint(point1[0] == point2[0])
-			drawingSystem.appendConstraint(point1[1] == point2[1])
+			drawingSystem.constraintsEq(point1[0], point2[0])
+			drawingSystem.constraintsEq(point1[1], point2[1])
 
 
 	def appendObjective(self, drawingSystem):

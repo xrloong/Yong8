@@ -39,14 +39,14 @@ class ConstraintGlyph(ConstraintBoundaryShape):
 		marginHorizontal = drawingGlyphPolicy.getMarginHorizontal()
 		marginVertical = drawingGlyphPolicy.getMarginVertical()
 
-		drawingSystem.appendConstraint(self.getVarExtensionBoundaryLeft() == 0)
-		drawingSystem.appendConstraint(self.getVarExtensionBoundaryTop() == 0)
-		drawingSystem.appendConstraint(self.getVarExtensionBoundaryRight() == size[0])
-		drawingSystem.appendConstraint(self.getVarExtensionBoundaryBottom() == size[1])
-		drawingSystem.appendConstraint(self.getVarOccupationBoundaryLeft() - self.getVarExtensionBoundaryLeft() == marginHorizontal)
-		drawingSystem.appendConstraint(self.getVarOccupationBoundaryTop() - self.getVarExtensionBoundaryTop() == marginVertical)
-		drawingSystem.appendConstraint(self.getVarExtensionBoundaryRight() - self.getVarOccupationBoundaryRight() == marginHorizontal)
-		drawingSystem.appendConstraint(self.getVarExtensionBoundaryBottom() - self.getVarOccupationBoundaryBottom() == marginVertical)
+		drawingSystem.constraintsEq(self.getVarExtensionBoundaryLeft(), 0)
+		drawingSystem.constraintsEq(self.getVarExtensionBoundaryTop(), 0)
+		drawingSystem.constraintsEq(self.getVarExtensionBoundaryRight(), size[0])
+		drawingSystem.constraintsEq(self.getVarExtensionBoundaryBottom(), size[1])
+		drawingSystem.constraintsEq(self.getVarOccupationBoundaryLeft() - self.getVarExtensionBoundaryLeft(), marginHorizontal)
+		drawingSystem.constraintsEq(self.getVarOccupationBoundaryTop() - self.getVarExtensionBoundaryTop(), marginVertical)
+		drawingSystem.constraintsEq(self.getVarExtensionBoundaryRight() - self.getVarOccupationBoundaryRight(), marginHorizontal)
+		drawingSystem.constraintsEq(self.getVarExtensionBoundaryBottom() - self.getVarOccupationBoundaryBottom(), marginVertical)
 		for component in self.components:
 			component.appendConstraints(drawingSystem)
 

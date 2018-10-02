@@ -7,6 +7,8 @@ from yong8.component import ConstraintComponent
 from yong8.constants import GlyphSolver
 from yong8.constants import DrawingSystem
 
+from yong8.symbol import EQ
+
 class ConstraintComponentTestCase(BaseTestCase):
 	def setUp(self):
 		super().setUp()
@@ -30,7 +32,7 @@ class ConstraintComponentTestCase(BaseTestCase):
 		layoutConstraint1.setAsAlignCenter(stroke)
 
 		layoutConstraint2 = LayoutConstraint()
-		layoutConstraint2.setAsRow(component.getVarOccupationBoundaryWidth() == stroke.getVarOccupationBoundaryWidth())
+		layoutConstraint2.setAsRow(EQ(component.getVarOccupationBoundaryWidth(), stroke.getVarOccupationBoundaryWidth()))
 
 		layoutConstraint3 = LayoutConstraint()
 		layoutConstraint3.setAsMinimize(component.getVarOccupationBoundaryHeight()*2)
@@ -76,9 +78,9 @@ class ConstraintComponentTestCase(BaseTestCase):
 		layoutConstraint2 = LayoutConstraint()
 		layoutConstraint2.setAsAlignCenter(stroke2)
 		layoutConstraint3 = LayoutConstraint()
-		layoutConstraint3.setAsRow(component.getVarOccupationBoundaryWidth() == stroke1.getVarOccupationBoundaryWidth())
+		layoutConstraint3.setAsRow(EQ(component.getVarOccupationBoundaryWidth(), stroke1.getVarOccupationBoundaryWidth()))
 		layoutConstraint4 = LayoutConstraint()
-		layoutConstraint4.setAsRow(component.getVarOccupationBoundaryHeight() == stroke2.getVarOccupationBoundaryHeight())
+		layoutConstraint4.setAsRow(EQ(component.getVarOccupationBoundaryHeight(), stroke2.getVarOccupationBoundaryHeight()))
 		component.appendLayoutConstraint(layoutConstraint1)
 		component.appendLayoutConstraint(layoutConstraint2)
 		component.appendLayoutConstraint(layoutConstraint3)
@@ -125,9 +127,9 @@ class ConstraintComponentTestCase(BaseTestCase):
 		component.setStrokes([stroke1, stroke2, stroke3])
 
 		layoutConstraint1 = LayoutConstraint()
-		layoutConstraint1.setAsRow(component.getVarOccupationBoundaryWidth() == stroke2.getVarOccupationBoundaryWidth())
+		layoutConstraint1.setAsRow(EQ(component.getVarOccupationBoundaryWidth(), stroke2.getVarOccupationBoundaryWidth()))
 		layoutConstraint2 = LayoutConstraint()
-		layoutConstraint2.setAsRow(component.getVarOccupationBoundaryHeight() == stroke2.getVarOccupationBoundaryHeight())
+		layoutConstraint2.setAsRow(EQ(component.getVarOccupationBoundaryHeight(), stroke2.getVarOccupationBoundaryHeight()))
 
 		layoutConstraint3 = LayoutConstraint()
 		layoutConstraint3.setAsPointMatchPoint(stroke1.resolveStartPoint(), stroke2.resolveStartPoint())
