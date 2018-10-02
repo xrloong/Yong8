@@ -121,3 +121,8 @@ class E(A):
 class C(A):
 	def __init__(self, symexpr):
 		super().__init__(symexpr)
+
+Symbol = V
+Expr = E
+Relational = C
+

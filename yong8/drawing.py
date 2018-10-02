@@ -42,13 +42,25 @@ class ConstraintDrawingSystem:
 		return self.glyphSolver.getVariableGenerator()
 
 	def addVariable(self, variable):
-		self.glyphSolver.addVariable(variable)
+		from .symbol import Symbol
+		if isinstance(variable, Symbol):
+			self.glyphSolver.addVariable(variable)
+		else:
+			raise TypeError("Should be Symbol but is {0}".format(type(variable)))
 
 	def appendConstraint(self, constraint):
-		self.glyphSolver.appendConstraint(constraint)
+		from .symbol import Relational
+		if isinstance(constraint, Relational):
+			self.glyphSolver.appendConstraint(constraint)
+		else:
+			raise TypeError("Should be Relational but is {0}".format(type(constraint)))
 
 	def appendObjective(self, objective):
-		self.glyphSolver.appendObjective(objective)
+		from .symbol import Symbol, Expr
+		if isinstance(objective, Symbol) or isinstance(objective, Expr):
+			self.glyphSolver.appendObjective(objective)
+		else:
+			raise TypeError("Should be Symbol or Expr but is {0}".format(type(objective)))
 
 	def solve(self):
 		self.glyphSolver.solve()
