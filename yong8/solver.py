@@ -2,8 +2,42 @@ import abc
 
 class Problem:
 	def __init__(self):
+		self.symbols = []
+		self.variableMap = {}
+		self.variableInNameMap = {}
+		self.variableOutNameMap = {}
+
+		self.symVariables = []
+		self.symConstraints = []
+		self.symObjectives = []
+
+		self.variableCounter = 0
+
 		self.constrains = 0
 		self.objective = 0
+
+	def generateVariable(self, prefix, name):
+		variableOutName = prefix+"."+name
+		variableInName = "x{0}".format(self.variableCounter)
+
+		from .symbol import Symbol
+		symbol = Symbol(variableInName)
+
+		self.symbols.append(symbol)
+		self.variableInNameMap[symbol] = variableInName
+		self.variableOutNameMap[symbol] = variableOutName
+
+		self.variableCounter += 1
+		return symbol
+
+	def setSolverVariable(self, symbol, solverVariable):
+		self.variableMap[symbol]=solverVariable
+
+	def getSolverVariable(self, symbol):
+		return self.variableMap[symbol]
+
+	def getVariableInName(self, symbol):
+		return self.variableInNameMap[symbol]
 
 	def setConstraints(self, constraints):
 		self.constraints = constraints
@@ -16,6 +50,24 @@ class Problem:
 
 	def getObjective(self):
 		return self.objective
+
+	def addVariable(self, variable):
+		self.symVariables.append(variable)
+
+	def appendConstraint(self, constraint):
+		self.symConstraints.append(constraint)
+
+	def appendObjective(self, objective):
+		self.symObjectives.append(objective)
+
+	def getSymVariables(self):
+		return self.symVariables
+
+	def getSymConstraints(self):
+		return self.symConstraints
+
+	def getSymObjectives(self):
+		return self.symObjectives
 
 class AbsVariableGenerator(object, metaclass=abc.ABCMeta):
 	def useCustomAlgebra(self):
@@ -32,39 +84,19 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 		self.variableGenerator = self.generateVariableGenerator();
 		self.useCustomAlgebra = self.variableGenerator.useCustomAlgebra()
 
-		self.symbols = []
-		self.variableMap = {}
-		self.variableInNameMap = {}
-		self.variableOutNameMap = {}
-
-		self.variables = []
-		self.constraints = []
-		self.objectives = []
-
-		self.variableCounter = 0
+		self.problem = Problem()
 
 	def getVariableGenerator(self):
 		return self.variableGenerator
 
 	def generateVariable(self, prefix, name):
-		variableOutName = prefix+"."+name
-		variableInName = "x{0}".format(self.variableCounter)
-
-		from .symbol import Symbol
-		symbol = Symbol(variableInName)
-
-		self.symbols.append(symbol)
-		self.variableInNameMap[symbol] = variableInName
-		self.variableOutNameMap[symbol] = variableOutName
-
-		self.variableCounter += 1
-		return symbol
+		return self.problem.generateVariable(prefix, name)
 
 	def interpreteVariable(self, variable):
 		return self.variableGenerator.interpreteVariable(self.getSolverVariable(variable))
 
 	def getSolverVariable(self, variable):
-		return self.variableMap[variable]
+		return self.problem.getSolverVariable(variable)
 
 	def convertSymExpr(self, symExpr):
 		if symExpr.is_Number:
@@ -115,23 +147,24 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 		raise NotImplementedError('users must define generateVariableGenerator() to use this base class')
 
 	def addVariable(self, variable):
-		self.variables.append(variable)
+		self.problem.addVariable(variable)
 
 	def appendConstraint(self, constraint):
-		self.constraints.append(constraint)
+		self.problem.appendConstraint(constraint)
 
 	def appendObjective(self, objective):
-		self.objectives.append(objective)
+		self.problem.appendObjective(objective)
 
 	def solve(self):
-		for symbol in self.variables:
-			variableInName = self.variableInNameMap[symbol]
+		problem = self.problem
+		for symbol in problem.getSymVariables():
+			variableInName = problem.getVariableInName(symbol)
 			solverVariable = self.variableGenerator.generateVariable(variableInName)
 
-			self.variableMap[symbol] = solverVariable
+			problem.setSolverVariable(symbol, solverVariable)
 
-		constraints = [self.convertSymExpr(constraint) for constraint in self.constraints]
-		objective = self.convertSymExpr(sum(self.objectives))
+		constraints = [self.convertSymExpr(constraint) for constraint in problem.getSymConstraints()]
+		objective = self.convertSymExpr(sum(problem.getSymObjectives()))
 
 		problem = Problem()
 		problem.setConstraints(constraints)
