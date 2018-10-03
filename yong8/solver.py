@@ -15,8 +15,14 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 		self.variableGenerator = self.generateVariableGenerator();
 		self.useCustomAlgebra = self.variableGenerator.useCustomAlgebra()
 
-		self.variableMap = {}
 		self.symbols = []
+		self.variableMap = {}
+		self.variableInNameMap = {}
+		self.variableOutNameMap = {}
+
+		self.variables = []
+		self.constraints = []
+		self.objectives = []
 
 		self.variableCounter = 0
 
@@ -29,11 +35,10 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 
 		from .symbol import Symbol
 		symbol = Symbol(variableInName)
+
 		self.symbols.append(symbol)
-
-		solverVariable = self.variableGenerator.generateVariable(variableInName)
-
-		self.variableMap[symbol] = solverVariable
+		self.variableInNameMap[symbol] = variableInName
+		self.variableOutNameMap[symbol] = variableOutName
 
 		self.variableCounter += 1
 		return symbol
@@ -93,14 +98,21 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 
 	def generateVariableGenerator(self):
 		raise NotImplementedError('users must define generateVariableGenerator() to use this base class')
+
 	def addVariable(self, variable):
-		raise NotImplementedError('users must define addVariable() to use this base class')
+		symbol = variable
+		variableInName = self.variableInNameMap[symbol]
+		solverVariable = self.variableGenerator.generateVariable(variableInName)
+
+		self.variableMap[symbol] = solverVariable
+
+		self.variables.append(variable)
 
 	def appendConstraint(self, constraint):
-		raise NotImplementedError('users must define appendConstraint() to use this base class')
+		self.constraints.append(constraint)
 
 	def appendObjective(self, objective):
-		raise NotImplementedError('users must define appendObjective() to use this base class')
+		self.objectives.append(objective)
 
 	def solve(self):
 		raise NotImplementedError('users must define solve() to use this base class')
@@ -123,17 +135,14 @@ class CassowaryGlyphSolver(AbsGlyphSolver):
 	def generateVariableGenerator(self):
 		return CassowaryVariableGenerator()
 
-	def addVariable(self, variable):
-		self.solver.add_var(self.getSolverVariable(variable))
-
-	def appendConstraint(self, constraint):
-		self.solver.add_constraint(self.convertSymExpr(constraint))
-
-	def appendObjective(self, objective):
-		from cassowary import STRONG
-		self.solver.add_constraint(self.convertSymExpr(objective) >= 2**32, STRONG)
-
 	def solve(self):
+		for constraint in self.constraints:
+			self.solver.add_constraint(self.convertSymExpr(constraint))
+
+		from cassowary import STRONG
+		for objective in self.objectives:
+			self.solver.add_constraint(self.convertSymExpr(objective) >= 2**32, STRONG)
+
 		# Cassowary use incremental solving.
 		# It solves the problem during changing constraints.
 		pass
@@ -149,12 +158,7 @@ class PuLPVariableGenerator(AbsVariableGenerator):
 class PuLPGlyphSolver(AbsGlyphSolver):
 	def __init__(self, solver):
 		super().__init__()
-
-		from pulp import LpProblem
-		from pulp import LpMaximize, LpMinimize
-
-		self.prob = LpProblem("myProb", LpMaximize)
-		self.solver =solver(msg=False)
+		self.solver = solver(msg=False)
 
 	@classmethod
 	def generateInstanceByGLPK(cls):
@@ -164,21 +168,24 @@ class PuLPGlyphSolver(AbsGlyphSolver):
 	def generateVariableGenerator(self):
 		return PuLPVariableGenerator()
 
-	def addVariable(self, variable):
-		self.prob.addVariable(self.getSolverVariable(variable))
-
-	def appendConstraint(self, constraint):
-		self.prob += self.convertSymExpr(constraint)
-
-	def appendObjective(self, objective):
-		convertedObjective = self.convertSymExpr(objective)
-		if self.prob.objective != None:
-			self.prob.objective = self.prob.objective + convertedObjective
-		else:
-			self.prob.objective = convertedObjective
-
 	def solve(self):
-		status = self.prob.solve(self.solver)
+		from pulp import LpProblem
+		from pulp import LpMaximize, LpMinimize
+
+		prob = LpProblem("myProb", LpMaximize)
+
+		for constraint in self.constraints:
+			prob += self.convertSymExpr(constraint)
+
+		for objective in self.objectives:
+			convertedObjective = self.convertSymExpr(objective)
+
+			if prob.objective != None:
+				prob.objective = prob.objective + convertedObjective
+			else:
+				prob.objective = convertedObjective
+
+		status = prob.solve(self.solver)
 
 class CvxpyVariableGenerator(AbsVariableGenerator):
 	def generateVariable(self, totalName):
@@ -191,9 +198,6 @@ class CvxpyVariableGenerator(AbsVariableGenerator):
 class CvxpyGlyphSolver(AbsGlyphSolver):
 	def __init__(self, solver):
 		super().__init__()
-
-		self.objective = 0
-		self.constraints = []
 		self.solver = solver
 
 	@classmethod
@@ -204,19 +208,13 @@ class CvxpyGlyphSolver(AbsGlyphSolver):
 	def generateVariableGenerator(self):
 		return CvxpyVariableGenerator()
 
-	def addVariable(self, variable):
-		pass
-
-	def appendConstraint(self, constraint):
-		self.constraints.append(self.convertSymExpr(constraint))
-
-	def appendObjective(self, objective):
-		self.objective += self.convertSymExpr(objective)
-
 	def solve(self):
+		constraints = [self.convertSymExpr(constraint) for constraint in self.constraints]
+		objective = sum([self.convertSymExpr(obj) for obj in self.objectives])
+
 		from cvxpy import Problem
 		from cvxpy import Maximize, Minimize
-		prob = Problem(Maximize(self.objective), self.constraints)
+		prob = Problem(Maximize(objective), constraints)
 		prob.solve(self.solver)
 
 class DRealVariableGenerator(AbsVariableGenerator):
@@ -237,27 +235,17 @@ class DRealGlyphSolver(AbsGlyphSolver):
 	def __init__(self):
 		super().__init__()
 
-		self.variables = []
-		self.constraints = []
-		self.objective = 0
-
 	def generateVariableGenerator(self):
 		return DRealVariableGenerator()
-
-	def addVariable(self, variable):
-		self.variables.append(variable)
-
-	def appendConstraint(self, constraint):
-		self.constraints.append(self.convertSymExpr(constraint))
-
-	def appendObjective(self, objective):
-		self.objective += self.convertSymExpr(objective)
 
 	def solve(self):
 		from dreal import Minimize
 		from dreal import And
 
-		result = Minimize(-self.objective, And(*self.constraints), 0)
+		constraints = [self.convertSymExpr(constraint) for constraint in self.constraints]
+		objective = sum([self.convertSymExpr(obj) for obj in self.objectives])
+
+		result = Minimize(-objective, And(*constraints), 0)
 
 		solution = {}
 		for var, interval in result.items():
