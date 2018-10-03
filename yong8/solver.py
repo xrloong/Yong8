@@ -16,9 +16,7 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 		self.useCustomAlgebra = self.variableGenerator.useCustomAlgebra()
 
 		self.variableMap = {}
-
-		self.varibleInToOutMap = {}
-		self.varibleOutToInMap = {}
+		self.symbols = []
 
 		self.variableCounter = 0
 
@@ -28,27 +26,23 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 	def generateVariable(self, prefix, name):
 		variableOutName = prefix+"."+name
 		variableInName = "x{0}".format(self.variableCounter)
-		self.variableCounter += 1
 
 		from .symbol import Symbol
 		symbol = Symbol(variableInName)
+		self.symbols.append(symbol)
 
 		solverVariable = self.variableGenerator.generateVariable(variableInName)
 
-		self.variableMap[variableInName] = solverVariable
-		self.varibleInToOutMap[variableInName] = variableOutName
-		self.varibleOutToInMap[variableOutName] = variableInName
+		self.variableMap[symbol] = solverVariable
 
+		self.variableCounter += 1
 		return symbol
-
-	def getVariableByInName(self, variableInName):
-		return self.variableMap[variableInName]
 
 	def interpreteVariable(self, variable):
 		return self.variableGenerator.interpreteVariable(self.getSolverVariable(variable))
 
 	def getSolverVariable(self, variable):
-		return self.variableMap[variable.name]
+		return self.variableMap[variable]
 
 	def convertSymExpr(self, symExpr):
 		if symExpr.is_Number:
@@ -73,8 +67,7 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 				return lhsConverted >= rhsConverted
 
 		elif symExpr.is_Symbol:
-			variableName=symExpr.name
-			return self.getVariableByInName(variableName)
+			return self.getSolverVariable(symExpr)
 
 		elif symExpr.is_Add:
 			r = 0
