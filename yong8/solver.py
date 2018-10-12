@@ -166,7 +166,6 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 		constraints = [self.convertSymExpr(constraint) for constraint in problem.getSymConstraints()]
 		objective = self.convertSymExpr(sum(problem.getSymObjectives()))
 
-		problem = Problem()
 		problem.setConstraints(constraints)
 		problem.setObjective(objective)
 		self.doSolve(problem)
