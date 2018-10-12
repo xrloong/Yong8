@@ -112,53 +112,53 @@ class ConstraintStroke(ConstraintPath):
 	def draw(self, drawingSystem):
 		pass
 
-	def appendVariables(self, drawingSystem):
-		super().appendVariables(drawingSystem)
-		drawingSystem.addVariable(self.unitWidth)
-		drawingSystem.addVariable(self.unitHeight)
+	def appendVariables(self, problem):
+		super().appendVariables(problem)
+		problem.addVariable(self.unitWidth)
+		problem.addVariable(self.unitHeight)
 		for segment in self.getSegments():
-			segment.appendVariables(drawingSystem)
+			segment.appendVariables(problem)
 
-	def appendConstraints(self, drawingSystem):
-		super().appendConstraints(drawingSystem)
+	def appendConstraints(self, problem):
+		super().appendConstraints(problem)
 
 		# Work arround for fixing crash when using PuLP GLPK.
 		# PuLP will collect variables in constraints and objective functions.
 		# After solving the problem, it'll assigne value back to the variables.
 		# It cause that some variables appearing the problem but not it the collected set.
-		drawingSystem.constraintsEq(self.unitWidth, self.unitWidth)
-		drawingSystem.constraintsEq(self.unitHeight, self.unitHeight)
+		problem.constraintsEq(self.unitWidth, self.unitWidth)
+		problem.constraintsEq(self.unitHeight, self.unitHeight)
 
 		for segment in self.segments:
-			segment.appendConstraints(drawingSystem)
-			drawingSystem.constraintsLe(self.getVarBoundaryLeft(), segment.getVarBoundaryLeft())
-			drawingSystem.constraintsLe(self.getVarBoundaryTop(), segment.getVarBoundaryTop())
-			drawingSystem.constraintsGe(self.getVarBoundaryRight(), segment.getVarBoundaryRight())
-			drawingSystem.constraintsGe(self.getVarBoundaryBottom(), segment.getVarBoundaryBottom())
+			segment.appendConstraints(problem)
+			problem.constraintsLe(self.getVarBoundaryLeft(), segment.getVarBoundaryLeft())
+			problem.constraintsLe(self.getVarBoundaryTop(), segment.getVarBoundaryTop())
+			problem.constraintsGe(self.getVarBoundaryRight(), segment.getVarBoundaryRight())
+			problem.constraintsGe(self.getVarBoundaryBottom(), segment.getVarBoundaryBottom())
 
 		# append constraints for arranging segments' width and height
 		for segment, weight in zip(self.segments, self.weights):
 			w, h = weight
-			drawingSystem.constraintsEq(self.unitWidth * w, segment.getVarVectorX())
-			drawingSystem.constraintsEq(self.unitHeight * h, segment.getVarVectorY())
+			problem.constraintsEq(self.unitWidth * w, segment.getVarVectorX())
+			problem.constraintsEq(self.unitHeight * h, segment.getVarVectorY())
 
 		if self.segments:
 			firstSegment = self.segments[0]
 			lastSegment = self.segments[-1]
 
-			drawingSystem.constraintsEq(self.getVarStartX(), firstSegment.getVarStartX())
-			drawingSystem.constraintsEq(self.getVarStartY(), firstSegment.getVarStartY())
+			problem.constraintsEq(self.getVarStartX(), firstSegment.getVarStartX())
+			problem.constraintsEq(self.getVarStartY(), firstSegment.getVarStartY())
 
 			for currSegment, nextSegment in zip(self.segments[:-1], self.segments[1:]):
-				drawingSystem.constraintsEq(currSegment.getVarEndX(), nextSegment.getVarStartX())
-				drawingSystem.constraintsEq(currSegment.getVarEndY(), nextSegment.getVarStartY())
+				problem.constraintsEq(currSegment.getVarEndX(), nextSegment.getVarStartX())
+				problem.constraintsEq(currSegment.getVarEndY(), nextSegment.getVarStartY())
 
-			drawingSystem.constraintsEq(self.getVarEndX(), lastSegment.getVarEndX())
-			drawingSystem.constraintsEq(self.getVarEndY(), lastSegment.getVarEndY())
+			problem.constraintsEq(self.getVarEndX(), lastSegment.getVarEndX())
+			problem.constraintsEq(self.getVarEndY(), lastSegment.getVarEndY())
 		else:
-			drawingSystem.constraintsEq(self.getVarStartX(), self.getVarEndX())
-			drawingSystem.constraintsEq(self.getVarStartY(), self.getVarEndY())
+			problem.constraintsEq(self.getVarStartX(), self.getVarEndX())
+			problem.constraintsEq(self.getVarStartY(), self.getVarEndY())
 
-	def appendObjective(self, drawingSystem):
-		super().appendObjective(drawingSystem)
+	def appendObjective(self, problem):
+		super().appendObjective(problem)
 

@@ -96,50 +96,50 @@ class ConstraintComponent(ConstraintBoundaryShape):
 	def getStrokes(self):
 		return self.strokes
 
-	def appendVariables(self, drawingSystem):
-		super().appendVariables(drawingSystem)
+	def appendVariables(self, problem):
+		super().appendVariables(problem)
 		for stroke in self.getStrokes():
-			stroke.appendVariables(drawingSystem)
+			stroke.appendVariables(problem)
 
 	def appendLayoutConstraint(self, layoutConstraint):
 		self.layoutConstraints.append(layoutConstraint)
 
-	def appendConstraints(self, drawingSystem):
-		super().appendConstraints(drawingSystem)
+	def appendConstraints(self, problem):
+		super().appendConstraints(problem)
 		for stroke in self.strokes:
-			stroke.appendConstraints(drawingSystem)
-			drawingSystem.constraintsLe(self.getVarOccupationBoundaryLeft(), stroke.getVarOccupationBoundaryLeft())
-			drawingSystem.constraintsLe(self.getVarOccupationBoundaryTop(), stroke.getVarOccupationBoundaryTop())
-			drawingSystem.constraintsGe(self.getVarOccupationBoundaryRight(), stroke.getVarOccupationBoundaryRight())
-			drawingSystem.constraintsGe(self.getVarOccupationBoundaryBottom(), stroke.getVarOccupationBoundaryBottom())
+			stroke.appendConstraints(problem)
+			problem.constraintsLe(self.getVarOccupationBoundaryLeft(), stroke.getVarOccupationBoundaryLeft())
+			problem.constraintsLe(self.getVarOccupationBoundaryTop(), stroke.getVarOccupationBoundaryTop())
+			problem.constraintsGe(self.getVarOccupationBoundaryRight(), stroke.getVarOccupationBoundaryRight())
+			problem.constraintsGe(self.getVarOccupationBoundaryBottom(), stroke.getVarOccupationBoundaryBottom())
 
 		for layoutConstraint in self.layoutConstraints:
-			self.appendContraintFromLayoutConstraint(drawingSystem, layoutConstraint)
+			self.appendContraintFromLayoutConstraint(problem, layoutConstraint)
 
-	def appendContraintFromLayoutConstraint(self, drawingSystem, layoutConstraint):
+	def appendContraintFromLayoutConstraint(self, problem, layoutConstraint):
 		if layoutConstraint.isToAlignCenter():
 			targetShape = layoutConstraint.getTargetShape()
-			drawingSystem.constraintsEq(self.getVarOccupationBoundaryCenterX(), targetShape.getVarOccupationBoundaryCenterX())
-			drawingSystem.constraintsEq(self.getVarOccupationBoundaryCenterY(), targetShape.getVarOccupationBoundaryCenterY())
+			problem.constraintsEq(self.getVarOccupationBoundaryCenterX(), targetShape.getVarOccupationBoundaryCenterX())
+			problem.constraintsEq(self.getVarOccupationBoundaryCenterY(), targetShape.getVarOccupationBoundaryCenterY())
 		if layoutConstraint.isRow():
-			drawingSystem.constraints(layoutConstraint.getRowConstraint())
+			problem.constraints(layoutConstraint.getRowConstraint())
 		if layoutConstraint.isPointMatchPoint():
 			pointMatchPoint = layoutConstraint.getPointMatchPoint()
 			point1, point2 = pointMatchPoint
-			drawingSystem.constraintsEq(point1[0], point2[0])
-			drawingSystem.constraintsEq(point1[1], point2[1])
+			problem.constraintsEq(point1[0], point2[0])
+			problem.constraintsEq(point1[1], point2[1])
 
 
-	def appendObjective(self, drawingSystem):
-		super().appendObjective(drawingSystem)
+	def appendObjective(self, problem):
+		super().appendObjective(problem)
 		for layoutConstraint in self.layoutConstraints:
-			self.appendObjectiveFromLayoutConstraint(drawingSystem, layoutConstraint)
+			self.appendObjectiveFromLayoutConstraint(problem, layoutConstraint)
 
-	def appendObjectiveFromLayoutConstraint(self, drawingSystem, layoutConstraint):
+	def appendObjectiveFromLayoutConstraint(self, problem, layoutConstraint):
 		if layoutConstraint.isObjective():
-			drawingSystem.appendObjective(layoutConstraint.getObjective())
+			problem.appendObjective(layoutConstraint.getObjective())
 		if layoutConstraint.isMaximize():
-			drawingSystem.appendObjective(layoutConstraint.getObjective())
+			problem.appendObjective(layoutConstraint.getObjective())
 		if layoutConstraint.isMinimize():
-			drawingSystem.appendObjective(layoutConstraint.getObjective()*-1)
+			problem.appendObjective(layoutConstraint.getObjective()*-1)
 

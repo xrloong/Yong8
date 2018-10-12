@@ -33,33 +33,33 @@ class ConstraintGlyph(ConstraintBoundaryShape):
 			glyphSolver.interpreteVariable(self.marginRight),
 			glyphSolver.interpreteVariable(self.marginBottom))
 
-	def appendVariables(self, drawingSystem):
-		super().appendVariables(drawingSystem)
+	def appendVariables(self, problem):
+		super().appendVariables(problem)
 		for component in self.getComponents():
-			component.appendVariables(drawingSystem)
+			component.appendVariables(problem)
 
-	def appendConstraints(self, drawingSystem):
-		super().appendConstraints(drawingSystem)
+	def appendConstraints(self, problem):
+		super().appendConstraints(problem)
 
-		drawingGlyphPolicy = drawingSystem.getDrawingGlyphPolicy()
+		drawingGlyphPolicy = problem.getDrawingGlyphPolicy()
 		size = drawingGlyphPolicy.getGlyphSize()
 		marginHorizontal = drawingGlyphPolicy.getMarginHorizontal()
 		marginVertical = drawingGlyphPolicy.getMarginVertical()
 
-		drawingSystem.constraintsEq(self.getVarExtensionBoundaryLeft(), 0)
-		drawingSystem.constraintsEq(self.getVarExtensionBoundaryTop(), 0)
-		drawingSystem.constraintsEq(self.getVarExtensionBoundaryRight(), size[0])
-		drawingSystem.constraintsEq(self.getVarExtensionBoundaryBottom(), size[1])
-		drawingSystem.constraintsEq(self.getVarOccupationBoundaryLeft() - self.getVarExtensionBoundaryLeft(), marginHorizontal)
-		drawingSystem.constraintsEq(self.getVarOccupationBoundaryTop() - self.getVarExtensionBoundaryTop(), marginVertical)
-		drawingSystem.constraintsEq(self.getVarExtensionBoundaryRight() - self.getVarOccupationBoundaryRight(), marginHorizontal)
-		drawingSystem.constraintsEq(self.getVarExtensionBoundaryBottom() - self.getVarOccupationBoundaryBottom(), marginVertical)
+		problem.constraintsEq(self.getVarExtensionBoundaryLeft(), 0)
+		problem.constraintsEq(self.getVarExtensionBoundaryTop(), 0)
+		problem.constraintsEq(self.getVarExtensionBoundaryRight(), size[0])
+		problem.constraintsEq(self.getVarExtensionBoundaryBottom(), size[1])
+		problem.constraintsEq(self.getVarOccupationBoundaryLeft() - self.getVarExtensionBoundaryLeft(), marginHorizontal)
+		problem.constraintsEq(self.getVarOccupationBoundaryTop() - self.getVarExtensionBoundaryTop(), marginVertical)
+		problem.constraintsEq(self.getVarExtensionBoundaryRight() - self.getVarOccupationBoundaryRight(), marginHorizontal)
+		problem.constraintsEq(self.getVarExtensionBoundaryBottom() - self.getVarOccupationBoundaryBottom(), marginVertical)
 		for component in self.components:
-			component.appendConstraints(drawingSystem)
+			component.appendConstraints(problem)
 
-	def appendObjective(self, drawingSystem):
-		super().appendObjective(drawingSystem)
+	def appendObjective(self, problem):
+		super().appendObjective(problem)
 
 		for component in self.components:
-			component.appendObjective(drawingSystem)
+			component.appendObjective(problem)
 

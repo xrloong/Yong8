@@ -70,55 +70,55 @@ class BaseConstraintBeelineSegment(ConstraintPath):
 	def getVarVectorY(self):
 		return self.params[1]
 
-	def appendVariables(self, drawingSystem):
-		super().appendVariables(drawingSystem)
+	def appendVariables(self, problem):
+		super().appendVariables(problem)
 		for variable in self.params:
-			drawingSystem.addVariable(variable)
+			problem.addVariable(variable)
 
-	def appendConstraintsForPath(self, drawingSystem):
+	def appendConstraintsForPath(self, problem):
 		constraints = ()
 		if self.dirConfig:
 			cs = []
 			xDir = sign(self.dirConfig[0])
 			yDir = sign(self.dirConfig[1])
 			if xDir == 1:
-				drawingSystem.constraintsEq(self.getVarStartX() + self.getVarVectorX(), self.getVarEndX())
-				drawingSystem.constraintsEq(self.getVarOccupationBoundaryLeft(), self.getVarStartX())
-				drawingSystem.constraintsEq(self.getVarOccupationBoundaryRight(), self.getVarEndX())
+				problem.constraintsEq(self.getVarStartX() + self.getVarVectorX(), self.getVarEndX())
+				problem.constraintsEq(self.getVarOccupationBoundaryLeft(), self.getVarStartX())
+				problem.constraintsEq(self.getVarOccupationBoundaryRight(), self.getVarEndX())
 			elif xDir == -1:
-				drawingSystem.constraintsEq(self.getVarStartX() - self.getVarVectorX(), self.getVarEndX())
-				drawingSystem.constraintsEq(self.getVarOccupationBoundaryLeft(), self.getVarEndX())
-				drawingSystem.constraintsEq(self.getVarOccupationBoundaryRight(), self.getVarStartX())
+				problem.constraintsEq(self.getVarStartX() - self.getVarVectorX(), self.getVarEndX())
+				problem.constraintsEq(self.getVarOccupationBoundaryLeft(), self.getVarEndX())
+				problem.constraintsEq(self.getVarOccupationBoundaryRight(), self.getVarStartX())
 			else:
-				drawingSystem.constraintsEq(self.getVarOccupationBoundaryLeft(), self.getVarStartX())
-				drawingSystem.constraintsEq(self.getVarOccupationBoundaryRight(), self.getVarEndX())
-				drawingSystem.constraintsEq(self.getVarStartX(), self.getVarEndX())
-				drawingSystem.constraintsEq(self.getVarVectorX(), 0)
-				drawingSystem.constraintsEq(self.getVarBoundaryWidth(), 0)
-			drawingSystem.constraintsGe(self.getVarVectorX(), 0 )
+				problem.constraintsEq(self.getVarOccupationBoundaryLeft(), self.getVarStartX())
+				problem.constraintsEq(self.getVarOccupationBoundaryRight(), self.getVarEndX())
+				problem.constraintsEq(self.getVarStartX(), self.getVarEndX())
+				problem.constraintsEq(self.getVarVectorX(), 0)
+				problem.constraintsEq(self.getVarBoundaryWidth(), 0)
+			problem.constraintsGe(self.getVarVectorX(), 0 )
 
 			if yDir == 1:
-				drawingSystem.constraintsEq(self.getVarOccupationBoundaryTop(), self.getVarStartY())
-				drawingSystem.constraintsEq(self.getVarOccupationBoundaryBottom(), self.getVarEndY())
-				drawingSystem.constraintsEq(self.getVarStartY() + self.getVarVectorY(), self.getVarEndY())
+				problem.constraintsEq(self.getVarOccupationBoundaryTop(), self.getVarStartY())
+				problem.constraintsEq(self.getVarOccupationBoundaryBottom(), self.getVarEndY())
+				problem.constraintsEq(self.getVarStartY() + self.getVarVectorY(), self.getVarEndY())
 			elif yDir == -1:
-				drawingSystem.constraintsEq(self.getVarOccupationBoundaryTop(), self.getVarEndY())
-				drawingSystem.constraintsEq(self.getVarOccupationBoundaryBottom(), self.getVarStartY())
-				drawingSystem.constraintsEq(self.getVarStartY() - self.getVarVectorY(), self.getVarEndY())
+				problem.constraintsEq(self.getVarOccupationBoundaryTop(), self.getVarEndY())
+				problem.constraintsEq(self.getVarOccupationBoundaryBottom(), self.getVarStartY())
+				problem.constraintsEq(self.getVarStartY() - self.getVarVectorY(), self.getVarEndY())
 			else:
-				drawingSystem.constraintsEq(self.getVarOccupationBoundaryTop(), self.getVarStartY())
-				drawingSystem.constraintsEq(self.getVarOccupationBoundaryBottom(), self.getVarEndY())
-				drawingSystem.constraintsEq(self.getVarStartY(), self.getVarEndY())
-				drawingSystem.constraintsEq(self.getVarVectorY(), 0)
-				drawingSystem.constraintsEq(self.getVarBoundaryHeight(), 0)
-			drawingSystem.constraintsGe(self.getVarVectorY(), 0 )
+				problem.constraintsEq(self.getVarOccupationBoundaryTop(), self.getVarStartY())
+				problem.constraintsEq(self.getVarOccupationBoundaryBottom(), self.getVarEndY())
+				problem.constraintsEq(self.getVarStartY(), self.getVarEndY())
+				problem.constraintsEq(self.getVarVectorY(), 0)
+				problem.constraintsEq(self.getVarBoundaryHeight(), 0)
+			problem.constraintsGe(self.getVarVectorY(), 0 )
 
-	def appendConstraintsForPoints(self, drawingSystem):
-		super().appendConstraintsForPoints(drawingSystem)
-		self.appendConstraintsForPath(drawingSystem)
+	def appendConstraintsForPoints(self, problem):
+		super().appendConstraintsForPoints(problem)
+		self.appendConstraintsForPath(problem)
 
-	def appendObjective(self, drawingSystem):
-		super().appendObjective(drawingSystem)
+	def appendObjective(self, problem):
+		super().appendObjective(problem)
 
 # define beelines
 class BeelineSegment_NN(BaseConstraintBeelineSegment):
@@ -200,10 +200,10 @@ class BaseConstraintQCurveSegment(ConstraintPath):
 	def getVarVectorY_2(self):
 		return self.params[3]
 
-	def appendVariables(self, drawingSystem):
-		super().appendVariables(drawingSystem)
+	def appendVariables(self, problem):
+		super().appendVariables(problem)
 		for variable in self.params:
-			drawingSystem.addVariable(variable)
+			problem.addVariable(variable)
 
 	def appendConstraintsForPath(self):
 		return (
