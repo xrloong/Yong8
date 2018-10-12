@@ -14,6 +14,8 @@ class Problem:
 		self.constrains = 0
 		self.objective = 0
 
+		self.drawingGlyphPolicy = None
+
 	def generateVariable(self, prefix, name):
 		variableOutName = prefix+"."+name
 		variableInName = "x{0}".format(self.variableCounter)
@@ -66,4 +68,32 @@ class Problem:
 
 	def getSymObjectives(self):
 		return self.symObjectives
+
+	def constraints(self, constraint):
+		self._appendConstraint(constraint)
+
+	def constraintsEq(self, first, second):
+		from .symbol import Eq
+		self._appendConstraint(Eq(first, second, evaluate=False))
+
+	def constraintsLe(self, first, second):
+		self._appendConstraint(first <= second)
+
+	def constraintsLt(self, first, second):
+		self._appendConstraint(first < second)
+
+	def constraintsGe(self, first, second):
+		self._appendConstraint(first >= second)
+
+	def constraintsGt(self, first, second):
+		self._appendConstraint(first > second)
+
+	def _appendConstraint(self, constraint):
+		self.appendConstraint(constraint)
+
+	def getDrawingGlyphPolicy(self):
+		return self.drawingGlyphPolicy
+
+	def setDrawingGlyphPolicy(self, drawingGlyphPolicy):
+		self.drawingGlyphPolicy = drawingGlyphPolicy
 

@@ -5,6 +5,7 @@ from injector import inject
 
 from .constants import GlyphSolver
 from .constants import VariableGenerator
+from .problem import Problem
 
 class ConstraintShape(object, metaclass=abc.ABCMeta):
 	@inject
@@ -28,10 +29,20 @@ class ConstraintShape(object, metaclass=abc.ABCMeta):
 	def appendObjective(self, drawingSystem):
 		raise NotImplementedError('users must define appendObjetive to use this base class')
 
+	def generateProblem(self, drawingSystem):
+		raise NotImplementedError('users must define generateProblem to use this base class')
+
+	def generateProblem(self, drawingSystem):
+		problem = Problem()
+		problem.setDrawingGlyphPolicy(drawingSystem.getDrawingGlyphPolicy())
+		self.appendVariables(problem)
+		self.appendConstraints(problem)
+		self.appendObjective(problem)
+		return problem
+
 	def appendProblem(self, drawingSystem):
-		self.appendVariables(drawingSystem)
-		self.appendConstraints(drawingSystem)
-		self.appendObjective(drawingSystem)
+		problem = self.generateProblem(drawingSystem)
+		drawingSystem.appendProblem(problem)
 
 class ConstraintBoundaryShape(ConstraintShape):
 	@inject

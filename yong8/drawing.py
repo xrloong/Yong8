@@ -81,6 +81,16 @@ class ConstraintDrawingSystem:
 		else:
 			raise TypeError("Should be Symbol or Expr but is {0}".format(type(objective)))
 
+	def appendProblem(self, problem):
+		for symVariable in problem.getSymVariables():
+			self.addVariable(symVariable)
+
+		for symConstraint in problem.getSymConstraints():
+			self._appendConstraint(symConstraint)
+
+		for symObjective in problem.getSymObjectives():
+			self.appendObjective(symObjective)
+
 	def solve(self):
 		self.glyphSolver.solve()
 
