@@ -28,6 +28,11 @@ class ConstraintShape(object, metaclass=abc.ABCMeta):
 	def appendObjective(self, drawingSystem):
 		raise NotImplementedError('users must define appendObjetive to use this base class')
 
+	def appendProblem(self, drawingSystem):
+		self.appendVariables(drawingSystem)
+		self.appendConstraints(drawingSystem)
+		self.appendObjective(drawingSystem)
+
 class ConstraintBoundaryShape(ConstraintShape):
 	@inject
 	def __init__(self):

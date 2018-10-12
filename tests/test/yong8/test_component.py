@@ -41,10 +41,7 @@ class ConstraintComponentTestCase(BaseTestCase):
 		component.appendLayoutConstraint(layoutConstraint2)
 		component.appendLayoutConstraint(layoutConstraint3)
 
-
-		component.appendVariables(drawingSystem)
-		component.appendConstraints(drawingSystem)
-		component.appendObjective(drawingSystem)
+		component.appendProblem(drawingSystem)
 
 		component.appendConstraintsWithBoundary(drawingSystem, (40, 20, 215, 235))
 		drawingSystem.solve()
@@ -86,9 +83,7 @@ class ConstraintComponentTestCase(BaseTestCase):
 		component.appendLayoutConstraint(layoutConstraint3)
 		component.appendLayoutConstraint(layoutConstraint4)
 
-		component.appendVariables(drawingSystem)
-		component.appendConstraints(drawingSystem)
-		component.appendObjective(drawingSystem)
+		component.appendProblem(drawingSystem)
 
 		component.appendConstraintsWithBoundary(drawingSystem, (40, 20, 215, 235))
 		drawingSystem.solve()
@@ -144,9 +139,7 @@ class ConstraintComponentTestCase(BaseTestCase):
 		component.appendLayoutConstraint(layoutConstraint4)
 		component.appendLayoutConstraint(layoutConstraint5)
 
-		component.appendVariables(drawingSystem)
-		component.appendConstraints(drawingSystem)
-		component.appendObjective(drawingSystem)
+		component.appendProblem(drawingSystem)
 
 		component.appendConstraintsWithBoundary(drawingSystem, (40, 20, 215, 235))
 		drawingSystem.solve()

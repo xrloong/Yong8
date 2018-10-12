@@ -28,10 +28,8 @@ class ConstraintShapeTestCase(BaseTestCase):
 
 		shape = injector.get(ConstraintBoundaryShape)
 
-		shape.appendVariables(drawingSystem)
-		shape.appendConstraints(drawingSystem)
+		shape.appendProblem(drawingSystem)
 		shape.appendConstraintsWithExtensionBoundary(drawingSystem, (38, 61, 182, 129))
-		shape.appendObjective(drawingSystem)
 
 		drawingSystem.solve()
 
@@ -46,10 +44,8 @@ class ConstraintShapeTestCase(BaseTestCase):
 
 		shape = injector.get(ConstraintBoundaryShape)
 
-		shape.appendVariables(drawingSystem)
-		shape.appendConstraints(drawingSystem)
-		shape.appendConstraintsWithOccupationBoundary(drawingSystem, (38, 61, 182, 129))
-		shape.appendObjective(drawingSystem)
+		shape.appendProblem(drawingSystem)
+		shape.appendConstraintsWithExtensionBoundary(drawingSystem, (38, 61, 182, 129))
 
 		drawingSystem.solve()
 
@@ -64,10 +60,8 @@ class ConstraintShapeTestCase(BaseTestCase):
 
 		shape = injector.get(ConstraintBoundaryShape)
 
-		shape.appendVariables(drawingSystem)
-		shape.appendConstraints(drawingSystem)
-		shape.appendConstraintsWithSizeCenter(drawingSystem, (144, 68), (110, 95))
-		shape.appendObjective(drawingSystem)
+		shape.appendProblem(drawingSystem)
+		shape.appendConstraintsWithExtensionBoundary(drawingSystem, (38, 61, 182, 129))
 
 		drawingSystem.solve()
 

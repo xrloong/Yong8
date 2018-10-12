@@ -22,10 +22,8 @@ class ConstraintStrokeTestCase(BaseTestCase):
 		stroke = injector.get(ConstraintStroke)
 		stroke.setSegments([s]);
 
-		stroke.appendVariables(drawingSystem)
-		stroke.appendConstraints(drawingSystem)
+		stroke.appendProblem(drawingSystem)
 		stroke.appendConstraintsWithBoundary(drawingSystem, (38, 61, 182, 129))
-		stroke.appendObjective(drawingSystem)
 
 		drawingSystem.solve()
 
@@ -49,10 +47,8 @@ class ConstraintStrokeTestCase(BaseTestCase):
 		stroke = injector.get(ConstraintStroke)
 		stroke.setSegments([s1, s2]);
 
-		stroke.appendVariables(drawingSystem)
-		stroke.appendConstraints(drawingSystem)
+		stroke.appendProblem(drawingSystem)
 		stroke.appendConstraintsWithBoundary(drawingSystem, (38, 61, 182, 129))
-		stroke.appendObjective(drawingSystem)
 
 		drawingSystem.solve()
 
@@ -79,10 +75,8 @@ class ConstraintStrokeTestCase(BaseTestCase):
 		stroke = injector.get(ConstraintStroke)
 		stroke.setSegments((s1, s2, s3, s4), ((1, 0), (0, 3), (2, 0), (0, 1)));
 
-		stroke.appendVariables(drawingSystem)
-		stroke.appendConstraints(drawingSystem)
+		stroke.appendProblem(drawingSystem)
 		stroke.appendConstraintsWithBoundary(drawingSystem, (38, 61, 182, 129))
-		stroke.appendObjective(drawingSystem)
 
 		drawingSystem.solve()
 

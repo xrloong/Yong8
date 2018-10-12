@@ -21,9 +21,7 @@ class ConstraintSegmentTestCase(BaseTestCase):
 
 		s = injector.get(BeelineSegment_NN)
 
-		s.appendVariables(drawingSystem)
-		s.appendConstraints(drawingSystem)
-		s.appendObjective(drawingSystem)
+		s.appendProblem(drawingSystem)
 		s.appendConstraintsWithBoundary(drawingSystem, [38, 61, 182, 129])
 
 		drawingSystem.solve()
@@ -40,9 +38,7 @@ class ConstraintSegmentTestCase(BaseTestCase):
 
 		s = injector.get(BeelineSegment_NP)
 
-		s.appendVariables(drawingSystem)
-		s.appendConstraints(drawingSystem)
-		s.appendObjective(drawingSystem)
+		s.appendProblem(drawingSystem)
 		s.appendConstraintsWithBoundary(drawingSystem, [38, 61, 182, 129])
 
 		drawingSystem.solve()
@@ -59,9 +55,7 @@ class ConstraintSegmentTestCase(BaseTestCase):
 
 		s = injector.get(BeelineSegment_PN)
 
-		s.appendVariables(drawingSystem)
-		s.appendConstraints(drawingSystem)
-		s.appendObjective(drawingSystem)
+		s.appendProblem(drawingSystem)
 		s.appendConstraintsWithBoundary(drawingSystem, [38, 61, 182, 129])
 
 		drawingSystem.solve()
@@ -78,9 +72,7 @@ class ConstraintSegmentTestCase(BaseTestCase):
 
 		s = injector.get(BeelineSegment_PP)
 
-		s.appendVariables(drawingSystem)
-		s.appendConstraints(drawingSystem)
-		s.appendObjective(drawingSystem)
+		s.appendProblem(drawingSystem)
 		s.appendConstraintsWithBoundary(drawingSystem, [38, 61, 182, 129])
 
 		drawingSystem.solve()
@@ -99,10 +91,8 @@ class ConstraintSegmentTestCase(BaseTestCase):
 		s = injector.get(BaseConstraintBeelineSegment)
 		s.setDirConfig([1, -1])
 
-		s.appendVariables(drawingSystem)
-		s.appendObjective(drawingSystem)
+		s.appendProblem(drawingSystem)
 		s.appendConstraintsWithBoundary(drawingSystem, (38, 61, 182, 129))
-		s.appendConstraints(drawingSystem)
 
 		drawingSystem.solve()
 
@@ -119,9 +109,7 @@ class ConstraintSegmentTestCase(BaseTestCase):
 		s = injector.get(BaseConstraintBeelineSegment)
 		s.setDirConfig([1, -1])
 
-		s.appendVariables(drawingSystem)
-		s.appendConstraints(drawingSystem)
-		s.appendObjective(drawingSystem)
+		s.appendProblem(drawingSystem)
 		s.appendConstraintsWithSizeCenter(drawingSystem, (144, 68), (110, 95))
 
 		drawingSystem.solve()
