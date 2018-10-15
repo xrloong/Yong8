@@ -27,11 +27,6 @@ class ConstraintGlyph(ConstraintBoundaryShape):
 
 	def getMargin(self):
 		return self.getOccupationBoundary()
-		glyphSolver = self.getVariableGenerator()
-		return (glyphSolver.interpreteVariable(self.marginLeft),
-			glyphSolver.interpreteVariable(self.marginTop),
-			glyphSolver.interpreteVariable(self.marginRight),
-			glyphSolver.interpreteVariable(self.marginBottom))
 
 	def appendVariables(self, problem):
 		super().appendVariables(problem)
