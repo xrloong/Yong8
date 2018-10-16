@@ -4,7 +4,6 @@ import uuid
 from injector import inject
 
 from .constants import GlyphSolver
-from .constants import VariableGenerator
 from .problem import Problem
 
 class ConstraintShape(object, metaclass=abc.ABCMeta):

@@ -38,9 +38,6 @@ class ConstraintDrawingSystem:
 	def getGlyphSolver(self):
 		return self.glyphSolver
 
-	def getVariableGenerator(self):
-		return self.glyphSolver.getVariableGenerator()
-
 	def addVariable(self, variable):
 		self.glyphSolver.addVariable(variable)
 

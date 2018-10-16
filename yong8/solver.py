@@ -19,9 +19,6 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 
 		self.problem = Problem()
 
-	def getVariableGenerator(self):
-		return self.variableGenerator
-
 	def generateVariable(self, prefix, name):
 		return self.problem.generateVariable(prefix, name)
 
