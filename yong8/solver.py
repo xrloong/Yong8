@@ -26,7 +26,7 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 		return self.problem.generateVariable(prefix, name)
 
 	def interpreteVariable(self, variable):
-		return self.variableGenerator.interpreteVariable(self.getSolverVariable(variable))
+		return self.variableGenerator.interpreteVariable(self.getSolverVariable(variable.getSymExpr()))
 
 	def getSolverVariable(self, variable):
 		return self.problem.getSolverVariable(variable)

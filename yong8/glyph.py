@@ -41,14 +41,14 @@ class ConstraintGlyph(ConstraintBoundaryShape):
 		marginHorizontal = drawingGlyphPolicy.getMarginHorizontal()
 		marginVertical = drawingGlyphPolicy.getMarginVertical()
 
-		problem.constraintsEq(self.getVarExtensionBoundaryLeft(), 0)
-		problem.constraintsEq(self.getVarExtensionBoundaryTop(), 0)
-		problem.constraintsEq(self.getVarExtensionBoundaryRight(), size[0])
-		problem.constraintsEq(self.getVarExtensionBoundaryBottom(), size[1])
-		problem.constraintsEq(self.getVarOccupationBoundaryLeft() - self.getVarExtensionBoundaryLeft(), marginHorizontal)
-		problem.constraintsEq(self.getVarOccupationBoundaryTop() - self.getVarExtensionBoundaryTop(), marginVertical)
-		problem.constraintsEq(self.getVarExtensionBoundaryRight() - self.getVarOccupationBoundaryRight(), marginHorizontal)
-		problem.constraintsEq(self.getVarExtensionBoundaryBottom() - self.getVarOccupationBoundaryBottom(), marginVertical)
+		problem.appendConstraint(self.getVarExtensionBoundaryLeft() == 0)
+		problem.appendConstraint(self.getVarExtensionBoundaryTop() == 0)
+		problem.appendConstraint(self.getVarExtensionBoundaryRight() == size[0])
+		problem.appendConstraint(self.getVarExtensionBoundaryBottom() == size[1])
+		problem.appendConstraint(self.getVarOccupationBoundaryLeft() - self.getVarExtensionBoundaryLeft() == marginHorizontal)
+		problem.appendConstraint(self.getVarOccupationBoundaryTop() - self.getVarExtensionBoundaryTop() == marginVertical)
+		problem.appendConstraint(self.getVarExtensionBoundaryRight() - self.getVarOccupationBoundaryRight() == marginHorizontal)
+		problem.appendConstraint(self.getVarExtensionBoundaryBottom() - self.getVarOccupationBoundaryBottom() == marginVertical)
 		for component in self.components:
 			component.appendConstraints(problem)
 

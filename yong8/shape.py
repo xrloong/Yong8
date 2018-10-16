@@ -249,204 +249,66 @@ class ConstraintBoundaryShape(ConstraintShape):
 
 	def appendConstraintsForBoundary(self, problem):
 		# occupation constraints
-		problem.constraintsLe(self.getVarOccupationBoundaryLeft(), self.getVarOccupationBoundaryRight())
-		problem.constraintsLe(self.getVarOccupationBoundaryTop(), self.getVarOccupationBoundaryBottom())
-		problem.constraintsEq(self.getVarOccupationBoundaryCenterX()*2, self.getVarOccupationBoundaryLeft() + self.getVarOccupationBoundaryRight())
-		problem.constraintsEq(self.getVarOccupationBoundaryCenterY()*2, self.getVarOccupationBoundaryTop() + self.getVarOccupationBoundaryBottom())
-		problem.constraintsEq(self.getVarOccupationBoundaryWidth(), self.getVarOccupationBoundaryRight() - self.getVarOccupationBoundaryLeft())
-		problem.constraintsEq(self.getVarOccupationBoundaryHeight(), self.getVarOccupationBoundaryBottom() - self.getVarOccupationBoundaryTop())
+		problem.appendConstraint(self.getVarOccupationBoundaryLeft() <= self.getVarOccupationBoundaryRight())
+		problem.appendConstraint(self.getVarOccupationBoundaryTop() <= self.getVarOccupationBoundaryBottom())
+		problem.appendConstraint(self.getVarOccupationBoundaryCenterX()*2 == self.getVarOccupationBoundaryLeft() + self.getVarOccupationBoundaryRight())
+		problem.appendConstraint(self.getVarOccupationBoundaryCenterY()*2 == self.getVarOccupationBoundaryTop() + self.getVarOccupationBoundaryBottom())
+		problem.appendConstraint(self.getVarOccupationBoundaryWidth() == self.getVarOccupationBoundaryRight() - self.getVarOccupationBoundaryLeft())
+		problem.appendConstraint(self.getVarOccupationBoundaryHeight() == self.getVarOccupationBoundaryBottom() - self.getVarOccupationBoundaryTop())
 
 		# extension constraints
-		problem.constraintsLe(self.getVarExtensionBoundaryLeft(), self.getVarExtensionBoundaryRight())
-		problem.constraintsLe(self.getVarExtensionBoundaryTop(), self.getVarExtensionBoundaryBottom())
-		problem.constraintsEq(self.getVarExtensionBoundaryCenterX()*2, self.getVarExtensionBoundaryLeft() + self.getVarExtensionBoundaryRight())
-		problem.constraintsEq(self.getVarExtensionBoundaryCenterY()*2, self.getVarExtensionBoundaryTop() + self.getVarExtensionBoundaryBottom())
-		problem.constraintsEq(self.getVarExtensionBoundaryWidth(), self.getVarExtensionBoundaryRight() - self.getVarExtensionBoundaryLeft())
-		problem.constraintsEq(self.getVarExtensionBoundaryHeight(), self.getVarExtensionBoundaryBottom() - self.getVarExtensionBoundaryTop())
+		problem.appendConstraint(self.getVarExtensionBoundaryLeft() <= self.getVarExtensionBoundaryRight())
+		problem.appendConstraint(self.getVarExtensionBoundaryTop() <= self.getVarExtensionBoundaryBottom())
+		problem.appendConstraint(self.getVarExtensionBoundaryCenterX()*2 == self.getVarExtensionBoundaryLeft() + self.getVarExtensionBoundaryRight())
+		problem.appendConstraint(self.getVarExtensionBoundaryCenterY()*2 == self.getVarExtensionBoundaryTop() + self.getVarExtensionBoundaryBottom())
+		problem.appendConstraint(self.getVarExtensionBoundaryWidth() == self.getVarExtensionBoundaryRight() - self.getVarExtensionBoundaryLeft())
+		problem.appendConstraint(self.getVarExtensionBoundaryHeight() == self.getVarExtensionBoundaryBottom() - self.getVarExtensionBoundaryTop())
 
-		problem.constraintsLe(self.getVarExtensionBoundaryLeft(), self.getVarOccupationBoundaryLeft())
-		problem.constraintsLe(self.getVarExtensionBoundaryTop(), self.getVarOccupationBoundaryTop())
-		problem.constraintsGe(self.getVarExtensionBoundaryRight(), self.getVarOccupationBoundaryRight())
-		problem.constraintsGe(self.getVarExtensionBoundaryBottom(), self.getVarOccupationBoundaryBottom())
+		problem.appendConstraint(self.getVarExtensionBoundaryLeft() <= self.getVarOccupationBoundaryLeft())
+		problem.appendConstraint(self.getVarExtensionBoundaryTop() <= self.getVarOccupationBoundaryTop())
+		problem.appendConstraint(self.getVarExtensionBoundaryRight() >= self.getVarOccupationBoundaryRight())
+		problem.appendConstraint(self.getVarExtensionBoundaryBottom() >= self.getVarOccupationBoundaryBottom())
 
 		# make occupation to match the shape
-		problem.constraintsEq(self.getVarOccupationBoundaryLeft(), self.getExpMinX())
-		problem.constraintsEq(self.getVarOccupationBoundaryTop(), self.getExpMinY())
-		problem.constraintsEq(self.getVarOccupationBoundaryRight(), self.getExpMaxX())
-		problem.constraintsEq(self.getVarOccupationBoundaryBottom(), self.getExpMaxY())
+		problem.appendConstraint(self.getVarOccupationBoundaryLeft() == self.getExpMinX())
+		problem.appendConstraint(self.getVarOccupationBoundaryTop() == self.getExpMinY())
+		problem.appendConstraint(self.getVarOccupationBoundaryRight() == self.getExpMaxX())
+		problem.appendConstraint(self.getVarOccupationBoundaryBottom() == self.getExpMaxY())
 
 		# put occupation be at the center of extesion
-		problem.constraintsEq(self.getVarExtensionBoundaryCenterX(), self.getVarOccupationBoundaryCenterX())
-		problem.constraintsEq(self.getVarExtensionBoundaryCenterY(), self.getVarOccupationBoundaryCenterY())
+		problem.appendConstraint(self.getVarExtensionBoundaryCenterX() == self.getVarOccupationBoundaryCenterX())
+		problem.appendConstraint(self.getVarExtensionBoundaryCenterY() == self.getVarOccupationBoundaryCenterY())
 
 	def appendConstraintsWithBoundary(self, problem, boundary):
 		self.appendConstraintsWithExtensionBoundary(problem, boundary)
 
 	def appendConstraintsWithOccupationBoundary(self, problem, boundary):
 		left, top, right, bottom = boundary
-		problem.constraintsEq(self.getVarOccupationBoundaryLeft(), left)
-		problem.constraintsEq(self.getVarOccupationBoundaryTop(), top)
-		problem.constraintsEq(self.getVarOccupationBoundaryRight(), right)
-		problem.constraintsEq(self.getVarOccupationBoundaryBottom(), bottom)
+		problem.appendConstraint(self.getVarOccupationBoundaryLeft() == left)
+		problem.appendConstraint(self.getVarOccupationBoundaryTop() == top)
+		problem.appendConstraint(self.getVarOccupationBoundaryRight() == right)
+		problem.appendConstraint(self.getVarOccupationBoundaryBottom() == bottom)
 
 	def appendConstraintsWithExtensionBoundary(self, problem, boundary):
 		left, top, right, bottom = boundary
-		problem.constraintsEq(self.getVarExtensionBoundaryLeft(), left)
-		problem.constraintsEq(self.getVarExtensionBoundaryTop(), top)
-		problem.constraintsEq(self.getVarExtensionBoundaryRight(), right)
-		problem.constraintsEq(self.getVarExtensionBoundaryBottom(), bottom)
+		problem.appendConstraint(self.getVarExtensionBoundaryLeft() == left)
+		problem.appendConstraint(self.getVarExtensionBoundaryTop() == top)
+		problem.appendConstraint(self.getVarExtensionBoundaryRight() == right)
+		problem.appendConstraint(self.getVarExtensionBoundaryBottom() == bottom)
 
 	def appendConstraintsWithSizeCenter(self, problem, size, center):
 		width, height = size
 		centerX, centerY = center
-		problem.constraintsEq(self.getVarBoundaryWidth(), width)
-		problem.constraintsEq(self.getVarBoundaryHeight(), height)
-		problem.constraintsEq(self.getVarBoundaryCenterX(), centerX)
-		problem.constraintsEq(self.getVarBoundaryCenterY(), centerY)
+		problem.appendConstraint(self.getVarBoundaryWidth() == width)
+		problem.appendConstraint(self.getVarBoundaryHeight() == height)
+		problem.appendConstraint(self.getVarBoundaryCenterX() == centerX)
+		problem.appendConstraint(self.getVarBoundaryCenterY() == centerY)
 
 	def appendObjective(self, problem):
 		problem.appendObjective(self.getVarOccupationBoundaryWidth())
 		problem.appendObjective(self.getVarOccupationBoundaryHeight())
 		problem.appendObjective(self.getVarExtensionBoundaryWidth() * -1)
 		problem.appendObjective(self.getVarExtensionBoundaryHeight() * -1)
-
-	def resolveScalarOccupationLeft(self):
-		return self.occupationBoundaryLeft
-
-	def resolveScalarOccupationTop(self):
-		return self.occupationBoundaryTop
-
-	def resolveScalarOccupationRight(self):
-		return self.occupationBoundaryRight
-
-	def resolveScalarOccupationBottom(self):
-		return self.occupationBoundaryBottom
-
-	def resolveScalarOccupationWidth(self):
-		return self.occupationBoundaryWidth
-
-	def resolveScalarOccupationHeight(self):
-		return self.occupationBoundaryHeight
-
-	def resolveScalarOccupationCenterX(self):
-		return self.occupationBoundaryCenterX
-
-	def resolveScalarOccupationCenterY(self):
-		return self.occupationBoundaryCenterY
-
-	def resolvePairOccupationSize(self):
-		return (self.resolveScalarOccupationWidth(), self.resolveScalarOccupationHeight())
-
-	def resolvePointOccupationTopLeft(self):
-		return (self.resolveScalarOccupationLeft(), self.resolveScalarOccupationTop())
-
-	def resolvePointOccupationTopCenter(self):
-		return (self.resolveScalarOccupationCenterX(), self.resolveScalarOccupationTop())
-
-	def resolvePointOccupationTopRight(self):
-		return (self.resolveScalarOccupationRight(), self.resolveScalarOccupationTop())
-
-	def resolvePointOccupationLeftCenter(self):
-		return (self.resolveScalarOccupationLeft(), self.resolveScalarOccupationCenterY())
-
-	def resolvePointOccupationCenter(self):
-		return (self.resolveScalarOccupationCenterX(), self.resolveScalarOccupationCenterY())
-
-	def resolvePointOccupationRightCenter(self):
-		return (self.resolveScalarOccupationRight(), self.resolveScalarOccupationCenterY())
-
-	def resolvePointOccupationBottomLeft(self):
-		return (self.resolveScalarOccupationLeft(), self.resolveScalarOccupationBottom())
-
-	def resolvePointOccupationBottomCenter(self):
-		return (self.resolveScalarOccupationCenterX(), self.resolveScalarOccupationBottom())
-
-	def resolvePointOccupationBottomRight(self):
-		return (self.resolveScalarOccupationRight(), self.resolveScalarOccupationBottom())
-
-	def resolveQuaternaryOccupationBoundary(self):
-		return (
-			self.resolveScalarOccupationLeft(),
-			self.resolveScalarOccupationTop(),
-			self.resolveScalarOccupationRight(),
-			self.resolveScalarOccupationBottom()
-			)
-
-
-	def resolveScalarExtensionLeft(self):
-		return self.extensionBoundaryLeft
-
-	def resolveScalarExtensionTop(self):
-		return self.extensionBoundaryTop
-
-	def resolveScalarExtensionRight(self):
-		return self.extensionBoundaryRight
-
-	def resolveScalarExtensionBottom(self):
-		return self.extensionBoundaryBottom
-
-	def resolveScalarExtensionWidth(self):
-		return self.extensionBoundaryWidth
-
-	def resolveScalarExtensionHeight(self):
-		return self.extensionBoundaryHeight
-
-	def resolveScalarExtensionCenterX(self):
-		return self.extensionBoundaryCenterX
-
-	def resolveScalarExtensionCenterY(self):
-		return self.extensionBoundaryCenterY
-
-	def resolvePairExtensionSize(self):
-		return (self.resolveScalarExtensionWidth(), self.resolveScalarExtensionHeight())
-
-	def resolvePointExtensionTopLeft(self):
-		return (self.resolveScalarExtensionLeft(), self.resolveScalarExtensionTop())
-
-	def resolvePointExtensionTopCenter(self):
-		return (self.resolveScalarExtensionCenterX(), self.resolveScalarExtensionTop())
-
-	def resolvePointExtensionTopRight(self):
-		return (self.resolveScalarExtensionRight(), self.resolveScalarExtensionTop())
-
-	def resolvePointExtensionLeftCenter(self):
-		return (self.resolveScalarExtensionLeft(), self.resolveScalarExtensionCenterY())
-
-	def resolvePointExtensionCenter(self):
-		return (self.resolveScalarExtensionCenterX(), self.resolveScalarExtensionCenterY())
-
-	def resolvePointExtensionRightCenter(self):
-		return (self.resolveScalarExtensionRight(), self.resolveScalarExtensionCenterY())
-
-	def resolvePointExtensionBottomLeft(self):
-		return (self.resolveScalarExtensionLeft(), self.resolveScalarExtensionBottom())
-
-	def resolvePointExtensionBottomCenter(self):
-		return (self.resolveScalarExtensionCenterX(), self.resolveScalarExtensionBottom())
-
-	def resolvePointExtensionBottomRight(self):
-		return (self.resolveScalarExtensionRight(), self.resolveScalarExtensionBottom())
-
-	def resolveQuaternaryExtensionBoundary(self):
-		return (
-			self.resolveScalarExtensionLeft(),
-			self.resolveScalarExtensionTop(),
-			self.resolveScalarExtensionRight(),
-			self.resolveScalarExtensionBottom()
-			)
-
-
-	def resolveScalarWidth(self):
-		return self.resolveScalarExtensionWidth()
-
-	def resolveScalarHeight(self):
-		return self.resolveScalarExtensionHeight()
-
-	def resolvePairSize(self):
-		return self.resolvePairExtensionSize()
-
-	def resolveQuaternaryBoundary(self):
-		return self.resolveExtensionBoundary()
 
 class PathParams:
 	def __init__(self):
@@ -594,17 +456,17 @@ class ConstraintPath(ConstraintBoundaryShape):
 		problem.addVariable(self.endY)
 
 	def appendConstraintsForPoints(self, problem):
-		problem.constraintsLe(self.getVarBoundaryLeft(), self.startX)
-		problem.constraintsLe(self.getVarBoundaryLeft(), self.endX)
+		problem.appendConstraint(self.getVarBoundaryLeft() <= self.startX)
+		problem.appendConstraint(self.getVarBoundaryLeft() <= self.endX)
 
-		problem.constraintsLe(self.getVarBoundaryTop(), self.startY)
-		problem.constraintsLe(self.getVarBoundaryTop(), self.endY)
+		problem.appendConstraint(self.getVarBoundaryTop() <= self.startY)
+		problem.appendConstraint(self.getVarBoundaryTop() <= self.endY)
 
-		problem.constraintsGe(self.getVarBoundaryRight(), self.startX)
-		problem.constraintsGe(self.getVarBoundaryRight(), self.endX)
+		problem.appendConstraint(self.getVarBoundaryRight() >= self.startX)
+		problem.appendConstraint(self.getVarBoundaryRight() >= self.endX)
 
-		problem.constraintsGe(self.getVarBoundaryBottom(), self.startY)
-		problem.constraintsGe(self.getVarBoundaryBottom(), self.endY)
+		problem.appendConstraint(self.getVarBoundaryBottom() >= self.startY)
+		problem.appendConstraint(self.getVarBoundaryBottom() >= self.endY)
 
 	def appendConstraints(self, problem):
 		super().appendConstraints(problem)

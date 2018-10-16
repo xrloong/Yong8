@@ -42,54 +42,23 @@ class ConstraintDrawingSystem:
 		return self.glyphSolver.getVariableGenerator()
 
 	def addVariable(self, variable):
-		from .symbol import Symbol
-		if isinstance(variable, Symbol):
-			self.glyphSolver.addVariable(variable)
-		else:
-			raise TypeError("Should be Symbol but is {0}".format(type(variable)))
+		self.glyphSolver.addVariable(variable)
 
-	def constraints(self, constraint):
-		self._appendConstraint(constraint)
-
-	def constraintsEq(self, first, second):
-		from .symbol import Eq
-		self._appendConstraint(Eq(first, second, evaluate=False))
-
-	def constraintsLe(self, first, second):
-		self._appendConstraint(first <= second)
-
-	def constraintsLt(self, first, second):
-		self._appendConstraint(first < second)
-
-	def constraintsGe(self, first, second):
-		self._appendConstraint(first >= second)
-
-	def constraintsGt(self, first, second):
-		self._appendConstraint(first > second)
-
-	def _appendConstraint(self, constraint):
-		from .symbol import Relational
-		if isinstance(constraint, Relational):
-			self.glyphSolver.appendConstraint(constraint)
-		else:
-			raise TypeError("Should be Relational but is {0}".format(type(constraint)))
+	def appendConstraint(self, constraint):
+		self.glyphSolver.appendConstraint(constraint)
 
 	def appendObjective(self, objective):
-		from .symbol import Symbol, Expr
-		if isinstance(objective, Symbol) or isinstance(objective, Expr):
-			self.glyphSolver.appendObjective(objective)
-		else:
-			raise TypeError("Should be Symbol or Expr but is {0}".format(type(objective)))
+		self.glyphSolver.appendObjective(objective)
 
 	def appendProblem(self, problem):
-		for symVariable in problem.getSymVariables():
-			self.addVariable(symVariable)
+		for variable in problem.getVariables():
+			self.addVariable(variable)
 
-		for symConstraint in problem.getSymConstraints():
-			self._appendConstraint(symConstraint)
+		for constraint in problem.getConstraints():
+			self.appendConstraint(constraint)
 
-		for symObjective in problem.getSymObjectives():
-			self.appendObjective(symObjective)
+		for objective in problem.getObjectives():
+			self.appendObjective(objective)
 
 	def solve(self):
 		self.glyphSolver.solve()

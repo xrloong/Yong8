@@ -126,38 +126,38 @@ class ConstraintStroke(ConstraintPath):
 		# PuLP will collect variables in constraints and objective functions.
 		# After solving the problem, it'll assigne value back to the variables.
 		# It cause that some variables appearing the problem but not it the collected set.
-		problem.constraintsEq(self.unitWidth, self.unitWidth)
-		problem.constraintsEq(self.unitHeight, self.unitHeight)
+		problem.appendConstraint(self.unitWidth == self.unitWidth)
+		problem.appendConstraint(self.unitHeight == self.unitHeight)
 
 		for segment in self.segments:
 			segment.appendConstraints(problem)
-			problem.constraintsLe(self.getVarBoundaryLeft(), segment.getVarBoundaryLeft())
-			problem.constraintsLe(self.getVarBoundaryTop(), segment.getVarBoundaryTop())
-			problem.constraintsGe(self.getVarBoundaryRight(), segment.getVarBoundaryRight())
-			problem.constraintsGe(self.getVarBoundaryBottom(), segment.getVarBoundaryBottom())
+			problem.appendConstraint(self.getVarBoundaryLeft() <= segment.getVarBoundaryLeft())
+			problem.appendConstraint(self.getVarBoundaryTop() <= segment.getVarBoundaryTop())
+			problem.appendConstraint(self.getVarBoundaryRight() >= segment.getVarBoundaryRight())
+			problem.appendConstraint(self.getVarBoundaryBottom() >= segment.getVarBoundaryBottom())
 
 		# append constraints for arranging segments' width and height
 		for segment, weight in zip(self.segments, self.weights):
 			w, h = weight
-			problem.constraintsEq(self.unitWidth * w, segment.getVarVectorX())
-			problem.constraintsEq(self.unitHeight * h, segment.getVarVectorY())
+			problem.appendConstraint(self.unitWidth * w == segment.getVarVectorX())
+			problem.appendConstraint(self.unitHeight * h == segment.getVarVectorY())
 
 		if self.segments:
 			firstSegment = self.segments[0]
 			lastSegment = self.segments[-1]
 
-			problem.constraintsEq(self.getVarStartX(), firstSegment.getVarStartX())
-			problem.constraintsEq(self.getVarStartY(), firstSegment.getVarStartY())
+			problem.appendConstraint(self.getVarStartX() == firstSegment.getVarStartX())
+			problem.appendConstraint(self.getVarStartY() == firstSegment.getVarStartY())
 
 			for currSegment, nextSegment in zip(self.segments[:-1], self.segments[1:]):
-				problem.constraintsEq(currSegment.getVarEndX(), nextSegment.getVarStartX())
-				problem.constraintsEq(currSegment.getVarEndY(), nextSegment.getVarStartY())
+				problem.appendConstraint(currSegment.getVarEndX() == nextSegment.getVarStartX())
+				problem.appendConstraint(currSegment.getVarEndY() == nextSegment.getVarStartY())
 
-			problem.constraintsEq(self.getVarEndX(), lastSegment.getVarEndX())
-			problem.constraintsEq(self.getVarEndY(), lastSegment.getVarEndY())
+			problem.appendConstraint(self.getVarEndX() == lastSegment.getVarEndX())
+			problem.appendConstraint(self.getVarEndY() == lastSegment.getVarEndY())
 		else:
-			problem.constraintsEq(self.getVarStartX(), self.getVarEndX())
-			problem.constraintsEq(self.getVarStartY(), self.getVarEndY())
+			problem.appendConstraint(self.getVarStartX() == self.getVarEndX())
+			problem.appendConstraint(self.getVarStartY() == self.getVarEndY())
 
 	def appendObjective(self, problem):
 		super().appendObjective(problem)
