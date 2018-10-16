@@ -122,7 +122,6 @@ class C(A):
 class Problem:
 	def __init__(self):
 		self.symbols = []
-		self.variableMap = {}
 		self.variableInNameMap = {}
 		self.variableOutNameMap = {}
 
@@ -153,12 +152,6 @@ class Problem:
 
 		self.variableCounter += 1
 		return variable
-
-	def setSolverVariable(self, symbol, solverVariable):
-		self.variableMap[symbol]=solverVariable
-
-	def getSolverVariable(self, symbol):
-		return self.variableMap[symbol]
 
 	def getVariableInName(self, symbol):
 		return self.variableInNameMap[symbol]

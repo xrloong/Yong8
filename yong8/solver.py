@@ -18,15 +18,17 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 		self.useCustomAlgebra = self.variableGenerator.useCustomAlgebra()
 
 		self.problem = Problem()
+		self.solverVariableMap = {}
+		self.solutions = {}
 
 	def generateVariable(self, prefix, name):
 		return self.problem.generateVariable(prefix, name)
 
 	def interpreteVariable(self, variable):
-		return self.variableGenerator.interpreteVariable(self.getSolverVariable(variable.getSymExpr()))
+		return self.solutions[variable.getSymExpr()]
 
-	def getSolverVariable(self, variable):
-		return self.problem.getSolverVariable(variable)
+	def getSolverVariable(self, symbol):
+		return self.solverVariableMap[symbol]
 
 	def convertSymExpr(self, symExpr):
 		if symExpr.is_Number:
@@ -87,11 +89,11 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 
 	def solve(self):
 		problem = self.problem
-		for symbol in problem.getSymVariables():
+		for variable in problem.getVariables():
+			symbol = variable.getSymExpr()
 			variableInName = problem.getVariableInName(symbol)
 			solverVariable = self.variableGenerator.generateVariable(variableInName)
-
-			problem.setSolverVariable(symbol, solverVariable)
+			self.solverVariableMap[symbol] = solverVariable
 
 		constraints = [self.convertSymExpr(constraint) for constraint in problem.getSymConstraints()]
 		objective = self.convertSymExpr(sum(problem.getSymObjectives()))
@@ -99,6 +101,12 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 		problem.setConstraints(constraints)
 		problem.setObjective(objective)
 		self.doSolve(problem)
+
+		for variable in problem.getVariables():
+			symbol = variable.getSymExpr()
+			solverVariable = self.solverVariableMap[symbol]
+			value = self.variableGenerator.interpreteVariable(solverVariable)
+			self.solutions[symbol] = value
 
 	def doSolve(self, problem):
 		raise NotImplementedError('users must define solve() to use this base class')
