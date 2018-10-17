@@ -156,18 +156,6 @@ class Problem:
 	def getVariableInName(self, symbol):
 		return self.variableInNameMap[symbol]
 
-	def setConstraints(self, constraints):
-		self.constraints = constraints
-
-	def setObjective(self, objective):
-		self.objective = objective
-
-	def getConstraints(self):
-		return self.constraints
-
-	def getObjective(self):
-		return self.objective
-
 	def addVariable(self, variable):
 		self.variables.append(variable)
 		self.symVariables.append(variable.getSymExpr())

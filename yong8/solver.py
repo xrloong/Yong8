@@ -2,33 +2,69 @@ import abc
 
 from .problem import Problem
 
-class AbsVariableGenerator(object, metaclass=abc.ABCMeta):
-	def useCustomAlgebra(self):
-		return True
-
-	def generateVariable(self, totalName):
-		raise NotImplementedError('users must define generateVariable() to use this base class')
-
-	def interpreteVariable(self, variable):
-		raise NotImplementedError('users must define interpreteVariable() to use this base class')
-
-class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
+class SolverProblem:
 	def __init__(self):
-		self.variableGenerator = self.generateVariableGenerator();
-		self.useCustomAlgebra = self.variableGenerator.useCustomAlgebra()
-
-		self.problem = Problem()
-		self.solverVariableMap = {}
+		self.symbols = []
+		self.variables = []
+		self.constraints = []
+		self.objective = 0
 		self.solutions = {}
 
-	def generateVariable(self, prefix, name):
-		return self.problem.generateVariable(prefix, name)
+	def getSymbols(self):
+		return self.symbols
 
-	def interpreteVariable(self, variable):
-		return self.solutions[variable.getSymExpr()]
+	def getVariables(self):
+		return self.variables
+
+	def getConstraints(self):
+		return self.constraints
+
+	def getObjective(self):
+		return self.objective
+
+	def queryVariableBySym(self, sym):
+		return self.variableMap[sym]
+
+	def setSymbolsAndVariables(self, symbols, variables):
+		self.symbols = symbols
+		self.variables = variables
+		self.variableMap = dict(zip(symbols, variables))
+
+	def setConstraints(self, constraints):
+		self.constraints = constraints
+
+	def setObjective(self, objective):
+		self.objective = objective
+
+class SolverProblemConverter:
+	def __init__(self, variableGenerator):
+		self.variableGenerator = variableGenerator
+		self.useCustomAlgebra = self.variableGenerator.useCustomAlgebra()
+		self.solverVariableMap = {}
 
 	def getSolverVariable(self, symbol):
 		return self.solverVariableMap[symbol]
+
+	def convert(self, problem):
+		solverProblem = SolverProblem()
+
+		symbols = []
+		variables = []
+		for variable in problem.getVariables():
+			symbol = variable.getSymExpr()
+			variableInName = problem.getVariableInName(symbol)
+			solverVariable = self.variableGenerator.generateVariable(variableInName)
+			self.solverVariableMap[symbol] = solverVariable
+			symbols.append(symbol)
+			variables.append(solverVariable)
+
+		constraints = [self.convertSymExpr(constraint) for constraint in problem.getSymConstraints()]
+		objective = self.convertSymExpr(sum(problem.getSymObjectives()))
+
+		solverProblem.setSymbolsAndVariables(symbols, variables)
+		solverProblem.setConstraints(constraints)
+		solverProblem.setObjective(objective)
+		return solverProblem
 
 	def convertSymExpr(self, symExpr):
 		if symExpr.is_Number:
@@ -75,6 +111,24 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 		else:
 			return None
 
+class AbsVariableGenerator(object, metaclass=abc.ABCMeta):
+	def useCustomAlgebra(self):
+		return True
+
+	def generateVariable(self, totalName):
+		raise NotImplementedError('users must define generateVariable() to use this base class')
+
+class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
+	def __init__(self):
+		self.problem = Problem()
+		self.solverProblem = None
+
+	def generateVariable(self, prefix, name):
+		return self.problem.generateVariable(prefix, name)
+
+	def interpreteVariable(self, variable):
+		return self.solverProblem.solutions[variable.getSymExpr()]
+
 	def generateVariableGenerator(self):
 		raise NotImplementedError('users must define generateVariableGenerator() to use this base class')
 
@@ -88,25 +142,18 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 		self.problem.appendObjective(objective)
 
 	def solve(self):
+		variableGenerator = self.generateVariableGenerator();
+		problemConverter = SolverProblemConverter(variableGenerator)
+
 		problem = self.problem
-		for variable in problem.getVariables():
-			symbol = variable.getSymExpr()
-			variableInName = problem.getVariableInName(symbol)
-			solverVariable = self.variableGenerator.generateVariable(variableInName)
-			self.solverVariableMap[symbol] = solverVariable
+		solverProblem = problemConverter.convert(problem)
+		self.solverProblem = solverProblem
 
-		constraints = [self.convertSymExpr(constraint) for constraint in problem.getSymConstraints()]
-		objective = self.convertSymExpr(sum(problem.getSymObjectives()))
+		solutions = self.doSolve(solverProblem)
 
-		problem.setConstraints(constraints)
-		problem.setObjective(objective)
-		self.doSolve(problem)
-
-		for variable in problem.getVariables():
-			symbol = variable.getSymExpr()
-			solverVariable = self.solverVariableMap[symbol]
-			value = self.variableGenerator.interpreteVariable(solverVariable)
-			self.solutions[symbol] = value
+		for symbol in solverProblem.getSymbols():
+			solverVariable = problemConverter.solverVariableMap[symbol]
+			solverProblem.solutions[symbol] = solutions[solverVariable]
 
 	def doSolve(self, problem):
 		raise NotImplementedError('users must define solve() to use this base class')
@@ -115,9 +162,6 @@ class CassowaryVariableGenerator(AbsVariableGenerator):
 	def generateVariable(self, totalName):
 		from cassowary import Variable
 		return Variable(totalName)
-
-	def interpreteVariable(self, variable):
-		return variable.value
 
 class CassowaryGlyphSolver(AbsGlyphSolver):
 	def __init__(self):
@@ -139,15 +183,19 @@ class CassowaryGlyphSolver(AbsGlyphSolver):
 
 		# Cassowary use incremental solving.
 		# It solves the problem during changing constraints.
-		pass
+
+		solutions = {}
+		for symbol in problem.getSymbols():
+			variable = problem.queryVariableBySym(symbol)
+			value = variable.value
+			solutions[variable] = value
+
+		return solutions
 
 class PuLPVariableGenerator(AbsVariableGenerator):
 	def generateVariable(self, totalName):
 		from pulp import LpVariable
 		return LpVariable(totalName)
-
-	def interpreteVariable(self, variable):
-		return variable.value()
 
 class PuLPGlyphSolver(AbsGlyphSolver):
 	def __init__(self, solver):
@@ -175,13 +223,18 @@ class PuLPGlyphSolver(AbsGlyphSolver):
 
 		status = prob.solve(self.solver)
 
+		solutions = {}
+		for symbol in problem.getSymbols():
+			variable = problem.queryVariableBySym(symbol)
+			value = variable.value()
+			solutions[variable] = value
+
+		return solutions
+
 class CvxpyVariableGenerator(AbsVariableGenerator):
 	def generateVariable(self, totalName):
 		from cvxpy import Variable
 		return Variable()
-
-	def interpreteVariable(self, variable):
-		return variable.value.item()
 
 class CvxpyGlyphSolver(AbsGlyphSolver):
 	def __init__(self, solver):
@@ -202,19 +255,18 @@ class CvxpyGlyphSolver(AbsGlyphSolver):
 		prob = Problem(Maximize(problem.getObjective()), problem.getConstraints())
 		prob.solve(self.solver)
 
-class DRealVariableGenerator(AbsVariableGenerator):
-	def __init__(self):
-		self.solution = {}
+		solutions = {}
+		for symbol in problem.getSymbols():
+			variable = problem.queryVariableBySym(symbol)
+			value = variable.value.item()
+			solutions[variable] = value
 
+		return solutions
+
+class DRealVariableGenerator(AbsVariableGenerator):
 	def generateVariable(self, totalName):
 		from dreal import Variable
 		return Variable(totalName)
-
-	def interpreteVariable(self, variable):
-		return self.solution[variable]
-
-	def setSolution(self, solution):
-		self.solution = solution
 
 class DRealGlyphSolver(AbsGlyphSolver):
 	def __init__(self):
@@ -232,25 +284,16 @@ class DRealGlyphSolver(AbsGlyphSolver):
 
 		result = Minimize(-objective, And(*constraints), 0)
 
-		solution = {}
+		solutions = {}
 		for var, interval in result.items():
-			solution[var] = interval.mid()
+			solutions[var] = interval.mid()
 
-		self.variableGenerator.setSolution(solution)
+		return solutions
 
 class Z3VariableGenerator(AbsVariableGenerator):
-	def __init__(self):
-		self.solution = {}
-
 	def generateVariable(self, totalName):
 		from z3 import Real
 		return Real(totalName)
-
-	def interpreteVariable(self, variable):
-		return self.solution[variable]
-
-	def setSolution(self, z3solution):
-		self.solution = z3solution
 
 class Z3GlyphSolver(AbsGlyphSolver):
 	def __init__(self):
@@ -262,6 +305,7 @@ class Z3GlyphSolver(AbsGlyphSolver):
 	def doSolve(self, problem):
 		from z3 import Optimize
 
+		variables = problem.getVariables()
 		constraints = problem.getConstraints()
 		objective = problem.getObjective()
 
@@ -274,5 +318,11 @@ class Z3GlyphSolver(AbsGlyphSolver):
 
 		model = opt.model()
 
-		self.variableGenerator.setSolution(model)
+		solutions = {}
+		for symbol in problem.getSymbols():
+			variable = problem.queryVariableBySym(symbol)
+			value = model[variable]
+			solutions[variable] = value
+
+		return solutions
 
