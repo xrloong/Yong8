@@ -27,6 +27,10 @@ class BaseTestCase(unittest.TestCase):
 		from yong8.solver import DRealGlyphSolver
 		return DRealGlyphSolver()
 
+	def getGlyphSolverBySciPy(self):
+		from yong8.solver import SciPyGlyphSolver
+		return SciPyGlyphSolver()
+
 	def getGlyphSolver(self):
 		return self.getGlyphSolverByCvxpyECOS()
 

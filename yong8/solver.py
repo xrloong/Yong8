@@ -272,3 +272,77 @@ class DRealGlyphSolver(AbsGlyphSolver):
 
 		self.variableGenerator.setSolution(solution)
 
+class SciPyVariableGenerator(AbsVariableGenerator):
+	def useCustomAlgebra(self):
+		return False
+
+	def generateVariable(self, totalName):
+		import sympy as sp
+		return sp.Symbol(totalName)
+
+	def interpreteVariable(self, variable):
+		return self.solution[variable]
+
+	def setSolution(self, solution):
+		self.solution = solution
+
+class SciPyGlyphSolver(AbsGlyphSolver):
+	def __init__(self):
+		super().__init__()
+
+		self.variables = []
+		self.constraints = []
+		self.objective = 0
+
+	def generateVariableGenerator(self):
+		return SciPyVariableGenerator()
+
+	def addVariable(self, variable):
+		self.variables.append(variable)
+
+	def appendConstraint(self, constraint):
+		self.constraints.append(self.convertSymExpr(constraint))
+
+	def appendObjective(self, objective):
+		self.objective += self.convertSymExpr(objective)
+
+	def solve(self):
+		import sympy as sp
+		import numpy as np
+		import scipy.optimize as opt
+
+		symVariables = self.variables
+		symConstraints = self.constraints
+		symObjective = self.objective
+
+		lambdifiedObjective = sp.lambdify(symVariables, symObjective)
+		objective = lambda params: lambdifiedObjective(*params)
+
+		constraints = [
+		]
+		t = None
+		f = None
+		for c in symConstraints:
+			if c.rel_op == '==':
+				t="eq"
+				f=c.lhs-c.rhs
+			elif c.rel_op in ['<=', '<']:
+				t="ineq"
+				f=c.rhs-c.lhs
+			elif c.rel_op in ['>=', '>']:
+				t="ineq"
+				f=c.lhs-c.rhs
+			func = sp.lambdify(symVariables, f)
+			constraint = {"type": t, "fun": lambda x: func(*x)}
+			constraints.append(constraint)
+
+#		jacF = [sp.lambdify(symVariables, symObjective.diff(x)) for x in symVariables]
+#		jac = lambda x: np.asarray([l(*x) for l in jacF])
+
+		x = [0 for i in range(len(symVariables))]
+		# slsqp, trust-constr, trust-exact, trust-krylov
+		results = opt.minimize(objective, x, method='slsqp', constraints=constraints, tol=1e-8)
+
+		solution = dict(zip(symVariables, results.x))
+		self.variableGenerator.setSolution(solution)
+
