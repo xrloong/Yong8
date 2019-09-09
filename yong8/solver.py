@@ -226,3 +226,49 @@ class CvxpyGlyphSolver(AbsGlyphSolver):
 		prob = Problem(Maximize(self.objective), self.constraints)
 		prob.solve(self.solver)
 
+class DRealVariableGenerator(AbsVariableGenerator):
+	def __init__(self):
+		self.solution = {}
+
+	def generateVariable(self, totalName):
+		from dreal import Variable
+		return Variable(totalName)
+
+	def interpreteVariable(self, variable):
+		return self.solution[variable]
+
+	def setSolution(self, solution):
+		self.solution = solution
+
+class DRealGlyphSolver(AbsGlyphSolver):
+	def __init__(self):
+		super().__init__()
+
+		self.variables = []
+		self.constraints = []
+		self.objective = 0
+
+	def generateVariableGenerator(self):
+		return DRealVariableGenerator()
+
+	def addVariable(self, variable):
+		self.variables.append(variable)
+
+	def appendConstraint(self, constraint):
+		self.constraints.append(self.convertSymExpr(constraint))
+
+	def appendObjective(self, objective):
+		self.objective += self.convertSymExpr(objective)
+
+	def solve(self):
+		from dreal import Minimize
+		from dreal import And
+
+		result = Minimize(-self.objective, And(*self.constraints), 0)
+
+		solution = {}
+		for var, interval in result.items():
+			solution[var] = interval.mid()
+
+		self.variableGenerator.setSolution(solution)
+
