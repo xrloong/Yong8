@@ -19,14 +19,6 @@ class BaseTestCase(unittest.TestCase):
 		from yong8.solver import PuLPGlyphSolver
 		return PuLPGlyphSolver.generateInstanceByGLPK()
 
-	def getGlyphSolverByPulpCOIN(self):
-		from yong8.solver import PuLPGlyphSolver
-		return PuLPGlyphSolver.generateInstanceByCOIN()
-
-	def getGlyphSolverByCvxpyGLPK(self):
-		from yong8.solver import CvxpyGlyphSolver
-		return CvxpyGlyphSolver.generateInstanceByGLPK()
-
 	def getGlyphSolverByCvxpyECOS(self):
 		from yong8.solver import CvxpyGlyphSolver
 		return CvxpyGlyphSolver.generateInstanceByECOS()

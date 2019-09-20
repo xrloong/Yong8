@@ -277,11 +277,6 @@ class PuLPGlyphSolver(AbsGlyphSolver):
 		from pulp import GLPK
 		return PuLPGlyphSolver(GLPK)
 
-	@classmethod
-	def generateInstanceByCOIN(cls):
-		from pulp import COIN
-		return PuLPGlyphSolver(COIN)
-
 	def generateVariableGenerator(self):
 		return PuLPVariableGenerator()
 
@@ -316,11 +311,6 @@ class CvxpyGlyphSolver(AbsGlyphSolver):
 		self.objective = 0
 		self.constraints = []
 		self.solver = solver
-
-	@classmethod
-	def generateInstanceByGLPK(cls):
-		from cvxpy import GLPK
-		return CvxpyGlyphSolver(GLPK)
 
 	@classmethod
 	def generateInstanceByECOS(cls):
