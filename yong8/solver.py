@@ -121,13 +121,9 @@ class AbsVariableGenerator(object, metaclass=abc.ABCMeta):
 class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 	def __init__(self):
 		self.problem = Problem()
-		self.solverProblem = None
 
 	def generateVariable(self, prefix, name):
 		return self.problem.generateVariable(prefix, name)
-
-	def interpreteVariable(self, variable):
-		return self.solverProblem.solutions[variable.getSymExpr()]
 
 	def generateVariableGenerator(self):
 		raise NotImplementedError('users must define generateVariableGenerator() to use this base class')
@@ -147,13 +143,14 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 
 		problem = self.problem
 		solverProblem = problemConverter.convert(problem)
-		self.solverProblem = solverProblem
 
 		solutions = self.doSolve(solverProblem)
 
-		for symbol in solverProblem.getSymbols():
+		for variable in problem.getVariables():
+			symbol = variable.getSymExpr()
 			solverVariable = problemConverter.solverVariableMap[symbol]
-			solverProblem.solutions[symbol] = solutions[solverVariable]
+			value = solutions[solverVariable]
+			variable.setValue(value)
 
 	def doSolve(self, problem):
 		raise NotImplementedError('users must define solve() to use this base class')

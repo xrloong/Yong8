@@ -163,42 +163,36 @@ class ConstraintBoundaryShape(ConstraintShape):
 		return self.extensionBoundaryCenterY
 
 	def getOccupationBoundary(self):
-		glyphSolver = self.getGlyphSolver()
 		return (
-			glyphSolver.interpreteVariable(self.getVarOccupationBoundaryLeft()),
-			glyphSolver.interpreteVariable(self.getVarOccupationBoundaryTop()),
-			glyphSolver.interpreteVariable(self.getVarOccupationBoundaryRight()),
-			glyphSolver.interpreteVariable(self.getVarOccupationBoundaryBottom()),
+			self.getVarOccupationBoundaryLeft().getValue(),
+			self.getVarOccupationBoundaryTop().getValue(),
+			self.getVarOccupationBoundaryRight().getValue(),
+			self.getVarOccupationBoundaryBottom().getValue(),
 			)
 
 	def getExtensionBoundary(self):
-		glyphSolver = self.getGlyphSolver()
 		return (
-			glyphSolver.interpreteVariable(self.getVarExtensionBoundaryLeft()),
-			glyphSolver.interpreteVariable(self.getVarExtensionBoundaryTop()),
-			glyphSolver.interpreteVariable(self.getVarExtensionBoundaryRight()),
-			glyphSolver.interpreteVariable(self.getVarExtensionBoundaryBottom()),
+			self.getVarExtensionBoundaryLeft().getValue(),
+			self.getVarExtensionBoundaryTop().getValue(),
+			self.getVarExtensionBoundaryRight().getValue(),
+			self.getVarExtensionBoundaryBottom().getValue(),
 			)
 
 	def getOccupationBoundaryCenter(self):
-		glyphSolver = self.getGlyphSolver()
-		return (glyphSolver.interpreteVariable(self.getVarOccupationBoundaryCenterX()),
-			glyphSolver.interpreteVariable(self.getVarOccupationBoundaryCenterY()))
+		return (self.getVarOccupationBoundaryCenterX().getValue(),
+			self.getVarOccupationBoundaryCenterY().getValue())
 
 	def getExtensionBoundaryCenter(self):
-		glyphSolver = self.getGlyphSolver()
-		return (glyphSolver.interpreteVariable(self.getVarExtensionBoundaryCenterX()),
-			glyphSolver.interpreteVariable(self.getVarExtensionBoundaryCenterY()))
+		return (self.getVarExtensionBoundaryCenterX().getValue(),
+			self.getVarExtensionBoundaryCenterY().getValue())
 
 	def getOccupationSize(self):
-		glyphSolver = self.getGlyphSolver()
-		return (glyphSolver.interpreteVariable(self.getVarOccupationBoundaryWidth()),
-			glyphSolver.interpreteVariable(self.getVarOccupationBoundaryHeight()))
+		return (self.getVarOccupationBoundaryWidth().getValue(),
+			self.getVarOccupationBoundaryHeight().getValue())
 
 	def getExtensionSize(self):
-		glyphSolver = self.getGlyphSolver()
-		return (glyphSolver.interpreteVariable(self.getVarExtensionBoundaryWidth()),
-			glyphSolver.interpreteVariable(self.getVarExtensionBoundaryHeight()))
+		return (self.getVarExtensionBoundaryWidth().getValue(),
+			self.getVarExtensionBoundaryHeight().getValue())
 
 
 	def getExpMinX(self):
@@ -426,14 +420,12 @@ class ConstraintPath(ConstraintBoundaryShape):
 		return self.pathParams
 
 	def getStartPoint(self):
-		glyphSolver = self.getGlyphSolver()
-		return (glyphSolver.interpreteVariable(self.startX),
-			glyphSolver.interpreteVariable(self.startY))
+		return (self.startX.getValue(),
+			self.startY.getValue())
 
 	def getEndPoint(self):
-		glyphSolver = self.getGlyphSolver()
-		return (glyphSolver.interpreteVariable(self.endX),
-			glyphSolver.interpreteVariable(self.endY))
+		return (self.endX.getValue(),
+			self.endY.getValue())
 
 	def getVarStartX(self):
 		return self.startX
