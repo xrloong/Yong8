@@ -1,6 +1,9 @@
 import abc
 
 class AbsVariableGenerator(object, metaclass=abc.ABCMeta):
+	def useCustomAlgebra(self):
+		return True
+
 	def generateVariable(self, totalName):
 		raise NotImplementedError('users must define generateVariable() to use this base class')
 
@@ -10,6 +13,8 @@ class AbsVariableGenerator(object, metaclass=abc.ABCMeta):
 class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 	def __init__(self):
 		self.variableGenerator = self.generateVariableGenerator();
+		self.useCustomAlgebra = self.variableGenerator.useCustomAlgebra()
+
 		self.variableMap = {}
 
 		self.varibleInToOutMap = {}
@@ -50,16 +55,23 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 			return float(symExpr)
 		elif symExpr.is_Relational:
 			from .symbol import Le, Lt, Ge, Gt, Eq
+			lhsConverted = self.convertSymExpr(symExpr.lhs)
+			rhsConverted = self.convertSymExpr(symExpr.rhs)
+
 			if isinstance(symExpr, Eq):
-				return self.convertSymExpr(symExpr.lhs) == self.convertSymExpr(symExpr.rhs)
+				if self.useCustomAlgebra:
+					return lhsConverted == rhsConverted
+				else:
+					return Eq(lhsConverted, rhsConverted, evaluate=False)
 			elif isinstance(symExpr, Lt):
-				return self.convertSymExpr(symExpr.lhs) < self.convertSymExpr(symExpr.rhs)
+				return lhsConverted < rhsConverted
 			elif isinstance(symExpr, Le):
-				return self.convertSymExpr(symExpr.lhs) <= self.convertSymExpr(symExpr.rhs)
+				return lhsConverted <= rhsConverted
 			elif isinstance(symExpr, Gt):
-				return self.convertSymExpr(symExpr.lhs) > self.convertSymExpr(symExpr.rhs)
+				return lhsConverted > rhsConverted
 			elif isinstance(symExpr, Ge):
-				return self.convertSymExpr(symExpr.lhs) >= self.convertSymExpr(symExpr.rhs)
+				return lhsConverted >= rhsConverted
+
 		elif symExpr.is_Symbol:
 			variableName=symExpr.name
 			return self.getVariableByInName(variableName)
