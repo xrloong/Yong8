@@ -238,3 +238,41 @@ class DRealGlyphSolver(AbsGlyphSolver):
 
 		self.variableGenerator.setSolution(solution)
 
+class Z3VariableGenerator(AbsVariableGenerator):
+	def __init__(self):
+		self.solution = {}
+
+	def generateVariable(self, totalName):
+		from z3 import Real
+		return Real(totalName)
+
+	def interpreteVariable(self, variable):
+		return self.solution[variable]
+
+	def setSolution(self, z3solution):
+		self.solution = z3solution
+
+class Z3GlyphSolver(AbsGlyphSolver):
+	def __init__(self):
+		super().__init__()
+
+	def generateVariableGenerator(self):
+		return Z3VariableGenerator()
+
+	def doSolve(self, problem):
+		from z3 import Optimize
+
+		constraints = problem.getConstraints()
+		objective = problem.getObjective()
+
+		opt = Optimize()
+		for c in constraints:
+			opt.add(c)
+
+		opt.maximize(objective)
+		opt.check()
+
+		model = opt.model()
+
+		self.variableGenerator.setSolution(model)
+
