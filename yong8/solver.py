@@ -155,12 +155,12 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 	def doSolve(self, problem):
 		raise NotImplementedError('users must define solve() to use this base class')
 
-class CassowaryVariableGenerator(AbsVariableGenerator):
-	def generateVariable(self, totalName):
-		from cassowary import Variable
-		return Variable(totalName)
-
 class CassowaryGlyphSolver(AbsGlyphSolver):
+	class VariableGenerator(AbsVariableGenerator):
+		def generateVariable(self, totalName):
+			from cassowary import Variable
+			return Variable(totalName)
+
 	def __init__(self):
 		super().__init__()
 
@@ -168,7 +168,7 @@ class CassowaryGlyphSolver(AbsGlyphSolver):
 		self.solver = SimplexSolver()
 
 	def generateVariableGenerator(self):
-		return CassowaryVariableGenerator()
+		return CassowaryGlyphSolver.VariableGenerator()
 
 	def doSolve(self, problem):
 		from cassowary import STRONG
@@ -189,12 +189,12 @@ class CassowaryGlyphSolver(AbsGlyphSolver):
 
 		return solutions
 
-class PuLPVariableGenerator(AbsVariableGenerator):
-	def generateVariable(self, totalName):
-		from pulp import LpVariable
-		return LpVariable(totalName)
-
 class PuLPGlyphSolver(AbsGlyphSolver):
+	class VariableGenerator(AbsVariableGenerator):
+		def generateVariable(self, totalName):
+			from pulp import LpVariable
+			return LpVariable(totalName)
+
 	def __init__(self, solver):
 		super().__init__()
 		self.solver = solver(msg=False)
@@ -205,7 +205,7 @@ class PuLPGlyphSolver(AbsGlyphSolver):
 		return PuLPGlyphSolver(GLPK)
 
 	def generateVariableGenerator(self):
-		return PuLPVariableGenerator()
+		return PuLPGlyphSolver.VariableGenerator()
 
 	def doSolve(self, problem):
 		from pulp import LpProblem
@@ -228,12 +228,12 @@ class PuLPGlyphSolver(AbsGlyphSolver):
 
 		return solutions
 
-class CvxpyVariableGenerator(AbsVariableGenerator):
-	def generateVariable(self, totalName):
-		from cvxpy import Variable
-		return Variable()
-
 class CvxpyGlyphSolver(AbsGlyphSolver):
+	class VariableGenerator(AbsVariableGenerator):
+		def generateVariable(self, totalName):
+			from cvxpy import Variable
+			return Variable()
+
 	def __init__(self, solver):
 		super().__init__()
 		self.solver = solver
@@ -244,7 +244,7 @@ class CvxpyGlyphSolver(AbsGlyphSolver):
 		return CvxpyGlyphSolver(ECOS)
 
 	def generateVariableGenerator(self):
-		return CvxpyVariableGenerator()
+		return CvxpyGlyphSolver.VariableGenerator()
 
 	def doSolve(self, problem):
 		from cvxpy import Problem
@@ -260,17 +260,17 @@ class CvxpyGlyphSolver(AbsGlyphSolver):
 
 		return solutions
 
-class DRealVariableGenerator(AbsVariableGenerator):
-	def generateVariable(self, totalName):
-		from dreal import Variable
-		return Variable(totalName)
-
 class DRealGlyphSolver(AbsGlyphSolver):
+	class VariableGenerator(AbsVariableGenerator):
+		def generateVariable(self, totalName):
+			from dreal import Variable
+			return Variable(totalName)
+
 	def __init__(self):
 		super().__init__()
 
 	def generateVariableGenerator(self):
-		return DRealVariableGenerator()
+		return DRealGlyphSolver.VariableGenerator()
 
 	def doSolve(self, problem):
 		from dreal import Minimize
@@ -287,17 +287,17 @@ class DRealGlyphSolver(AbsGlyphSolver):
 
 		return solutions
 
-class Z3VariableGenerator(AbsVariableGenerator):
-	def generateVariable(self, totalName):
-		from z3 import Real
-		return Real(totalName)
-
 class Z3GlyphSolver(AbsGlyphSolver):
+	class VariableGenerator(AbsVariableGenerator):
+		def generateVariable(self, totalName):
+			from z3 import Real
+			return Real(totalName)
+
 	def __init__(self):
 		super().__init__()
 
 	def generateVariableGenerator(self):
-		return Z3VariableGenerator()
+		return Z3GlyphSolver.VariableGenerator()
 
 	def doSolve(self, problem):
 		from z3 import Optimize
