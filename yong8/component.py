@@ -2,6 +2,7 @@ from injector import inject
 from enum import Enum
 
 from .shape import ConstraintBoundaryShape
+from .problem import Optimization
 
 class ConstraintType(Enum):
 	Non = 0
@@ -133,9 +134,9 @@ class ConstraintComponent(ConstraintBoundaryShape):
 
 	def appendObjectiveFromLayoutConstraint(self, problem, layoutConstraint):
 		if layoutConstraint.isObjective():
-			problem.appendObjective(layoutConstraint.getObjective())
+			problem.appendObjective(layoutConstraint.getObjective(), Optimization.Maximize)
 		if layoutConstraint.isMaximize():
-			problem.appendObjective(layoutConstraint.getObjective())
+			problem.appendObjective(layoutConstraint.getObjective(), Optimization.Maximize)
 		if layoutConstraint.isMinimize():
-			problem.appendObjective(layoutConstraint.getObjective()*-1)
+			problem.appendObjective(layoutConstraint.getObjective(), Optimization.Minimize)
 

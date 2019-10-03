@@ -1,5 +1,6 @@
 import abc
 
+from .problem import Optimization
 from .problem import Problem
 
 class SolverProblem:
@@ -7,7 +8,7 @@ class SolverProblem:
 		self.symbols = []
 		self.variables = []
 		self.constraints = []
-		self.objective = 0
+		self.objectives = []
 		self.solutions = {}
 
 	def getSymbols(self):
@@ -19,8 +20,13 @@ class SolverProblem:
 	def getConstraints(self):
 		return self.constraints
 
-	def getObjective(self):
-		return self.objective
+	def getMaximizeObjective(self):
+		objective = sum(objective[1] if objective[0]==Optimization.Maximize else -1 * objective[1] for objective in self.objectives)
+		return objective
+
+	def getMinimizeObjective(self):
+		objective = sum(objective[1] if objective[0]==Optimization.Minimize else -1 * objective[1] for objective in self.objectives)
+		return objective
 
 	def queryVariableBySym(self, sym):
 		return self.variableMap[sym]
@@ -33,8 +39,8 @@ class SolverProblem:
 	def setConstraints(self, constraints):
 		self.constraints = constraints
 
-	def setObjective(self, objective):
-		self.objective = objective
+	def setObjectives(self, objectives):
+		self.objectives = objectives
 
 class SolverProblemConverter:
 	def __init__(self, variableGenerator):
@@ -59,11 +65,11 @@ class SolverProblemConverter:
 			variables.append(solverVariable)
 
 		constraints = [self.convertSymExpr(constraint) for constraint in problem.getSymConstraints()]
-		objective = self.convertSymExpr(sum(problem.getSymObjectives()))
+		objectives = [(objective[0], self.convertSymExpr(objective[1])) for objective in problem.getSymObjectives()]
 
 		solverProblem.setSymbolsAndVariables(symbols, variables)
 		solverProblem.setConstraints(constraints)
-		solverProblem.setObjective(objective)
+		solverProblem.setObjectives(objectives)
 		return solverProblem
 
 	def convertSymExpr(self, symExpr):
@@ -135,7 +141,7 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 		self.problem.appendConstraint(constraint)
 
 	def appendObjective(self, objective):
-		self.problem.appendObjective(objective)
+		self.problem.appendObjective(objective[1], objective[0])
 
 	def appendProblem(self, problem):
 		for variable in problem.getVariables():
@@ -186,7 +192,7 @@ class CassowaryGlyphSolver(AbsGlyphSolver):
 		for constraint in problem.getConstraints():
 			self.solver.add_constraint(constraint)
 
-		self.solver.add_constraint(problem.getObjective() >= 2**32, STRONG)
+		self.solver.add_constraint(problem.getMaximizeObjective() >= 2**32, STRONG)
 
 		# Cassowary use incremental solving.
 		# It solves the problem during changing constraints.
@@ -226,7 +232,7 @@ class PuLPGlyphSolver(AbsGlyphSolver):
 		for constraint in problem.getConstraints():
 			prob += constraint
 
-		prob.objective = problem.getObjective()
+		prob.objective = problem.getMaximizeObjective()
 
 		status = prob.solve(self.solver)
 
@@ -259,7 +265,7 @@ class CvxpyGlyphSolver(AbsGlyphSolver):
 	def doSolve(self, problem):
 		from cvxpy import Problem
 		from cvxpy import Maximize, Minimize
-		prob = Problem(Maximize(problem.getObjective()), problem.getConstraints())
+		prob = Problem(Maximize(problem.getMaximizeObjective()), problem.getConstraints())
 		prob.solve(self.solver)
 
 		solutions = {}
@@ -287,9 +293,9 @@ class DRealGlyphSolver(AbsGlyphSolver):
 		from dreal import And
 
 		constraints = problem.getConstraints()
-		objective = problem.getObjective()
+		objective = problem.getMinimizeObjective()
 
-		result = Minimize(-objective, And(*constraints), 0)
+		result = Minimize(objective, And(*constraints), 0)
 
 		solutions = {}
 		for var, interval in result.items():
@@ -314,7 +320,7 @@ class Z3GlyphSolver(AbsGlyphSolver):
 
 		variables = problem.getVariables()
 		constraints = problem.getConstraints()
-		objective = problem.getObjective()
+		objective = problem.getMaximizeObjective()
 
 		opt = Optimize()
 		for c in constraints:

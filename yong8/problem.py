@@ -1,3 +1,5 @@
+from enum import Enum
+
 class A:
 	def __init__(self, symexpr = 0):
 		self.symexpr = symexpr
@@ -127,6 +129,10 @@ class C(A):
 		super().__init__(symexpr)
 
 
+class Optimization(Enum):
+	Maximize = 1
+	Minimize = 2
+
 class Problem:
 	def __init__(self):
 		self.symbols = []
@@ -172,9 +178,9 @@ class Problem:
 		self.constraints.append(constraint)
 		self.symConstraints.append(constraint.getSymExpr())
 
-	def appendObjective(self, objective):
-		self.objectives.append(objective)
-		self.symObjectives.append(objective.getSymExpr())
+	def appendObjective(self, objective, optimization: Optimization = Optimization.Maximize):
+		self.objectives.append((optimization, objective))
+		self.symObjectives.append((optimization, objective.getSymExpr()))
 
 	def getVariables(self):
 		return self.variables
