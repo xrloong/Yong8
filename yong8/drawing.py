@@ -38,24 +38,11 @@ class ConstraintDrawingSystem:
 	def getGlyphSolver(self):
 		return self.glyphSolver
 
-	def addVariable(self, variable):
-		self.glyphSolver.addVariable(variable)
-
 	def appendConstraint(self, constraint):
 		self.glyphSolver.appendConstraint(constraint)
 
-	def appendObjective(self, objective):
-		self.glyphSolver.appendObjective(objective)
-
 	def appendProblem(self, problem):
-		for variable in problem.getVariables():
-			self.addVariable(variable)
-
-		for constraint in problem.getConstraints():
-			self.appendConstraint(constraint)
-
-		for objective in problem.getObjectives():
-			self.appendObjective(objective)
+		self.glyphSolver.appendProblem(problem)
 
 	def solve(self):
 		self.glyphSolver.solve()

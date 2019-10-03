@@ -137,6 +137,16 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 	def appendObjective(self, objective):
 		self.problem.appendObjective(objective)
 
+	def appendProblem(self, problem):
+		for variable in problem.getVariables():
+			self.addVariable(variable)
+
+		for constraint in problem.getConstraints():
+			self.appendConstraint(constraint)
+
+		for objective in problem.getObjectives():
+			self.appendObjective(objective)
+
 	def solve(self):
 		variableGenerator = self.generateVariableGenerator();
 		problemConverter = SolverProblemConverter(variableGenerator)
