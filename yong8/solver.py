@@ -165,7 +165,7 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 		for variable in problem.getVariables():
 			symbol = variable.getSymExpr()
 			solverVariable = problemConverter.solverVariableMap[symbol]
-			value = solutions[solverVariable]
+			value = solutions[symbol]
 			variable.setValue(value)
 
 	def doSolve(self, problem):
@@ -201,7 +201,7 @@ class CassowaryGlyphSolver(AbsGlyphSolver):
 		for symbol in problem.getSymbols():
 			variable = problem.queryVariableBySym(symbol)
 			value = variable.value
-			solutions[variable] = value
+			solutions[symbol] = value
 
 		return solutions
 
@@ -240,7 +240,7 @@ class PuLPGlyphSolver(AbsGlyphSolver):
 		for symbol in problem.getSymbols():
 			variable = problem.queryVariableBySym(symbol)
 			value = variable.value()
-			solutions[variable] = value
+			solutions[symbol] = value
 
 		return solutions
 
@@ -272,7 +272,7 @@ class CvxpyGlyphSolver(AbsGlyphSolver):
 		for symbol in problem.getSymbols():
 			variable = problem.queryVariableBySym(symbol)
 			value = variable.value.item()
-			solutions[variable] = value
+			solutions[symbol] = value
 
 		return solutions
 
@@ -297,9 +297,15 @@ class DRealGlyphSolver(AbsGlyphSolver):
 
 		result = Minimize(objective, And(*constraints), 0)
 
+		variableToSymbolMap = {}
+		for symbol in problem.getSymbols():
+			variable = problem.queryVariableBySym(symbol)
+			variableToSymbolMap[variable] = symbol
+
 		solutions = {}
 		for var, interval in result.items():
-			solutions[var] = interval.mid()
+			symbol = variableToSymbolMap[var]
+			solutions[symbol] = interval.mid()
 
 		return solutions
 
@@ -335,7 +341,7 @@ class Z3GlyphSolver(AbsGlyphSolver):
 		for symbol in problem.getSymbols():
 			variable = problem.queryVariableBySym(symbol)
 			value = model[variable]
-			solutions[variable] = value
+			solutions[symbol] = value
 
 		return solutions
 
