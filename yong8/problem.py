@@ -136,8 +136,6 @@ class Optimization(Enum):
 class Problem:
 	def __init__(self):
 		self.symbols = []
-		self.variableInNameMap = {}
-		self.variableOutNameMap = {}
 
 		self.variables = []
 		self.constraints = []
@@ -147,28 +145,7 @@ class Problem:
 		self.symConstraints = []
 		self.symObjectives = []
 
-		self.variableCounter = 0
-
-		self.objective = 0
-
 		self.drawingGlyphPolicy = None
-
-	def generateVariable(self, prefix, name):
-		variableOutName = prefix+"."+name
-		variableInName = "x{0}".format(self.variableCounter)
-
-		variable = V(variableInName)
-		symbol = variable.getSymExpr()
-
-		self.symbols.append(symbol)
-		self.variableInNameMap[symbol] = variableInName
-		self.variableOutNameMap[symbol] = variableOutName
-
-		self.variableCounter += 1
-		return variable
-
-	def getVariableInName(self, symbol):
-		return self.variableInNameMap[symbol]
 
 	def addVariable(self, variable):
 		self.variables.append(variable)

@@ -56,9 +56,16 @@ class SolverProblemConverter:
 
 		symbols = []
 		variables = []
+
+		variableCounter = 0
 		for variable in problem.getVariables():
 			symbol = variable.getSymExpr()
-			variableInName = problem.getVariableInName(symbol)
+
+			variableOutName = symbol.name
+			variableInName = "x{0}".format(variableCounter)
+
+			variableCounter += 1
+
 			solverVariable = self.variableGenerator.generateVariable(variableInName)
 			self.solverVariableMap[symbol] = solverVariable
 			symbols.append(symbol)
@@ -129,7 +136,11 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 		self.problem = Problem()
 
 	def generateVariable(self, prefix, name):
-		return self.problem.generateVariable(prefix, name)
+		from .problem import V
+		variableName = prefix+"."+name
+
+		variable = V(variableName)
+		return variable
 
 	def generateVariableGenerator(self):
 		raise NotImplementedError('users must define generateVariableGenerator() to use this base class')
