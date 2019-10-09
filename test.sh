@@ -1,3 +1,3 @@
 #!/bin/sh
-PYTHONPATH="solvers/cvxpy" python3 -m unittest discover -t . -s tests/test/ -p "test_*.py"
+PYTHONPATH="solvers/gekko" python3 -m unittest discover -t . -s tests/test/ -p "test_*.py"
 
