@@ -1,12 +1,6 @@
 from yong8.solver import AbsGlyphSolver
-from yong8.solver import AbsVariableGenerator
 
 class PuLPGlyphSolver(AbsGlyphSolver):
-	class VariableGenerator(AbsVariableGenerator):
-		def generateVariable(self, totalName):
-			from pulp import LpVariable
-			return LpVariable(totalName)
-
 	def __init__(self, solver):
 		super().__init__()
 		self.solver = solver(msg=False)
@@ -16,8 +10,9 @@ class PuLPGlyphSolver(AbsGlyphSolver):
 		from pulp import GLPK
 		return PuLPGlyphSolver(GLPK)
 
-	def generateVariableGenerator(self):
-		return PuLPGlyphSolver.VariableGenerator()
+	def generateSolverVariable(self, totalName):
+		from pulp import LpVariable
+		return LpVariable(totalName)
 
 	def doSolve(self, problem):
 		from pulp import LpProblem

@@ -1,12 +1,6 @@
 from yong8.solver import AbsGlyphSolver
-from yong8.solver import AbsVariableGenerator
 
 class CvxpyGlyphSolver(AbsGlyphSolver):
-	class VariableGenerator(AbsVariableGenerator):
-		def generateVariable(self, totalName):
-			from cvxpy import Variable
-			return Variable()
-
 	def __init__(self, solver):
 		super().__init__()
 		self.solver = solver
@@ -16,8 +10,9 @@ class CvxpyGlyphSolver(AbsGlyphSolver):
 		from cvxpy import ECOS
 		return CvxpyGlyphSolver(ECOS)
 
-	def generateVariableGenerator(self):
-		return CvxpyGlyphSolver.VariableGenerator()
+	def generateSolverVariable(self, totalName):
+		from cvxpy import Variable
+		return Variable()
 
 	def doSolve(self, problem):
 		from cvxpy import Problem

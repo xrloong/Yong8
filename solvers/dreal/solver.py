@@ -1,17 +1,12 @@
 from yong8.solver import AbsGlyphSolver
-from yong8.solver import AbsVariableGenerator
 
 class DRealGlyphSolver(AbsGlyphSolver):
-	class VariableGenerator(AbsVariableGenerator):
-		def generateVariable(self, totalName):
-			from dreal import Variable
-			return Variable(totalName)
-
 	def __init__(self):
 		super().__init__()
 
-	def generateVariableGenerator(self):
-		return DRealGlyphSolver.VariableGenerator()
+	def generateSolverVariable(self, totalName):
+		from dreal import Variable
+		return Variable(totalName)
 
 	def doSolve(self, problem):
 		from dreal import Minimize

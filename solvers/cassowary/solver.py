@@ -1,20 +1,15 @@
 from yong8.solver import AbsGlyphSolver
-from yong8.solver import AbsVariableGenerator
 
 class CassowaryGlyphSolver(AbsGlyphSolver):
-	class VariableGenerator(AbsVariableGenerator):
-		def generateVariable(self, totalName):
-			from cassowary import Variable
-			return Variable(totalName)
-
 	def __init__(self):
 		super().__init__()
 
 		from cassowary import SimplexSolver
 		self.solver = SimplexSolver()
 
-	def generateVariableGenerator(self):
-		return CassowaryGlyphSolver.VariableGenerator()
+	def generateSolverVariable(self, totalName):
+		from cassowary import Variable
+		return Variable(totalName)
 
 	def doSolve(self, problem):
 		from cassowary import STRONG

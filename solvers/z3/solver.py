@@ -1,17 +1,12 @@
 from yong8.solver import AbsGlyphSolver
-from yong8.solver import AbsVariableGenerator
 
 class Z3GlyphSolver(AbsGlyphSolver):
-	class VariableGenerator(AbsVariableGenerator):
-		def generateVariable(self, totalName):
-			from z3 import Real
-			return Real(totalName)
-
 	def __init__(self):
 		super().__init__()
 
-	def generateVariableGenerator(self):
-		return Z3GlyphSolver.VariableGenerator()
+	def generateSolverVariable(self, totalName):
+		from z3 import Real
+		return Real(totalName)
 
 	def doSolve(self, problem):
 		from z3 import Optimize

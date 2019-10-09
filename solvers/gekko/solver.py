@@ -1,22 +1,14 @@
 from yong8.solver import AbsGlyphSolver
-from yong8.solver import AbsVariableGenerator
 
 class GekkoGlyphSolver(AbsGlyphSolver):
-	class VariableGenerator(AbsVariableGenerator):
-		def __init__(self, model):
-			self.model = model
-
-		def generateVariable(self, totalName):
-			return self.model.Var(name=totalName, value=0)
-
 	def __init__(self):
 		super().__init__()
 
 		from gekko import GEKKO
 		self.model = GEKKO()
 
-	def generateVariableGenerator(self):
-		return GekkoGlyphSolver.VariableGenerator(self.model)
+	def generateSolverVariable(self, totalName):
+		return self.model.Var(name=totalName, value=0)
 
 	def doSolve(self, problem):
 		variables = problem.getVariables()

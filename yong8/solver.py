@@ -124,16 +124,22 @@ class SolverProblemConverter:
 		else:
 			return None
 
-class AbsVariableGenerator(object, metaclass=abc.ABCMeta):
+class VariableGenerator:
+	def __init__(self, glyphSolver):
+		self.glyphSolver = glyphSolver
+
 	def useCustomAlgebra(self):
-		return True
+		return self.glyphSolver.useCustomAlgebra()
 
 	def generateVariable(self, totalName):
-		raise NotImplementedError('users must define generateVariable() to use this base class')
+		return self.glyphSolver.generateSolverVariable(totalName)
 
 class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 	def __init__(self):
 		self.problem = Problem()
+
+	def useCustomAlgebra(self):
+		return True
 
 	def generateVariable(self, prefix, name):
 		from .problem import V
@@ -142,8 +148,8 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 		variable = V(variableName)
 		return variable
 
-	def generateVariableGenerator(self):
-		raise NotImplementedError('users must define generateVariableGenerator() to use this base class')
+	def generateSolverVariable(self, totalName):
+		raise NotImplementedError('users must define generateSolverVariable() to use this base class')
 
 	def addVariable(self, variable):
 		self.problem.addVariable(variable)
@@ -165,7 +171,7 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 			self.appendObjective(objective)
 
 	def solve(self):
-		variableGenerator = self.generateVariableGenerator();
+		variableGenerator = VariableGenerator(self);
 		problemConverter = SolverProblemConverter(variableGenerator)
 
 		problem = self.problem
