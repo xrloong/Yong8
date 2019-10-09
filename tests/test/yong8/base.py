@@ -11,40 +11,15 @@ class BaseTestCase(unittest.TestCase):
 	def tearDown(self):
 		pass
 
-	def getGlyphSolverByCassowary(self):
-		from yong8.solver import CassowaryGlyphSolver
-		return CassowaryGlyphSolver()
-
-	def getGlyphSolverByPulpGLPK(self):
-		from yong8.solver import PuLPGlyphSolver
-		return PuLPGlyphSolver.generateInstanceByGLPK()
-
-	def getGlyphSolverByCvxpyECOS(self):
-		from yong8.solver import CvxpyGlyphSolver
-		return CvxpyGlyphSolver.generateInstanceByECOS()
-
-	def getGlyphSolverByGekko(self):
-		from yong8.solver import GekkoGlyphSolver
-		return GekkoGlyphSolver()
-
-	def getGlyphSolverByDReal(self):
-		from yong8.solver import DRealGlyphSolver
-		return DRealGlyphSolver()
-
-	def getGlyphSolverByZ3(self):
-		from yong8.solver import Z3GlyphSolver
-		return Z3GlyphSolver()
-
-	def getGlyphSolver(self):
-		return self.getGlyphSolverByCvxpyECOS()
-
 	def getInjector(self):
 		from injector import Injector
 		from yong8.shape import ConstraintShape
 		from yong8.drawing_module import DrawingModule
 
+		from solver import Solver
+
 		def configure(binder):
-			binder.bind(GlyphSolver, to=self.getGlyphSolver())
+			binder.bind(GlyphSolver, to=Solver())
 
 		return Injector([configure, DrawingModule()])
 
