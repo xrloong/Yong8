@@ -43,9 +43,9 @@ class SolverProblem:
 		self.objectives = objectives
 
 class SolverProblemConverter:
-	def __init__(self, variableGenerator):
-		self.variableGenerator = variableGenerator
-		self.useCustomAlgebra = self.variableGenerator.useCustomAlgebra()
+	def __init__(self, glyphSolver):
+		self.glyphSolver = glyphSolver
+		self.useCustomAlgebra = self.glyphSolver.useCustomAlgebra()
 		self.solverVariableMap = {}
 
 	def getSolverVariable(self, symbol):
@@ -66,7 +66,7 @@ class SolverProblemConverter:
 
 			variableCounter += 1
 
-			solverVariable = self.variableGenerator.generateVariable(variableInName)
+			solverVariable = self.glyphSolver.generateSolverVariable(variableInName)
 			self.solverVariableMap[symbol] = solverVariable
 			symbols.append(symbol)
 			variables.append(solverVariable)
@@ -124,16 +124,6 @@ class SolverProblemConverter:
 		else:
 			return None
 
-class VariableGenerator:
-	def __init__(self, glyphSolver):
-		self.glyphSolver = glyphSolver
-
-	def useCustomAlgebra(self):
-		return self.glyphSolver.useCustomAlgebra()
-
-	def generateVariable(self, totalName):
-		return self.glyphSolver.generateSolverVariable(totalName)
-
 class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 	def __init__(self):
 		self.problem = Problem()
@@ -164,8 +154,7 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 			self.appendObjective(objective)
 
 	def solve(self):
-		variableGenerator = VariableGenerator(self);
-		problemConverter = SolverProblemConverter(variableGenerator)
+		problemConverter = SolverProblemConverter(self)
 
 		problem = self.problem
 		solverProblem = problemConverter.convert(problem)
