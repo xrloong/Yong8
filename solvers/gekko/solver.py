@@ -5,7 +5,7 @@ class GekkoGlyphSolver(AbsGlyphSolver):
 		super().__init__()
 
 		from gekko import GEKKO
-		self.model = GEKKO()
+		self.model = GEKKO(remote = False)
 
 	def generateSolverVariable(self, totalName):
 		return self.model.Var(name=totalName, value=0)
