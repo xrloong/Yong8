@@ -141,13 +141,6 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 	def useCustomAlgebra(self):
 		return True
 
-	def generateVariable(self, prefix, name):
-		from .problem import V
-		variableName = prefix+"."+name
-
-		variable = V(variableName)
-		return variable
-
 	def generateSolverVariable(self, totalName):
 		raise NotImplementedError('users must define generateSolverVariable() to use this base class')
 

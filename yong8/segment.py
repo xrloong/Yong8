@@ -1,6 +1,7 @@
 from injector import inject
 
 from .shape import ConstraintPath
+from .problem import generateVariable
 
 sign = lambda x: x and (1, -1)[x < 0]
 
@@ -10,10 +11,9 @@ class BaseConstraintBeelineSegment(ConstraintPath):
 		super().__init__()
 
 		componentPrefix = self.getComponentPrefix()
-		glyphSolver = self.getGlyphSolver()
 		self.params = [
-			glyphSolver.generateVariable(componentPrefix, "param_0"),
-			glyphSolver.generateVariable(componentPrefix, "param_1"),
+			generateVariable(componentPrefix, "param_0"),
+			generateVariable(componentPrefix, "param_1"),
 			]
 		self.setDirConfig(dirConfig)
 
@@ -177,12 +177,11 @@ class BaseConstraintQCurveSegment(ConstraintPath):
 		super().__init__()
 
 		componentPrefix = self.getComponentPrefix()
-		glyphSolver = self.getGlyphSolver()
 		self.params = [
-			glyphSolver.generateVariable(componentPrefix, "param_0"),
-			glyphSolver.generateVariable(componentPrefix, "param_1"),
-			glyphSolver.generateVariable(componentPrefix, "param_2"),
-			glyphSolver.generateVariable(componentPrefix, "param_3"),
+			generateVariable(componentPrefix, "param_0"),
+			generateVariable(componentPrefix, "param_1"),
+			generateVariable(componentPrefix, "param_2"),
+			generateVariable(componentPrefix, "param_3"),
 				]
 
 	def getComponentName(self):

@@ -1,15 +1,15 @@
 from injector import inject
 
 from .shape import ConstraintPath
+from .problem import generateVariable
 
 class ConstraintStroke(ConstraintPath):
 	@inject
 	def __init__(self):
 		super().__init__()
-		glyphSolver = self.getGlyphSolver()
 		componentPrefix = self.getComponentPrefix()
-		self.unitWidth = glyphSolver.generateVariable(componentPrefix, "unit_width")
-		self.unitHeight = glyphSolver.generateVariable(componentPrefix, "unit_height")
+		self.unitWidth = generateVariable(componentPrefix, "unit_width")
+		self.unitHeight = generateVariable(componentPrefix, "unit_height")
 
 	def getComponentName(self):
 		return "stroke"

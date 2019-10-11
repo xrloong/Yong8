@@ -183,3 +183,9 @@ class Problem:
 	def setDrawingGlyphPolicy(self, drawingGlyphPolicy):
 		self.drawingGlyphPolicy = drawingGlyphPolicy
 
+def generateVariable(prefix, name):
+	variableName = prefix+"."+name
+
+	variable = V(variableName)
+	return variable
+
