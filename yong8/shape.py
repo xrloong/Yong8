@@ -3,19 +3,13 @@ import uuid
 
 from injector import inject
 
-from .constants import GlyphSolver
 from .problem import Problem
 from .problem import generateVariable
 
 class ConstraintShape(object, metaclass=abc.ABCMeta):
 	@inject
-	def __init__(self, glyphSolver: GlyphSolver):
+	def __init__(self):
 		super().__init__()
-
-		self.glyphSolver = glyphSolver
-
-	def getGlyphSolver(self):
-		return self.glyphSolver
 
 	def draw(self, drawingSystem):
 		raise NotImplementedError('users must define draw to use this base class')
