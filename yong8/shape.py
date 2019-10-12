@@ -40,10 +40,6 @@ class ConstraintShape(object, metaclass=abc.ABCMeta):
 		self.appendObjective(problem)
 		return problem
 
-	def appendProblem(self, drawingSystem):
-		problem = self.generateProblem(drawingSystem)
-		drawingSystem.appendProblem(problem)
-
 class ConstraintBoundaryShape(ConstraintShape):
 	@inject
 	def __init__(self):

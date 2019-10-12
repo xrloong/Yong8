@@ -27,7 +27,8 @@ class ConstraintGlyphTestCase(BaseTestCase):
 		glyph = injector.get(ConstraintGlyph)
 		glyph.setComponents([strokeGroup])
 
-		glyph.appendProblem(drawingSystem)
+		problem = glyph.generateProblem(drawingSystem)
+		drawingSystem.appendProblem(problem)
 
 		drawingSystem.solve()
 
@@ -40,7 +41,8 @@ class ConstraintGlyphTestCase(BaseTestCase):
 		glyph = injector.get(ConstraintGlyph)
 		glyph.setComponents([])
 
-		glyph.appendProblem(drawingSystem)
+		problem = glyph.generateProblem(drawingSystem)
+		drawingSystem.appendProblem(problem)
 
 		drawingSystem.solve()
 
@@ -54,7 +56,8 @@ class ConstraintGlyphTestCase(BaseTestCase):
 		glyph = injector.get(ConstraintGlyph)
 		glyph.setComponents([])
 
-		glyph.appendProblem(drawingSystem)
+		problem = glyph.generateProblem(drawingSystem)
+		drawingSystem.appendProblem(problem)
 
 		drawingSystem.solve()
 

@@ -39,9 +39,10 @@ class ConstraintComponentTestCase(BaseTestCase):
 		component.appendLayoutConstraint(layoutConstraint2)
 		component.appendLayoutConstraint(layoutConstraint3)
 
-		component.appendProblem(drawingSystem)
+		problem = component.generateProblem(drawingSystem)
+		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
+		drawingSystem.appendProblem(problem)
 
-		component.appendConstraintsWithBoundary(drawingSystem, (40, 20, 215, 235))
 		drawingSystem.solve()
 
 		self.assertSequenceAlmostEqual(component.getBoundary(), (40.0, 127.5, 215.0, 127.5))
@@ -81,9 +82,10 @@ class ConstraintComponentTestCase(BaseTestCase):
 		component.appendLayoutConstraint(layoutConstraint3)
 		component.appendLayoutConstraint(layoutConstraint4)
 
-		component.appendProblem(drawingSystem)
+		problem = component.generateProblem(drawingSystem)
+		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
+		drawingSystem.appendProblem(problem)
 
-		component.appendConstraintsWithBoundary(drawingSystem, (40, 20, 215, 235))
 		drawingSystem.solve()
 
 		self.assertSequenceAlmostEqual(component.getBoundary(), (40.0, 20.0, 215.0, 235.0))
@@ -137,9 +139,10 @@ class ConstraintComponentTestCase(BaseTestCase):
 		component.appendLayoutConstraint(layoutConstraint4)
 		component.appendLayoutConstraint(layoutConstraint5)
 
-		component.appendProblem(drawingSystem)
+		problem = component.generateProblem(drawingSystem)
+		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
+		drawingSystem.appendProblem(problem)
 
-		component.appendConstraintsWithBoundary(drawingSystem, (40, 20, 215, 235))
 		drawingSystem.solve()
 
 		self.assertSequenceAlmostEqual(component.getBoundary(), (40.0, 20.0, 215.0, 235.0))

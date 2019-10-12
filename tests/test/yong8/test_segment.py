@@ -21,8 +21,9 @@ class ConstraintSegmentTestCase(BaseTestCase):
 
 		s = injector.get(BeelineSegment_NN)
 
-		s.appendProblem(drawingSystem)
-		s.appendConstraintsWithBoundary(drawingSystem, [38, 61, 182, 129])
+		problem = s.generateProblem(drawingSystem)
+		s.appendConstraintsWithBoundary(problem, [38, 61, 182, 129])
+		drawingSystem.appendProblem(problem)
 
 		drawingSystem.solve()
 
@@ -38,8 +39,9 @@ class ConstraintSegmentTestCase(BaseTestCase):
 
 		s = injector.get(BeelineSegment_NP)
 
-		s.appendProblem(drawingSystem)
-		s.appendConstraintsWithBoundary(drawingSystem, [38, 61, 182, 129])
+		problem = s.generateProblem(drawingSystem)
+		s.appendConstraintsWithBoundary(problem, [38, 61, 182, 129])
+		drawingSystem.appendProblem(problem)
 
 		drawingSystem.solve()
 
@@ -55,8 +57,9 @@ class ConstraintSegmentTestCase(BaseTestCase):
 
 		s = injector.get(BeelineSegment_PN)
 
-		s.appendProblem(drawingSystem)
-		s.appendConstraintsWithBoundary(drawingSystem, [38, 61, 182, 129])
+		problem = s.generateProblem(drawingSystem)
+		s.appendConstraintsWithBoundary(problem, [38, 61, 182, 129])
+		drawingSystem.appendProblem(problem)
 
 		drawingSystem.solve()
 
@@ -72,8 +75,9 @@ class ConstraintSegmentTestCase(BaseTestCase):
 
 		s = injector.get(BeelineSegment_PP)
 
-		s.appendProblem(drawingSystem)
-		s.appendConstraintsWithBoundary(drawingSystem, [38, 61, 182, 129])
+		problem = s.generateProblem(drawingSystem)
+		s.appendConstraintsWithBoundary(problem, [38, 61, 182, 129])
+		drawingSystem.appendProblem(problem)
 
 		drawingSystem.solve()
 
@@ -91,8 +95,9 @@ class ConstraintSegmentTestCase(BaseTestCase):
 		s = injector.get(BaseConstraintBeelineSegment)
 		s.setDirConfig([1, -1])
 
-		s.appendProblem(drawingSystem)
-		s.appendConstraintsWithBoundary(drawingSystem, (38, 61, 182, 129))
+		problem = s.generateProblem(drawingSystem)
+		s.appendConstraintsWithBoundary(problem, (38, 61, 182, 129))
+		drawingSystem.appendProblem(problem)
 
 		drawingSystem.solve()
 
@@ -109,8 +114,9 @@ class ConstraintSegmentTestCase(BaseTestCase):
 		s = injector.get(BaseConstraintBeelineSegment)
 		s.setDirConfig([1, -1])
 
-		s.appendProblem(drawingSystem)
-		s.appendConstraintsWithSizeCenter(drawingSystem, (144, 68), (110, 95))
+		problem = s.generateProblem(drawingSystem)
+		s.appendConstraintsWithSizeCenter(problem, (144, 68), (110, 95))
+		drawingSystem.appendProblem(problem)
 
 		drawingSystem.solve()
 
