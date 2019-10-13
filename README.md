@@ -13,3 +13,27 @@ Similarly, we may treat Hanzi glyph as layouting problem of strokes and componen
 
 The goal of the project is to develop such technique to describe Hanzi glyph by constraint satisfaction problem.
 
+安裝
+====
+
+* 第三方函式庫（Third-party libraries）
+```console
+$ pip3 install <<package-name>>
+```
+
+|   solver  | PIP package |
+| :-------: | :---------: |
+| cassowary |  cassowary  |
+|   cvxpy   |    cvxpy    |
+|   dreal   |    dreal    |
+|   gekko   |    gekko    |
+|    pulp   |    PuLP     |
+|     z3    |  z3-solver  |
+
+測試
+====
+```console
+$ sh test.sh
+```
+
+
