@@ -23,9 +23,8 @@ class ConstraintSegmentTestCase(BaseTestCase):
 
 		problem = s.generateProblem(drawingSystem)
 		s.appendConstraintsWithBoundary(problem, [38, 61, 182, 129])
-		drawingSystem.appendProblem(problem)
 
-		drawingSystem.solve()
+		drawingSystem.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(s.getBoundary(), (38, 61, 182, 129))
 		self.assertSequenceAlmostEqual(s.getSize(), (144, 68))
@@ -41,9 +40,8 @@ class ConstraintSegmentTestCase(BaseTestCase):
 
 		problem = s.generateProblem(drawingSystem)
 		s.appendConstraintsWithBoundary(problem, [38, 61, 182, 129])
-		drawingSystem.appendProblem(problem)
 
-		drawingSystem.solve()
+		drawingSystem.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(s.getBoundary(), (38, 61, 182, 129))
 		self.assertSequenceAlmostEqual(s.getSize(), (144, 68))
@@ -59,9 +57,8 @@ class ConstraintSegmentTestCase(BaseTestCase):
 
 		problem = s.generateProblem(drawingSystem)
 		s.appendConstraintsWithBoundary(problem, [38, 61, 182, 129])
-		drawingSystem.appendProblem(problem)
 
-		drawingSystem.solve()
+		drawingSystem.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(s.getBoundary(), (38, 61, 182, 129))
 		self.assertSequenceAlmostEqual(s.getSize(), (144, 68))
@@ -77,9 +74,8 @@ class ConstraintSegmentTestCase(BaseTestCase):
 
 		problem = s.generateProblem(drawingSystem)
 		s.appendConstraintsWithBoundary(problem, [38, 61, 182, 129])
-		drawingSystem.appendProblem(problem)
 
-		drawingSystem.solve()
+		drawingSystem.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(s.getBoundary(), (38, 61, 182, 129))
 		self.assertSequenceAlmostEqual(s.getSize(), (144, 68))
@@ -97,9 +93,8 @@ class ConstraintSegmentTestCase(BaseTestCase):
 
 		problem = s.generateProblem(drawingSystem)
 		s.appendConstraintsWithBoundary(problem, (38, 61, 182, 129))
-		drawingSystem.appendProblem(problem)
 
-		drawingSystem.solve()
+		drawingSystem.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(s.getBoundary(), (38, 61, 182, 129))
 		self.assertSequenceAlmostEqual(s.getSize(), (144, 68))
@@ -116,9 +111,8 @@ class ConstraintSegmentTestCase(BaseTestCase):
 
 		problem = s.generateProblem(drawingSystem)
 		s.appendConstraintsWithSizeCenter(problem, (144, 68), (110, 95))
-		drawingSystem.appendProblem(problem)
 
-		drawingSystem.solve()
+		drawingSystem.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(s.getBoundary(), (38, 61, 182, 129))
 		self.assertSequenceAlmostEqual(s.getSize(), (144, 68))

@@ -30,9 +30,8 @@ class ConstraintShapeTestCase(BaseTestCase):
 
 		problem = shape.generateProblem(drawingSystem)
 		shape.appendConstraintsWithExtensionBoundary(problem, (38, 61, 182, 129))
-		drawingSystem.appendProblem(problem)
 
-		drawingSystem.solve()
+		drawingSystem.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(shape.getExtensionSize(), (144, 68))
 		self.assertSequenceAlmostEqual(shape.getExtensionBoundaryCenter(), (110.0, 95.0))
@@ -47,9 +46,8 @@ class ConstraintShapeTestCase(BaseTestCase):
 
 		problem = shape.generateProblem(drawingSystem)
 		shape.appendConstraintsWithExtensionBoundary(problem, (38, 61, 182, 129))
-		drawingSystem.appendProblem(problem)
 
-		drawingSystem.solve()
+		drawingSystem.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(shape.getExtensionSize(), (144, 68))
 		self.assertSequenceAlmostEqual(shape.getExtensionBoundaryCenter(), (110.0, 95.0))
@@ -64,9 +62,8 @@ class ConstraintShapeTestCase(BaseTestCase):
 
 		problem = shape.generateProblem(drawingSystem)
 		shape.appendConstraintsWithExtensionBoundary(problem, (38, 61, 182, 129))
-		drawingSystem.appendProblem(problem)
 
-		drawingSystem.solve()
+		drawingSystem.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(shape.getExtensionSize(), (144, 68))
 		self.assertSequenceAlmostEqual(shape.getExtensionBoundary(), (38, 61, 182, 129))

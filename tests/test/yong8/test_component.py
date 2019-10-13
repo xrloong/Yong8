@@ -41,9 +41,8 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		problem = component.generateProblem(drawingSystem)
 		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
-		drawingSystem.appendProblem(problem)
 
-		drawingSystem.solve()
+		drawingSystem.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(component.getBoundary(), (40.0, 127.5, 215.0, 127.5))
 		self.assertSequenceAlmostEqual(component.getSize(), (175, 0))
@@ -84,9 +83,8 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		problem = component.generateProblem(drawingSystem)
 		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
-		drawingSystem.appendProblem(problem)
 
-		drawingSystem.solve()
+		drawingSystem.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(component.getBoundary(), (40.0, 20.0, 215.0, 235.0))
 		self.assertSequenceAlmostEqual(component.getSize(), (175.0, 215.0))
@@ -141,9 +139,8 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		problem = component.generateProblem(drawingSystem)
 		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
-		drawingSystem.appendProblem(problem)
 
-		drawingSystem.solve()
+		drawingSystem.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(component.getBoundary(), (40.0, 20.0, 215.0, 235.0))
 		self.assertSequenceAlmostEqual(component.getSize(), (175.0, 215.0))

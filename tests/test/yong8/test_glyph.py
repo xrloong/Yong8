@@ -28,9 +28,8 @@ class ConstraintGlyphTestCase(BaseTestCase):
 		glyph.setComponents([strokeGroup])
 
 		problem = glyph.generateProblem(drawingSystem)
-		drawingSystem.appendProblem(problem)
 
-		drawingSystem.solve()
+		drawingSystem.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(glyph.getOccupationBoundary(), (40.0, 20.0, 215.0, 235.0))
 
@@ -42,9 +41,8 @@ class ConstraintGlyphTestCase(BaseTestCase):
 		glyph.setComponents([])
 
 		problem = glyph.generateProblem(drawingSystem)
-		drawingSystem.appendProblem(problem)
 
-		drawingSystem.solve()
+		drawingSystem.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(glyph.getOccupationBoundary(), (40.0, 20.0, 215.0, 235.0))
 		self.assertSequenceAlmostEqual(glyph.getMargin(), (40.0, 20.0, 215.0, 235.0))
@@ -57,9 +55,8 @@ class ConstraintGlyphTestCase(BaseTestCase):
 		glyph.setComponents([])
 
 		problem = glyph.generateProblem(drawingSystem)
-		drawingSystem.appendProblem(problem)
 
-		drawingSystem.solve()
+		drawingSystem.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(glyph.getOccupationBoundary(), (40.0, 20.0, 215.0, 235.0))
 		self.assertSequenceAlmostEqual(glyph.getMargin(), (40.0, 20.0, 215.0, 235.0))

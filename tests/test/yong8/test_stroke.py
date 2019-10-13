@@ -24,9 +24,8 @@ class ConstraintStrokeTestCase(BaseTestCase):
 
 		problem = stroke.generateProblem(drawingSystem)
 		stroke.appendConstraintsWithBoundary(problem, (38, 61, 182, 129))
-		drawingSystem.appendProblem(problem)
 
-		drawingSystem.solve()
+		drawingSystem.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(s.getBoundary(), (38.0, 61.0, 182.0, 129.0))
 		self.assertSequenceAlmostEqual(s.getSize(), (144, 68))
@@ -50,9 +49,8 @@ class ConstraintStrokeTestCase(BaseTestCase):
 
 		problem = stroke.generateProblem(drawingSystem)
 		stroke.appendConstraintsWithBoundary(problem, (38, 61, 182, 129))
-		drawingSystem.appendProblem(problem)
 
-		drawingSystem.solve()
+		drawingSystem.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(s1.getStartPoint(), (38.0, 61.0))
 		self.assertSequenceAlmostEqual(s1.getEndPoint(), (182.0, 61.0))
@@ -79,9 +77,8 @@ class ConstraintStrokeTestCase(BaseTestCase):
 
 		problem = stroke.generateProblem(drawingSystem)
 		stroke.appendConstraintsWithBoundary(problem, (38, 61, 182, 129))
-		drawingSystem.appendProblem(problem)
 
-		drawingSystem.solve()
+		drawingSystem.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(s1.getStartPoint(), (38.0, 61.0))
 		self.assertSequenceAlmostEqual(s1.getEndPoint(), (86.0, 61.0))
