@@ -38,9 +38,6 @@ class ConstraintDrawingSystem:
 	def getGlyphSolver(self):
 		return self.glyphSolver
 
-	def appendConstraint(self, constraint):
-		self.glyphSolver.appendConstraint(constraint)
-
 	def appendProblem(self, problem):
 		self.glyphSolver.appendProblem(problem)
 
