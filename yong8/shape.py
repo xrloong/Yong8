@@ -24,9 +24,6 @@ class ConstraintShape(object, metaclass=abc.ABCMeta):
 		raise NotImplementedError('users must define appendObjetive to use this base class')
 
 	def generateProblem(self, drawingSystem):
-		raise NotImplementedError('users must define generateProblem to use this base class')
-
-	def generateProblem(self, drawingSystem):
 		problem = Problem()
 		problem.setDrawingGlyphPolicy(drawingSystem.getDrawingGlyphPolicy())
 		self.appendVariables(problem)
