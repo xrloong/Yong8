@@ -5,7 +5,7 @@ from yong8.stroke import ConstraintStroke
 from yong8.component import LayoutConstraint
 from yong8.component import ConstraintComponent
 from yong8.constants import GlyphSolver
-from yong8.constants import DrawingSystem
+from yong8.drawing import DrawingPolicy
 
 class ConstraintComponentTestCase(BaseTestCase):
 	def setUp(self):
@@ -18,8 +18,8 @@ class ConstraintComponentTestCase(BaseTestCase):
 		# 一
 
 		injector = self.getInjector()
-		drawingSystem = injector.get(DrawingSystem)
 
+		drawingPolicy = injector.get(DrawingPolicy)
 		s = injector.get(BeelineSegment_橫)
 		stroke = injector.get(ConstraintStroke)
 		stroke.setSegments([s]);
@@ -39,10 +39,11 @@ class ConstraintComponentTestCase(BaseTestCase):
 		component.appendLayoutConstraint(layoutConstraint2)
 		component.appendLayoutConstraint(layoutConstraint3)
 
-		problem = component.generateProblem(drawingSystem)
+		problem = component.generateProblem(drawingPolicy)
 		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
 
-		drawingSystem.solveProblem(problem)
+		glyphSolver = injector.get(GlyphSolver)
+		glyphSolver.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(component.getBoundary(), (40.0, 127.5, 215.0, 127.5))
 		self.assertSequenceAlmostEqual(component.getSize(), (175, 0))
@@ -55,8 +56,8 @@ class ConstraintComponentTestCase(BaseTestCase):
 		# 十
 
 		injector = self.getInjector()
-		drawingSystem = injector.get(DrawingSystem)
 
+		drawingPolicy = injector.get(DrawingPolicy)
 		s1 = injector.get(BeelineSegment_橫)
 		stroke1 = injector.get(ConstraintStroke)
 		stroke1.setSegments([s1]);
@@ -81,10 +82,11 @@ class ConstraintComponentTestCase(BaseTestCase):
 		component.appendLayoutConstraint(layoutConstraint3)
 		component.appendLayoutConstraint(layoutConstraint4)
 
-		problem = component.generateProblem(drawingSystem)
+		problem = component.generateProblem(drawingPolicy)
 		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
 
-		drawingSystem.solveProblem(problem)
+		glyphSolver = injector.get(GlyphSolver)
+		glyphSolver.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(component.getBoundary(), (40.0, 20.0, 215.0, 235.0))
 		self.assertSequenceAlmostEqual(component.getSize(), (175.0, 215.0))
@@ -101,8 +103,8 @@ class ConstraintComponentTestCase(BaseTestCase):
 		# 口
 
 		injector = self.getInjector()
-		drawingSystem = injector.get(DrawingSystem)
 
+		drawingPolicy = injector.get(DrawingPolicy)
 		s1 = injector.get(BeelineSegment_豎)
 		stroke1 = injector.get(ConstraintStroke)
 		stroke1.setSegments([s1]);
@@ -137,10 +139,11 @@ class ConstraintComponentTestCase(BaseTestCase):
 		component.appendLayoutConstraint(layoutConstraint4)
 		component.appendLayoutConstraint(layoutConstraint5)
 
-		problem = component.generateProblem(drawingSystem)
+		problem = component.generateProblem(drawingPolicy)
 		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
 
-		drawingSystem.solveProblem(problem)
+		glyphSolver = injector.get(GlyphSolver)
+		glyphSolver.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(component.getBoundary(), (40.0, 20.0, 215.0, 235.0))
 		self.assertSequenceAlmostEqual(component.getSize(), (175.0, 215.0))

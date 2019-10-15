@@ -153,6 +153,10 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 		for objective in problem.getObjectives():
 			self.appendObjective(objective)
 
+	def solveProblem(self, problem: Problem):
+		self.appendProblem(problem)
+		self.solve()
+
 	def solve(self):
 		problemConverter = SolverProblemConverter(self)
 

@@ -3,6 +3,7 @@ from .base import BaseTestCase
 from yong8.shape import ConstraintShape, ConstraintBoundaryShape
 from yong8.constants import GlyphSolver
 from yong8.constants import DrawingSystem
+from yong8.drawing import DrawingPolicy
 
 class ConstraintShapeTestCase(BaseTestCase):
 	def setUp(self):
@@ -18,20 +19,20 @@ class ConstraintShapeTestCase(BaseTestCase):
 
 	def testConstraintBoundaryShape(self):
 		injector = self.getInjector()
-		drawingSystem = injector.get(DrawingSystem)
 
 		shape = injector.get(ConstraintBoundaryShape)
 
 	def testConstraintBoundaryShape_BindingExtensionBoundary(self):
 		injector = self.getInjector()
-		drawingSystem = injector.get(DrawingSystem)
 
+		drawingPolicy = injector.get(DrawingPolicy)
 		shape = injector.get(ConstraintBoundaryShape)
 
-		problem = shape.generateProblem(drawingSystem)
+		problem = shape.generateProblem(drawingPolicy)
 		shape.appendConstraintsWithExtensionBoundary(problem, (38, 61, 182, 129))
 
-		drawingSystem.solveProblem(problem)
+		glyphSolver = injector.get(GlyphSolver)
+		glyphSolver.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(shape.getExtensionSize(), (144, 68))
 		self.assertSequenceAlmostEqual(shape.getExtensionBoundaryCenter(), (110.0, 95.0))
@@ -40,14 +41,15 @@ class ConstraintShapeTestCase(BaseTestCase):
 
 	def testConstraintBoundaryShape_BindingOccupationBoundary(self):
 		injector = self.getInjector()
-		drawingSystem = injector.get(DrawingSystem)
 
+		drawingPolicy = injector.get(DrawingPolicy)
 		shape = injector.get(ConstraintBoundaryShape)
 
-		problem = shape.generateProblem(drawingSystem)
+		problem = shape.generateProblem(drawingPolicy)
 		shape.appendConstraintsWithExtensionBoundary(problem, (38, 61, 182, 129))
 
-		drawingSystem.solveProblem(problem)
+		glyphSolver = injector.get(GlyphSolver)
+		glyphSolver.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(shape.getExtensionSize(), (144, 68))
 		self.assertSequenceAlmostEqual(shape.getExtensionBoundaryCenter(), (110.0, 95.0))
@@ -56,14 +58,15 @@ class ConstraintShapeTestCase(BaseTestCase):
 
 	def testConstraintBoundaryShape_BindingSizeCenter(self):
 		injector = self.getInjector()
-		drawingSystem = injector.get(DrawingSystem)
 
+		drawingPolicy = injector.get(DrawingPolicy)
 		shape = injector.get(ConstraintBoundaryShape)
 
-		problem = shape.generateProblem(drawingSystem)
+		problem = shape.generateProblem(drawingPolicy)
 		shape.appendConstraintsWithExtensionBoundary(problem, (38, 61, 182, 129))
 
-		drawingSystem.solveProblem(problem)
+		glyphSolver = injector.get(GlyphSolver)
+		glyphSolver.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(shape.getExtensionSize(), (144, 68))
 		self.assertSequenceAlmostEqual(shape.getExtensionBoundary(), (38, 61, 182, 129))

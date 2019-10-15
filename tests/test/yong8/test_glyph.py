@@ -7,6 +7,7 @@ from yong8.component import ConstraintComponent
 from yong8.glyph import ConstraintGlyph
 from yong8.constants import GlyphSolver
 from yong8.constants import DrawingSystem
+from yong8.drawing import DrawingPolicy
 
 class ConstraintGlyphTestCase(BaseTestCase):
 	def setUp(self):
@@ -17,8 +18,8 @@ class ConstraintGlyphTestCase(BaseTestCase):
 
 	def testGlyph_1(self):
 		injector = self.getInjector()
-		drawingSystem = injector.get(DrawingSystem)
 
+		drawingPolicy = injector.get(DrawingPolicy)
 		s = injector.get(BeelineSegment_橫)
 		stroke = injector.get(ConstraintStroke)
 		stroke.setSegments([s]);
@@ -27,36 +28,39 @@ class ConstraintGlyphTestCase(BaseTestCase):
 		glyph = injector.get(ConstraintGlyph)
 		glyph.setComponents([strokeGroup])
 
-		problem = glyph.generateProblem(drawingSystem)
+		problem = glyph.generateProblem(drawingPolicy)
 
-		drawingSystem.solveProblem(problem)
+		glyphSolver = injector.get(GlyphSolver)
+		glyphSolver.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(glyph.getOccupationBoundary(), (40.0, 20.0, 215.0, 235.0))
 
 	def testEmptyGlyph(self):
 		injector = self.getInjector()
-		drawingSystem = injector.get(DrawingSystem)
 
+		drawingPolicy = injector.get(DrawingPolicy)
 		glyph = injector.get(ConstraintGlyph)
 		glyph.setComponents([])
 
-		problem = glyph.generateProblem(drawingSystem)
+		problem = glyph.generateProblem(drawingPolicy)
 
-		drawingSystem.solveProblem(problem)
+		glyphSolver = injector.get(GlyphSolver)
+		glyphSolver.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(glyph.getOccupationBoundary(), (40.0, 20.0, 215.0, 235.0))
 		self.assertSequenceAlmostEqual(glyph.getMargin(), (40.0, 20.0, 215.0, 235.0))
 
 	def testGlyphMargin(self):
 		injector = self.getInjector()
-		drawingSystem = injector.get(DrawingSystem)
 
+		drawingPolicy = injector.get(DrawingPolicy)
 		glyph = injector.get(ConstraintGlyph)
 		glyph.setComponents([])
 
-		problem = glyph.generateProblem(drawingSystem)
+		problem = glyph.generateProblem(drawingPolicy)
 
-		drawingSystem.solveProblem(problem)
+		glyphSolver = injector.get(GlyphSolver)
+		glyphSolver.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(glyph.getOccupationBoundary(), (40.0, 20.0, 215.0, 235.0))
 		self.assertSequenceAlmostEqual(glyph.getMargin(), (40.0, 20.0, 215.0, 235.0))

@@ -6,7 +6,7 @@ from yong8.segment import BeelineSegment_0N, BeelineSegment_00, BeelineSegment_0
 from yong8.segment import BeelineSegment_PN, BeelineSegment_P0, BeelineSegment_PP
 from yong8.segment import BeelineSegment_橫, BeelineSegment_豎
 from yong8.constants import GlyphSolver
-from yong8.constants import DrawingSystem
+from yong8.drawing import DrawingPolicy
 
 class ConstraintSegmentTestCase(BaseTestCase):
 	def setUp(self):
@@ -17,14 +17,15 @@ class ConstraintSegmentTestCase(BaseTestCase):
 
 	def testBeelineSegment_NN(self):
 		injector = self.getInjector()
-		drawingSystem = injector.get(DrawingSystem)
 
+		drawingPolicy = injector.get(DrawingPolicy)
 		s = injector.get(BeelineSegment_NN)
 
-		problem = s.generateProblem(drawingSystem)
+		problem = s.generateProblem(drawingPolicy)
 		s.appendConstraintsWithBoundary(problem, [38, 61, 182, 129])
 
-		drawingSystem.solveProblem(problem)
+		glyphSolver = injector.get(GlyphSolver)
+		glyphSolver.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(s.getBoundary(), (38, 61, 182, 129))
 		self.assertSequenceAlmostEqual(s.getSize(), (144, 68))
@@ -34,14 +35,15 @@ class ConstraintSegmentTestCase(BaseTestCase):
 
 	def testBeelineSegment_NP(self):
 		injector = self.getInjector()
-		drawingSystem = injector.get(DrawingSystem)
 
+		drawingPolicy = injector.get(DrawingPolicy)
 		s = injector.get(BeelineSegment_NP)
 
-		problem = s.generateProblem(drawingSystem)
+		problem = s.generateProblem(drawingPolicy)
 		s.appendConstraintsWithBoundary(problem, [38, 61, 182, 129])
 
-		drawingSystem.solveProblem(problem)
+		glyphSolver = injector.get(GlyphSolver)
+		glyphSolver.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(s.getBoundary(), (38, 61, 182, 129))
 		self.assertSequenceAlmostEqual(s.getSize(), (144, 68))
@@ -51,14 +53,15 @@ class ConstraintSegmentTestCase(BaseTestCase):
 
 	def testBeelineSegment_PN(self):
 		injector = self.getInjector()
-		drawingSystem = injector.get(DrawingSystem)
 
+		drawingPolicy = injector.get(DrawingPolicy)
 		s = injector.get(BeelineSegment_PN)
 
-		problem = s.generateProblem(drawingSystem)
+		problem = s.generateProblem(drawingPolicy)
 		s.appendConstraintsWithBoundary(problem, [38, 61, 182, 129])
 
-		drawingSystem.solveProblem(problem)
+		glyphSolver = injector.get(GlyphSolver)
+		glyphSolver.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(s.getBoundary(), (38, 61, 182, 129))
 		self.assertSequenceAlmostEqual(s.getSize(), (144, 68))
@@ -68,14 +71,15 @@ class ConstraintSegmentTestCase(BaseTestCase):
 
 	def testBeelineSegment_PP(self):
 		injector = self.getInjector()
-		drawingSystem = injector.get(DrawingSystem)
 
+		drawingPolicy = injector.get(DrawingPolicy)
 		s = injector.get(BeelineSegment_PP)
 
-		problem = s.generateProblem(drawingSystem)
+		problem = s.generateProblem(drawingPolicy)
 		s.appendConstraintsWithBoundary(problem, [38, 61, 182, 129])
 
-		drawingSystem.solveProblem(problem)
+		glyphSolver = injector.get(GlyphSolver)
+		glyphSolver.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(s.getBoundary(), (38, 61, 182, 129))
 		self.assertSequenceAlmostEqual(s.getSize(), (144, 68))
@@ -86,15 +90,16 @@ class ConstraintSegmentTestCase(BaseTestCase):
 
 	def testSegment_1(self):
 		injector = self.getInjector()
-		drawingSystem = injector.get(DrawingSystem)
 
+		drawingPolicy = injector.get(DrawingPolicy)
 		s = injector.get(BaseConstraintBeelineSegment)
 		s.setDirConfig([1, -1])
 
-		problem = s.generateProblem(drawingSystem)
+		problem = s.generateProblem(drawingPolicy)
 		s.appendConstraintsWithBoundary(problem, (38, 61, 182, 129))
 
-		drawingSystem.solveProblem(problem)
+		glyphSolver = injector.get(GlyphSolver)
+		glyphSolver.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(s.getBoundary(), (38, 61, 182, 129))
 		self.assertSequenceAlmostEqual(s.getSize(), (144, 68))
@@ -104,15 +109,16 @@ class ConstraintSegmentTestCase(BaseTestCase):
 
 	def testSegment_2(self):
 		injector = self.getInjector()
-		drawingSystem = injector.get(DrawingSystem)
 
+		drawingPolicy = injector.get(DrawingPolicy)
 		s = injector.get(BaseConstraintBeelineSegment)
 		s.setDirConfig([1, -1])
 
-		problem = s.generateProblem(drawingSystem)
+		problem = s.generateProblem(drawingPolicy)
 		s.appendConstraintsWithSizeCenter(problem, (144, 68), (110, 95))
 
-		drawingSystem.solveProblem(problem)
+		glyphSolver = injector.get(GlyphSolver)
+		glyphSolver.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(s.getBoundary(), (38, 61, 182, 129))
 		self.assertSequenceAlmostEqual(s.getSize(), (144, 68))
