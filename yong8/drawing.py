@@ -24,10 +24,10 @@ class DrawingPolicy:
 
 class ConstraintDrawingSystem:
 	@inject
-	def __init__(self, glyphSolver: GlyphSolver):
+	def __init__(self, glyphSolver: GlyphSolver, drawingPolicy: DrawingPolicy):
 		self.glyphSolver = glyphSolver
 
-		self.drawingPolicy = DrawingPolicy()
+		self.drawingPolicy = drawingPolicy
 
 	def getDrawingPolicy(self):
 		return self.drawingPolicy
