@@ -1,7 +1,8 @@
 from .constants import Optimization
+from .drawing import DrawingGlyphPolicy
 
 class Problem:
-	def __init__(self):
+	def __init__(self, drawingGlyphPolicy: DrawingGlyphPolicy):
 		self.symbols = []
 
 		self.variables = []
@@ -12,7 +13,7 @@ class Problem:
 		self.symConstraints = []
 		self.symObjectives = []
 
-		self.drawingGlyphPolicy = None
+		self.drawingGlyphPolicy = drawingGlyphPolicy
 
 	def addVariable(self, variable):
 		self.variables.append(variable)
@@ -46,7 +47,4 @@ class Problem:
 
 	def getDrawingGlyphPolicy(self):
 		return self.drawingGlyphPolicy
-
-	def setDrawingGlyphPolicy(self, drawingGlyphPolicy):
-		self.drawingGlyphPolicy = drawingGlyphPolicy
 
