@@ -40,6 +40,23 @@ class Problem:
 		self.objectives.append(objective)
 		self.symObjectives.append((optimization, function.getSymExpr()))
 
+	def _addAllVariables(self, variables):
+		for variable in variables:
+			self.addVariable(variable)
+
+	def _appendAllConstraints(self, constraints):
+		for constraint in constraints:
+			self.appendConstraint(constraint)
+
+	def _appendAllObjectives(self, objectives):
+		for objective in objectives:
+			self.appendObjective(objective)
+
+	def appendProblem(self, problem):
+		self._addAllVariables(problem.getVariables())
+		self._appendAllConstraints(problem.getConstraints())
+		self._appendAllObjectives(problem.getObjectives())
+
 	def getVariables(self):
 		return self.variables
 

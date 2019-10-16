@@ -25,11 +25,21 @@ class ConstraintShape(object, metaclass=abc.ABCMeta):
 	def appendObjective(self, problem):
 		raise NotImplementedError('users must define appendObjetive to use this base class')
 
-	def generateProblem(self, drawingPolicyPolicy: DrawingGlyphPolicy):
-		problem = Problem(drawingPolicyPolicy)
+	def appendSelfProblemTo(self, problem):
 		self.appendVariables(problem)
 		self.appendConstraints(problem)
 		self.appendObjective(problem)
+
+	def appendChildrenProblemTo(self, problem):
+		pass
+
+	def appendProblemTo(self, problem):
+		self.appendSelfProblemTo(problem)
+		self.appendChildrenProblemTo(problem)
+
+	def generateProblem(self, drawingPolicyPolicy: DrawingGlyphPolicy):
+		problem = Problem(drawingPolicyPolicy)
+		self.appendProblemTo(problem)
 		return problem
 
 class ConstraintBoundaryShape(ConstraintShape):
