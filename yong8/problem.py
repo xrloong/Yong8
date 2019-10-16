@@ -1,6 +1,17 @@
 from .constants import Optimization
 from .drawing import DrawingGlyphPolicy
 
+class Objective:
+	def __init__(self, function, optimization: Optimization = Optimization.Maximize):
+		self.optimization = optimization
+		self.function = function
+
+	def getOptimization(self):
+		return self.optimization
+
+	def getFunction(self):
+		return self.function
+
 class Problem:
 	def __init__(self, drawingGlyphPolicy: DrawingGlyphPolicy):
 		self.symbols = []
@@ -23,9 +34,11 @@ class Problem:
 		self.constraints.append(constraint)
 		self.symConstraints.append(constraint.getSymExpr())
 
-	def appendObjective(self, objective, optimization: Optimization = Optimization.Maximize):
-		self.objectives.append((optimization, objective))
-		self.symObjectives.append((optimization, objective.getSymExpr()))
+	def appendObjective(self, objective: Objective):
+		optimization = objective.getOptimization()
+		function = objective.getFunction()
+		self.objectives.append(objective)
+		self.symObjectives.append((optimization, function.getSymExpr()))
 
 	def getVariables(self):
 		return self.variables

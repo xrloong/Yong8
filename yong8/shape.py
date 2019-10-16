@@ -4,6 +4,7 @@ import uuid
 from injector import inject
 
 from .drawing import DrawingGlyphPolicy
+from .problem import Objective
 from .problem import Problem
 from .symbol import generateVariable
 
@@ -298,8 +299,8 @@ class ConstraintBoundaryShape(ConstraintShape):
 		problem.appendConstraint(self.getVarExtensionBoundaryCenterY() == centerY)
 
 	def appendObjective(self, problem):
-		problem.appendObjective(self.getVarOccupationBoundaryWidth() - self.getVarExtensionBoundaryWidth())
-		problem.appendObjective(self.getVarOccupationBoundaryHeight() - self.getVarExtensionBoundaryHeight())
+		problem.appendObjective(Objective(self.getVarOccupationBoundaryWidth() - self.getVarExtensionBoundaryWidth()))
+		problem.appendObjective(Objective(self.getVarOccupationBoundaryHeight() - self.getVarExtensionBoundaryHeight()))
 
 class PathParams:
 	def __init__(self):
