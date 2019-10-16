@@ -122,13 +122,6 @@ class ConstraintStroke(ConstraintPath):
 	def appendConstraints(self, problem):
 		super().appendConstraints(problem)
 
-		# Work arround for fixing crash when using PuLP GLPK.
-		# PuLP will collect variables in constraints and objective functions.
-		# After solving the problem, it'll assigne value back to the variables.
-		# It cause that some variables appearing the problem but not it the collected set.
-		problem.appendConstraint(self.unitWidth == self.unitWidth)
-		problem.appendConstraint(self.unitHeight == self.unitHeight)
-
 		for segment in self.segments:
 			segment.appendConstraints(problem)
 			problem.appendConstraint(self.getVarBoundaryLeft() <= segment.getVarBoundaryLeft())
