@@ -298,10 +298,8 @@ class ConstraintBoundaryShape(ConstraintShape):
 		problem.appendConstraint(self.getVarExtensionBoundaryCenterY() == centerY)
 
 	def appendObjective(self, problem):
-		problem.appendObjective(self.getVarOccupationBoundaryWidth())
-		problem.appendObjective(self.getVarOccupationBoundaryHeight())
-		problem.appendObjective(self.getVarExtensionBoundaryWidth() * -1)
-		problem.appendObjective(self.getVarExtensionBoundaryHeight() * -1)
+		problem.appendObjective(self.getVarOccupationBoundaryWidth() - self.getVarExtensionBoundaryWidth())
+		problem.appendObjective(self.getVarOccupationBoundaryHeight() - self.getVarExtensionBoundaryHeight())
 
 class PathParams:
 	def __init__(self):
