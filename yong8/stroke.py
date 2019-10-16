@@ -116,14 +116,15 @@ class ConstraintStroke(ConstraintPath):
 		super().appendVariables(problem)
 		problem.addVariable(self.unitWidth)
 		problem.addVariable(self.unitHeight)
+
+	def appendChildrenProblemTo(self, problem):
+		super().appendChildrenProblemTo(problem)
+
+		drawingGlyphPolicy = problem.getDrawingGlyphPolicy()
+
 		for segment in self.getSegments():
-			segment.appendVariables(problem)
-
-	def appendConstraints(self, problem):
-		super().appendConstraints(problem)
-
-		for segment in self.segments:
-			segment.appendConstraints(problem)
+			subProblem = segment.generateProblem(drawingGlyphPolicy)
+			problem.appendProblem(subProblem)
 
 		# append constraints for arranging segments' width and height
 		for segment, weight in zip(self.segments, self.weights):
@@ -147,7 +148,4 @@ class ConstraintStroke(ConstraintPath):
 		else:
 			problem.appendConstraint(self.getVarStartX() == self.getVarEndX())
 			problem.appendConstraint(self.getVarStartY() == self.getVarEndY())
-
-	def appendObjective(self, problem):
-		super().appendObjective(problem)
 

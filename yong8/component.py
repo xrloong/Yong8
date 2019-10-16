@@ -119,25 +119,29 @@ class ConstraintComponent(ConstraintBoundaryShape):
 	def getStrokes(self):
 		return self.strokes
 
-	def appendVariables(self, problem):
-		super().appendVariables(problem)
-		for stroke in self.getStrokes():
-			stroke.appendVariables(problem)
-
 	def appendLayoutConstraint(self, layoutConstraint):
 		self.layoutConstraints.append(layoutConstraint)
 
-	def appendConstraints(self, problem):
-		super().appendConstraints(problem)
-		for stroke in self.strokes:
-			stroke.appendConstraints(problem)
+	def appendChildrenProblemTo(self, problem):
+		super().appendChildrenProblemTo(problem)
+
+		drawingGlyphPolicy = problem.getDrawingGlyphPolicy()
+
+		for stroke in self.getStrokes():
+			subProblem = stroke.generateProblem(drawingGlyphPolicy)
+			problem.appendProblem(subProblem)
+
 			problem.appendConstraint(self.getVarOccupationBoundaryLeft() <= stroke.getVarOccupationBoundaryLeft())
 			problem.appendConstraint(self.getVarOccupationBoundaryTop() <= stroke.getVarOccupationBoundaryTop())
 			problem.appendConstraint(self.getVarOccupationBoundaryRight() >= stroke.getVarOccupationBoundaryRight())
 			problem.appendConstraint(self.getVarOccupationBoundaryBottom() >= stroke.getVarOccupationBoundaryBottom())
 
+		self.appendLayoutContraintsProblemTo(problem)
+
+	def appendLayoutContraintsProblemTo(self, problem):
 		for layoutConstraint in self.layoutConstraints:
 			self.appendContraintFromLayoutConstraint(problem, layoutConstraint)
+			self.appendObjectiveFromLayoutConstraint(problem, layoutConstraint)
 
 	def appendContraintFromLayoutConstraint(self, problem, layoutConstraint):
 		if layoutConstraint.isToAlignCenter():
@@ -187,12 +191,6 @@ class ConstraintComponent(ConstraintBoundaryShape):
 				problem.appendConstraint(t2 == 1)
 			elif pos2 == IntersectionPos.AfterEnd:
 				problem.appendConstraint(t2 > 1)
-
-
-	def appendObjective(self, problem):
-		super().appendObjective(problem)
-		for layoutConstraint in self.layoutConstraints:
-			self.appendObjectiveFromLayoutConstraint(problem, layoutConstraint)
 
 	def appendObjectiveFromLayoutConstraint(self, problem, layoutConstraint):
 		if layoutConstraint.isObjective():
