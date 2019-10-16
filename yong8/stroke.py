@@ -117,6 +117,13 @@ class ConstraintStroke(ConstraintPath):
 		problem.addVariable(self.unitWidth)
 		problem.addVariable(self.unitHeight)
 
+	def appendConstraints(self, problem):
+		super().appendConstraints(problem)
+
+		# Work arround for CVXPY
+		problem.appendConstraint(self.unitWidth == self.unitWidth)
+		problem.appendConstraint(self.unitHeight == self.unitHeight)
+
 	def appendChildrenProblemTo(self, problem):
 		super().appendChildrenProblemTo(problem)
 
