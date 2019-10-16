@@ -126,7 +126,7 @@ class SolverProblemConverter:
 
 class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 	def __init__(self):
-		self.problem = Problem()
+		pass
 
 	def useCustomAlgebra(self):
 		return True
@@ -134,33 +134,9 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 	def generateSolverVariable(self, totalName):
 		raise NotImplementedError('users must define generateSolverVariable() to use this base class')
 
-	def addVariable(self, variable):
-		self.problem.addVariable(variable)
-
-	def appendConstraint(self, constraint):
-		self.problem.appendConstraint(constraint)
-
-	def appendObjective(self, objective):
-		self.problem.appendObjective(objective[1], objective[0])
-
-	def appendProblem(self, problem):
-		for variable in problem.getVariables():
-			self.addVariable(variable)
-
-		for constraint in problem.getConstraints():
-			self.appendConstraint(constraint)
-
-		for objective in problem.getObjectives():
-			self.appendObjective(objective)
-
 	def solveProblem(self, problem: Problem):
-		self.appendProblem(problem)
-		self.solve()
-
-	def solve(self):
 		problemConverter = SolverProblemConverter(self)
 
-		problem = self.problem
 		solverProblem = problemConverter.convert(problem)
 
 		solutions = self.doSolve(solverProblem)
