@@ -1,7 +1,7 @@
 from injector import inject
 
 from .shape import ConstraintPath
-from .problem import generateVariable
+from .symbol import generateVariable
 
 class ConstraintStroke(ConstraintPath):
 	@inject

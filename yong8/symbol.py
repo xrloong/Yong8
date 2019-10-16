@@ -117,6 +117,14 @@ class V(A):
 		self.name = name
 		super().__init__(Symbol(name))
 
+		self.value = 0
+
+	def setValue(self, value):
+		self.value = value
+
+	def getValue(self):
+		return self.value
+
 class E(A):
 	def __init__(self, symexpr):
 		super().__init__(symexpr)
@@ -128,4 +136,10 @@ class C(A):
 Symbol = V
 Expr = E
 Relational = C
+
+def generateVariable(prefix, name):
+	variableName = prefix+"."+name
+
+	variable = V(variableName)
+	return variable
 

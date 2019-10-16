@@ -4,7 +4,7 @@ import uuid
 from injector import inject
 
 from .problem import Problem
-from .problem import generateVariable
+from .symbol import generateVariable
 
 class ConstraintShape(object, metaclass=abc.ABCMeta):
 	@inject

@@ -1,7 +1,7 @@
 from injector import inject
 
 from .shape import ConstraintPath
-from .problem import generateVariable
+from .symbol import generateVariable
 
 sign = lambda x: x and (1, -1)[x < 0]
 
