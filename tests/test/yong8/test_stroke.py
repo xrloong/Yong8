@@ -28,16 +28,10 @@ class ConstraintStrokeTestCase(BaseTestCase):
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
 
-		self.assertSequenceAlmostEqual(s.getBoundary(), (38.0, 61.0, 182.0, 129.0))
-		self.assertSequenceAlmostEqual(s.getSize(), (144, 68))
 		self.assertSequenceAlmostEqual(s.getStartPoint(), (38.0, 129.0))
 		self.assertSequenceAlmostEqual(s.getEndPoint(), (182.0, 61.0))
-		self.assertSequenceAlmostEqual(s.getBoundaryCenter(), (110.0, 95.0))
-		self.assertSequenceAlmostEqual(stroke.getBoundary(), (38.0, 61.0, 182.0, 129.0))
-		self.assertSequenceAlmostEqual(stroke.getSize(), (144, 68))
 		self.assertSequenceAlmostEqual(stroke.getStartPoint(), (38.0, 129.0))
 		self.assertSequenceAlmostEqual(stroke.getEndPoint(), (182.0, 61.0))
-		self.assertSequenceAlmostEqual(stroke.getBoundaryCenter(), (110.0, 95.0))
 
 	def testStroke_2(self):
 		injector = self.getInjector()
@@ -56,15 +50,10 @@ class ConstraintStrokeTestCase(BaseTestCase):
 
 		self.assertSequenceAlmostEqual(s1.getStartPoint(), (38.0, 61.0))
 		self.assertSequenceAlmostEqual(s1.getEndPoint(), (182.0, 61.0))
-		self.assertSequenceAlmostEqual(s1.getBoundaryCenter(), (110.0, 61.0))
 		self.assertSequenceAlmostEqual(s2.getStartPoint(), (182.0, 61.0))
 		self.assertSequenceAlmostEqual(s2.getEndPoint(), (182.0, 129.0))
-		self.assertSequenceAlmostEqual(s2.getBoundaryCenter(), (182.0, 95.0))
-		self.assertSequenceAlmostEqual(stroke.getBoundary(), (38.0, 61.0, 182.0, 129.0))
-		self.assertSequenceAlmostEqual(stroke.getSize(), (144, 68))
 		self.assertSequenceAlmostEqual(stroke.getStartPoint(), (38.0, 61.0))
 		self.assertSequenceAlmostEqual(stroke.getEndPoint(), (182.0, 129.0))
-		self.assertSequenceAlmostEqual(stroke.getBoundaryCenter(), (110.0, 95.0))
 
 	def testStroke_3(self):
 		injector = self.getInjector()
@@ -95,9 +84,6 @@ class ConstraintStrokeTestCase(BaseTestCase):
 		self.assertSequenceAlmostEqual(s4.getStartPoint(), (182.0, 112.0))
 		self.assertSequenceAlmostEqual(s4.getEndPoint(), (182.0, 129.0))
 		self.assertSequenceAlmostEqual(s4.getSize(), (0.0, 17.0))
-		self.assertSequenceAlmostEqual(stroke.getBoundary(), (38.0, 61.0, 182.0, 129.0))
-		self.assertSequenceAlmostEqual(stroke.getSize(), (144, 68))
 		self.assertSequenceAlmostEqual(stroke.getStartPoint(), (38.0, 61.0))
 		self.assertSequenceAlmostEqual(stroke.getEndPoint(), (182.0, 129.0))
-		self.assertSequenceAlmostEqual(stroke.getBoundaryCenter(), (110.0, 95.0))
 

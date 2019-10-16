@@ -27,11 +27,8 @@ class ConstraintSegmentTestCase(BaseTestCase):
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
 
-		self.assertSequenceAlmostEqual(s.getBoundary(), (38, 61, 182, 129))
-		self.assertSequenceAlmostEqual(s.getSize(), (144, 68))
 		self.assertSequenceAlmostEqual(s.getStartPoint(), (182.0, 129.0))
 		self.assertSequenceAlmostEqual(s.getEndPoint(), (38.0, 61.0))
-		self.assertSequenceAlmostEqual(s.getBoundaryCenter(), (110.0, 95.0))
 
 	def testBeelineSegment_NP(self):
 		injector = self.getInjector()
@@ -45,11 +42,8 @@ class ConstraintSegmentTestCase(BaseTestCase):
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
 
-		self.assertSequenceAlmostEqual(s.getBoundary(), (38, 61, 182, 129))
-		self.assertSequenceAlmostEqual(s.getSize(), (144, 68))
 		self.assertSequenceAlmostEqual(s.getStartPoint(), (182.0, 61.0))
 		self.assertSequenceAlmostEqual(s.getEndPoint(), (38.0, 129.0))
-		self.assertSequenceAlmostEqual(s.getBoundaryCenter(), (110.0, 95.0))
 
 	def testBeelineSegment_PN(self):
 		injector = self.getInjector()
@@ -63,11 +57,8 @@ class ConstraintSegmentTestCase(BaseTestCase):
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
 
-		self.assertSequenceAlmostEqual(s.getBoundary(), (38, 61, 182, 129))
-		self.assertSequenceAlmostEqual(s.getSize(), (144, 68))
 		self.assertSequenceAlmostEqual(s.getStartPoint(), (38.0, 129.0))
 		self.assertSequenceAlmostEqual(s.getEndPoint(), (182.0, 61.0))
-		self.assertSequenceAlmostEqual(s.getBoundaryCenter(), (110.0, 95.0))
 
 	def testBeelineSegment_PP(self):
 		injector = self.getInjector()
@@ -81,11 +72,8 @@ class ConstraintSegmentTestCase(BaseTestCase):
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
 
-		self.assertSequenceAlmostEqual(s.getBoundary(), (38, 61, 182, 129))
-		self.assertSequenceAlmostEqual(s.getSize(), (144, 68))
 		self.assertSequenceAlmostEqual(s.getStartPoint(), (38.0, 61.0))
 		self.assertSequenceAlmostEqual(s.getEndPoint(), (182.0, 129.0))
-		self.assertSequenceAlmostEqual(s.getBoundaryCenter(), (110.0, 95.0))
 
 
 	def testSegment_1(self):
@@ -101,11 +89,8 @@ class ConstraintSegmentTestCase(BaseTestCase):
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
 
-		self.assertSequenceAlmostEqual(s.getBoundary(), (38, 61, 182, 129))
-		self.assertSequenceAlmostEqual(s.getSize(), (144, 68))
 		self.assertSequenceAlmostEqual(s.getStartPoint(), (38.0, 129.0))
 		self.assertSequenceAlmostEqual(s.getEndPoint(), (182.0, 61.0))
-		self.assertSequenceAlmostEqual(s.getBoundaryCenter(), (110.0, 95.0))
 
 	def testSegment_2(self):
 		injector = self.getInjector()
@@ -120,9 +105,6 @@ class ConstraintSegmentTestCase(BaseTestCase):
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
 
-		self.assertSequenceAlmostEqual(s.getBoundary(), (38, 61, 182, 129))
-		self.assertSequenceAlmostEqual(s.getSize(), (144, 68))
 		self.assertSequenceAlmostEqual(s.getStartPoint(), (38.0, 129.0))
 		self.assertSequenceAlmostEqual(s.getEndPoint(), (182.0, 61.0))
-		self.assertSequenceAlmostEqual(s.getBoundaryCenter(), (110.0, 95.0))
 

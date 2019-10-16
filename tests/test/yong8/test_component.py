@@ -46,10 +46,6 @@ class ConstraintComponentTestCase(BaseTestCase):
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
 
-		self.assertSequenceAlmostEqual(component.getBoundary(), (40.0, 127.5, 215.0, 127.5))
-		self.assertSequenceAlmostEqual(component.getSize(), (175, 0))
-		self.assertSequenceAlmostEqual(stroke.getBoundary(), (40.0, 127.5, 215.0, 127.5))
-		self.assertSequenceAlmostEqual(stroke.getSize(), (175, 0))
 		self.assertSequenceAlmostEqual(stroke.getStartPoint(), (40, 127.5))
 		self.assertSequenceAlmostEqual(stroke.getEndPoint(), (215, 127.5))
 
@@ -89,14 +85,8 @@ class ConstraintComponentTestCase(BaseTestCase):
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
 
-		self.assertSequenceAlmostEqual(component.getBoundary(), (40.0, 20.0, 215.0, 235.0))
-		self.assertSequenceAlmostEqual(component.getSize(), (175.0, 215.0))
-		self.assertSequenceAlmostEqual(stroke1.getBoundary(), (40.0, 127.5, 215.0, 127.5))
-		self.assertSequenceAlmostEqual(stroke1.getSize(), (175, 0))
 		self.assertSequenceAlmostEqual(stroke1.getStartPoint(), (40, 127.5))
 		self.assertSequenceAlmostEqual(stroke1.getEndPoint(), (215, 127.5))
-		self.assertSequenceAlmostEqual(stroke2.getBoundary(), (127.5, 20.0, 127.5, 235.0))
-		self.assertSequenceAlmostEqual(stroke2.getSize(), (0, 215))
 		self.assertSequenceAlmostEqual(stroke2.getStartPoint(), (127.5, 20))
 		self.assertSequenceAlmostEqual(stroke2.getEndPoint(), (127.5, 235))
 
@@ -146,19 +136,8 @@ class ConstraintComponentTestCase(BaseTestCase):
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
 
-		self.assertSequenceAlmostEqual(component.getBoundary(), (40.0, 20.0, 215.0, 235.0))
-		self.assertSequenceAlmostEqual(component.getSize(), (175.0, 215.0))
-
-		self.assertSequenceAlmostEqual(stroke1.getBoundary(), (40.0, 20.0, 40.0, 235.0))
-		self.assertSequenceAlmostEqual(stroke1.getSize(), (0.0, 215.0))
-		self.assertSequenceAlmostEqual(stroke1.getStartPoint(), (40.0, 20.0))
-		self.assertSequenceAlmostEqual(stroke1.getEndPoint(), (40.0, 235.0))
-		self.assertSequenceAlmostEqual(stroke2.getBoundary(), (40.0, 20.0, 215.0, 235.0))
-		self.assertSequenceAlmostEqual(stroke2.getSize(), (175.0, 215.0))
 		self.assertSequenceAlmostEqual(stroke2.getStartPoint(), (40.0, 20.0))
 		self.assertSequenceAlmostEqual(stroke2.getEndPoint(), (215.0, 235.0))
-		self.assertSequenceAlmostEqual(stroke3.getBoundary(), (40.0, 235.0, 215.0, 235.0))
-		self.assertSequenceAlmostEqual(stroke3.getSize(), (175.0, 0.0))
 		self.assertSequenceAlmostEqual(stroke3.getStartPoint(), (40.0, 235.0))
 		self.assertSequenceAlmostEqual(stroke3.getEndPoint(), (215.0, 235.0))
 
@@ -200,14 +179,8 @@ class ConstraintComponentTestCase(BaseTestCase):
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
 
-		self.assertSequenceAlmostEqual(component.getBoundary(), (40.0, 20.0, 215.0, 235.0))
-		self.assertSequenceAlmostEqual(component.getSize(), (175.0, 215.0))
-		self.assertSequenceAlmostEqual(stroke1.getBoundary(), (40.0, 127.5, 215.0, 127.5))
-		self.assertSequenceAlmostEqual(stroke1.getSize(), (175, 0))
 		self.assertSequenceAlmostEqual(stroke1.getStartPoint(), (40, 127.5))
 		self.assertSequenceAlmostEqual(stroke1.getEndPoint(), (215, 127.5))
-		self.assertSequenceAlmostEqual(stroke2.getBoundary(), (127.5, 20.0, 127.5, 235.0))
-		self.assertSequenceAlmostEqual(stroke2.getSize(), (0, 215))
 		self.assertSequenceAlmostEqual(stroke2.getStartPoint(), (127.5, 20))
 		self.assertSequenceAlmostEqual(stroke2.getEndPoint(), (127.5, 235))
 
@@ -248,14 +221,8 @@ class ConstraintComponentTestCase(BaseTestCase):
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
 
-		self.assertSequenceAlmostEqual(component.getBoundary(), (40.0, 20.0, 215.0, 235.0))
-		self.assertSequenceAlmostEqual(component.getSize(), (175.0, 215.0))
-		self.assertSequenceAlmostEqual(stroke1.getBoundary(), (40.0, 20.0, 215.0, 20.0))
-		self.assertSequenceAlmostEqual(stroke1.getSize(), (175, 0))
 		self.assertSequenceAlmostEqual(stroke1.getStartPoint(), (40, 20.0))
 		self.assertSequenceAlmostEqual(stroke1.getEndPoint(), (215, 20.0))
-		self.assertSequenceAlmostEqual(stroke2.getBoundary(), (127.5, 20.0, 127.5, 235.0))
-		self.assertSequenceAlmostEqual(stroke2.getSize(), (0, 215))
 		self.assertSequenceAlmostEqual(stroke2.getStartPoint(), (127.5, 20))
 		self.assertSequenceAlmostEqual(stroke2.getEndPoint(), (127.5, 235))
 
@@ -305,19 +272,10 @@ class ConstraintComponentTestCase(BaseTestCase):
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
 
-		self.assertSequenceAlmostEqual(component.getBoundary(), (40.0, 20.0, 215.0, 235.0))
-		self.assertSequenceAlmostEqual(component.getSize(), (175.0, 215.0))
-
-		self.assertSequenceAlmostEqual(stroke1.getBoundary(), (40.0, 20.0, 40.0, 235.0))
-		self.assertSequenceAlmostEqual(stroke1.getSize(), (0.0, 215.0))
 		self.assertSequenceAlmostEqual(stroke1.getStartPoint(), (40.0, 20.0))
 		self.assertSequenceAlmostEqual(stroke1.getEndPoint(), (40.0, 235.0))
-		self.assertSequenceAlmostEqual(stroke2.getBoundary(), (40.0, 20.0, 215.0, 235.0))
-		self.assertSequenceAlmostEqual(stroke2.getSize(), (175.0, 215.0))
 		self.assertSequenceAlmostEqual(stroke2.getStartPoint(), (40.0, 20.0))
 		self.assertSequenceAlmostEqual(stroke2.getEndPoint(), (215.0, 235.0))
-		self.assertSequenceAlmostEqual(stroke3.getBoundary(), (40.0, 235.0, 215.0, 235.0))
-		self.assertSequenceAlmostEqual(stroke3.getSize(), (175.0, 0.0))
 		self.assertSequenceAlmostEqual(stroke3.getStartPoint(), (40.0, 235.0))
 		self.assertSequenceAlmostEqual(stroke3.getEndPoint(), (215.0, 235.0))
 
@@ -371,21 +329,12 @@ class ConstraintComponentTestCase(BaseTestCase):
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
 
-		self.assertSequenceAlmostEqual(component.getBoundary(), (40.0, 20.0, 215.0, 235.0))
-		self.assertSequenceAlmostEqual(component.getSize(), (175.0, 215.0))
-
-		self.assertSequenceAlmostEqual(stroke1.getBoundary(), (48.75, 127.5, 206.25, 127.5))
-		self.assertSequenceAlmostEqual(stroke1.getSize(), (157.5, 0))
 		self.assertSequenceAlmostEqual(stroke1.getStartPoint(), (48.75, 127.5))
 		self.assertSequenceAlmostEqual(stroke1.getEndPoint(), (206.25, 127.5))
 
-		self.assertSequenceAlmostEqual(stroke2.getBoundary(), (127.5, 20.0, 127.5, 235.0))
-		self.assertSequenceAlmostEqual(stroke2.getSize(), (0, 215))
 		self.assertSequenceAlmostEqual(stroke2.getStartPoint(), (127.5, 20))
 		self.assertSequenceAlmostEqual(stroke2.getEndPoint(), (127.5, 235))
 
-		self.assertSequenceAlmostEqual(stroke3.getBoundary(), (40, 235, 215, 235))
-		self.assertSequenceAlmostEqual(stroke3.getSize(), (175, 0))
 		self.assertSequenceAlmostEqual(stroke3.getStartPoint(), (40, 235))
 		self.assertSequenceAlmostEqual(stroke3.getEndPoint(), (215, 235))
 
@@ -437,21 +386,12 @@ class ConstraintComponentTestCase(BaseTestCase):
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
 
-		self.assertSequenceAlmostEqual(component.getBoundary(), (40.0, 20.0, 215.0, 235.0))
-		self.assertSequenceAlmostEqual(component.getSize(), (175.0, 215.0))
-
-		self.assertSequenceAlmostEqual(stroke1.getBoundary(), (40, 127.5, 215, 127.5))
-		self.assertSequenceAlmostEqual(stroke1.getSize(), (175, 0))
 		self.assertSequenceAlmostEqual(stroke1.getStartPoint(), (40, 127.5))
 		self.assertSequenceAlmostEqual(stroke1.getEndPoint(), (215, 127.5))
 
-		self.assertSequenceAlmostEqual(stroke2.getBoundary(), (127.5, 20.0, 127.5, 235.0))
-		self.assertSequenceAlmostEqual(stroke2.getSize(), (0, 215))
 		self.assertSequenceAlmostEqual(stroke2.getStartPoint(), (127.5, 20))
 		self.assertSequenceAlmostEqual(stroke2.getEndPoint(), (127.5, 235))
 
-		self.assertSequenceAlmostEqual(stroke3.getBoundary(), (48.75, 235, 206.25, 235))
-		self.assertSequenceAlmostEqual(stroke3.getSize(), (157.5, 0))
 		self.assertSequenceAlmostEqual(stroke3.getStartPoint(), (48.75, 235))
 		self.assertSequenceAlmostEqual(stroke3.getEndPoint(), (206.25, 235))
 

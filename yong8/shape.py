@@ -279,12 +279,23 @@ class ConstraintBoundaryShape(ConstraintShape):
 		problem.appendConstraint(self.getVarExtensionBoundaryBottom() == bottom)
 
 	def appendConstraintsWithSizeCenter(self, problem, size, center):
+		self.appendConstraintsWithOccupationSizeCenter(problem, size, center)
+
+	def appendConstraintsWithOccupationSizeCenter(self, problem, size, center):
 		width, height = size
 		centerX, centerY = center
-		problem.appendConstraint(self.getVarBoundaryWidth() == width)
-		problem.appendConstraint(self.getVarBoundaryHeight() == height)
-		problem.appendConstraint(self.getVarBoundaryCenterX() == centerX)
-		problem.appendConstraint(self.getVarBoundaryCenterY() == centerY)
+		problem.appendConstraint(self.getVarOccupationBoundaryWidth() == width)
+		problem.appendConstraint(self.getVarOccupationBoundaryHeight() == height)
+		problem.appendConstraint(self.getVarOccupationBoundaryCenterX() == centerX)
+		problem.appendConstraint(self.getVarOccupationBoundaryCenterY() == centerY)
+
+	def appendConstraintsWithExtensionSizeCenter(self, problem, size, center):
+		width, height = size
+		centerX, centerY = center
+		problem.appendConstraint(self.getVarExtensionBoundaryWidth() == width)
+		problem.appendConstraint(self.getVarExtensionBoundaryHeight() == height)
+		problem.appendConstraint(self.getVarExtensionBoundaryCenterX() == centerX)
+		problem.appendConstraint(self.getVarExtensionBoundaryCenterY() == centerY)
 
 	def appendObjective(self, problem):
 		problem.appendObjective(self.getVarOccupationBoundaryWidth())
