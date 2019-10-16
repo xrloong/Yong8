@@ -3,6 +3,7 @@ import uuid
 
 from injector import inject
 
+from .drawing import DrawingGlyphPolicy
 from .problem import Problem
 from .symbol import generateVariable
 
@@ -23,9 +24,9 @@ class ConstraintShape(object, metaclass=abc.ABCMeta):
 	def appendObjective(self, problem):
 		raise NotImplementedError('users must define appendObjetive to use this base class')
 
-	def generateProblem(self, drawingPolicy):
+	def generateProblem(self, drawingPolicyPolicy: DrawingGlyphPolicy):
 		problem = Problem()
-		problem.setDrawingGlyphPolicy(drawingPolicy.getDrawingGlyphPolicy())
+		problem.setDrawingGlyphPolicy(drawingPolicyPolicy)
 		self.appendVariables(problem)
 		self.appendConstraints(problem)
 		self.appendObjective(problem)

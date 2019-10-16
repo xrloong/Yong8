@@ -7,7 +7,7 @@ from yong8.component import ConstraintComponent
 from yong8.glyph import ConstraintGlyph
 from yong8.constants import GlyphSolver
 from yong8.constants import DrawingSystem
-from yong8.drawing import DrawingPolicy
+from yong8.drawing import DrawingGlyphPolicy
 
 class ConstraintGlyphTestCase(BaseTestCase):
 	def setUp(self):
@@ -19,7 +19,6 @@ class ConstraintGlyphTestCase(BaseTestCase):
 	def testGlyph_1(self):
 		injector = self.getInjector()
 
-		drawingPolicy = injector.get(DrawingPolicy)
 		s = injector.get(BeelineSegment_橫)
 		stroke = injector.get(ConstraintStroke)
 		stroke.setSegments([s]);
@@ -28,7 +27,9 @@ class ConstraintGlyphTestCase(BaseTestCase):
 		glyph = injector.get(ConstraintGlyph)
 		glyph.setComponents([strokeGroup])
 
-		problem = glyph.generateProblem(drawingPolicy)
+
+		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
+		problem = glyph.generateProblem(drawingGlyphPolicy)
 
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
@@ -38,11 +39,12 @@ class ConstraintGlyphTestCase(BaseTestCase):
 	def testEmptyGlyph(self):
 		injector = self.getInjector()
 
-		drawingPolicy = injector.get(DrawingPolicy)
 		glyph = injector.get(ConstraintGlyph)
 		glyph.setComponents([])
 
-		problem = glyph.generateProblem(drawingPolicy)
+
+		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
+		problem = glyph.generateProblem(drawingGlyphPolicy)
 
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
@@ -53,11 +55,12 @@ class ConstraintGlyphTestCase(BaseTestCase):
 	def testGlyphMargin(self):
 		injector = self.getInjector()
 
-		drawingPolicy = injector.get(DrawingPolicy)
 		glyph = injector.get(ConstraintGlyph)
 		glyph.setComponents([])
 
-		problem = glyph.generateProblem(drawingPolicy)
+
+		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
+		problem = glyph.generateProblem(drawingGlyphPolicy)
 
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)

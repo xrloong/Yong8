@@ -6,7 +6,7 @@ from yong8.component import LayoutConstraint
 from yong8.component import ConstraintComponent
 from yong8.component import IntersectionPos
 from yong8.constants import GlyphSolver
-from yong8.drawing import DrawingPolicy
+from yong8.drawing import DrawingGlyphPolicy
 
 class ConstraintComponentTestCase(BaseTestCase):
 	def setUp(self):
@@ -20,7 +20,6 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		injector = self.getInjector()
 
-		drawingPolicy = injector.get(DrawingPolicy)
 		s = injector.get(BeelineSegment_橫)
 		stroke = injector.get(ConstraintStroke)
 		stroke.setSegments([s]);
@@ -40,7 +39,9 @@ class ConstraintComponentTestCase(BaseTestCase):
 		component.appendLayoutConstraint(layoutConstraint2)
 		component.appendLayoutConstraint(layoutConstraint3)
 
-		problem = component.generateProblem(drawingPolicy)
+
+		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
+		problem = component.generateProblem(drawingGlyphPolicy)
 		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
 
 		glyphSolver = injector.get(GlyphSolver)
@@ -54,7 +55,6 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		injector = self.getInjector()
 
-		drawingPolicy = injector.get(DrawingPolicy)
 		s1 = injector.get(BeelineSegment_橫)
 		stroke1 = injector.get(ConstraintStroke)
 		stroke1.setSegments([s1]);
@@ -79,7 +79,9 @@ class ConstraintComponentTestCase(BaseTestCase):
 		component.appendLayoutConstraint(layoutConstraint3)
 		component.appendLayoutConstraint(layoutConstraint4)
 
-		problem = component.generateProblem(drawingPolicy)
+
+		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
+		problem = component.generateProblem(drawingGlyphPolicy)
 		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
 
 		glyphSolver = injector.get(GlyphSolver)
@@ -95,7 +97,6 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		injector = self.getInjector()
 
-		drawingPolicy = injector.get(DrawingPolicy)
 		s1 = injector.get(BeelineSegment_豎)
 		stroke1 = injector.get(ConstraintStroke)
 		stroke1.setSegments([s1]);
@@ -130,7 +131,9 @@ class ConstraintComponentTestCase(BaseTestCase):
 		component.appendLayoutConstraint(layoutConstraint4)
 		component.appendLayoutConstraint(layoutConstraint5)
 
-		problem = component.generateProblem(drawingPolicy)
+
+		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
+		problem = component.generateProblem(drawingGlyphPolicy)
 		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
 
 		glyphSolver = injector.get(GlyphSolver)
@@ -146,7 +149,6 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		injector = self.getInjector()
 
-		drawingPolicy = injector.get(DrawingPolicy)
 		s1 = injector.get(BeelineSegment_橫)
 		stroke1 = injector.get(ConstraintStroke)
 		stroke1.setSegments([s1]);
@@ -169,7 +171,8 @@ class ConstraintComponentTestCase(BaseTestCase):
 		component.appendLayoutConstraint(layoutConstraint4)
 
 
-		problem = component.generateProblem(drawingPolicy)
+		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
+		problem = component.generateProblem(drawingGlyphPolicy)
 
 		(t1, t2) = layoutConstraint1.intersections
 		problem.appendConstraint(t1==0.5)
@@ -189,7 +192,6 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		injector = self.getInjector()
 
-		drawingPolicy = injector.get(DrawingPolicy)
 		s1 = injector.get(BeelineSegment_橫)
 		stroke1 = injector.get(ConstraintStroke)
 		stroke1.setSegments([s1]);
@@ -212,7 +214,8 @@ class ConstraintComponentTestCase(BaseTestCase):
 		component.appendLayoutConstraint(layoutConstraint4)
 
 
-		problem = component.generateProblem(drawingPolicy)
+		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
+		problem = component.generateProblem(drawingGlyphPolicy)
 
 		(t1, t2) = layoutConstraint1.intersections
 		problem.appendConstraint(t1==0.5)
@@ -231,7 +234,6 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		injector = self.getInjector()
 
-		drawingPolicy = injector.get(DrawingPolicy)
 		s1 = injector.get(BeelineSegment_豎)
 		stroke1 = injector.get(ConstraintStroke)
 		stroke1.setSegments([s1]);
@@ -266,7 +268,9 @@ class ConstraintComponentTestCase(BaseTestCase):
 		component.appendLayoutConstraint(layoutConstraint4)
 		component.appendLayoutConstraint(layoutConstraint5)
 
-		problem = component.generateProblem(drawingPolicy)
+
+		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
+		problem = component.generateProblem(drawingGlyphPolicy)
 		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
 
 		glyphSolver = injector.get(GlyphSolver)
@@ -285,7 +289,6 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		injector = self.getInjector()
 
-		drawingPolicy = injector.get(DrawingPolicy)
 		s1 = injector.get(BeelineSegment_橫)
 		stroke1 = injector.get(ConstraintStroke)
 		stroke1.setSegments([s1]);
@@ -316,7 +319,8 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 
 
-		problem = component.generateProblem(drawingPolicy)
+		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
+		problem = component.generateProblem(drawingGlyphPolicy)
 		problem.appendConstraint(stroke1.getVarOccupationBoundaryWidth() / stroke3.getVarOccupationBoundaryWidth() == 0.9)
 
 		(t1, t2) = layoutConstraint1.intersections
@@ -343,7 +347,6 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		injector = self.getInjector()
 
-		drawingPolicy = injector.get(DrawingPolicy)
 		s1 = injector.get(BeelineSegment_橫)
 		stroke1 = injector.get(ConstraintStroke)
 		stroke1.setSegments([s1]);
@@ -373,7 +376,8 @@ class ConstraintComponentTestCase(BaseTestCase):
 		component.appendLayoutConstraint(layoutConstraint4)
 
 
-		problem = component.generateProblem(drawingPolicy)
+		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
+		problem = component.generateProblem(drawingGlyphPolicy)
 		problem.appendConstraint(stroke3.getVarOccupationBoundaryWidth() / stroke1.getVarOccupationBoundaryWidth() == 0.9)
 
 		(t1, t2) = layoutConstraint1.intersections

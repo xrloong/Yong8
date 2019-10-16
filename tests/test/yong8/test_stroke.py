@@ -4,7 +4,7 @@ from yong8.segment import BaseConstraintBeelineSegment
 from yong8.segment import BeelineSegment_橫, BeelineSegment_豎
 from yong8.stroke import ConstraintStroke
 from yong8.constants import GlyphSolver
-from yong8.drawing import DrawingPolicy
+from yong8.drawing import DrawingGlyphPolicy
 
 class ConstraintStrokeTestCase(BaseTestCase):
 	def setUp(self):
@@ -16,13 +16,13 @@ class ConstraintStrokeTestCase(BaseTestCase):
 	def testStroke_1(self):
 		injector = self.getInjector()
 
-		drawingPolicy = injector.get(DrawingPolicy)
 		s = injector.get(BaseConstraintBeelineSegment)
 		s.setDirConfig([1, -1])
 		stroke = injector.get(ConstraintStroke)
 		stroke.setSegments([s]);
 
-		problem = stroke.generateProblem(drawingPolicy)
+		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
+		problem = stroke.generateProblem(drawingGlyphPolicy)
 		stroke.appendConstraintsWithBoundary(problem, (38, 61, 182, 129))
 
 		glyphSolver = injector.get(GlyphSolver)
@@ -36,13 +36,13 @@ class ConstraintStrokeTestCase(BaseTestCase):
 	def testStroke_2(self):
 		injector = self.getInjector()
 
-		drawingPolicy = injector.get(DrawingPolicy)
 		s1 = injector.get(BeelineSegment_橫)
 		s2 = injector.get(BeelineSegment_豎)
 		stroke = injector.get(ConstraintStroke)
 		stroke.setSegments([s1, s2]);
 
-		problem = stroke.generateProblem(drawingPolicy)
+		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
+		problem = stroke.generateProblem(drawingGlyphPolicy)
 		stroke.appendConstraintsWithBoundary(problem, (38, 61, 182, 129))
 
 		glyphSolver = injector.get(GlyphSolver)
@@ -58,7 +58,6 @@ class ConstraintStrokeTestCase(BaseTestCase):
 	def testStroke_3(self):
 		injector = self.getInjector()
 
-		drawingPolicy = injector.get(DrawingPolicy)
 		s1 = injector.get(BeelineSegment_橫)
 		s2 = injector.get(BeelineSegment_豎)
 		s3 = injector.get(BeelineSegment_橫)
@@ -66,7 +65,8 @@ class ConstraintStrokeTestCase(BaseTestCase):
 		stroke = injector.get(ConstraintStroke)
 		stroke.setSegments((s1, s2, s3, s4), ((1, 0), (0, 3), (2, 0), (0, 1)));
 
-		problem = stroke.generateProblem(drawingPolicy)
+		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
+		problem = stroke.generateProblem(drawingGlyphPolicy)
 		stroke.appendConstraintsWithBoundary(problem, (38, 61, 182, 129))
 
 		glyphSolver = injector.get(GlyphSolver)
