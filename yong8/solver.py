@@ -1,6 +1,6 @@
 import abc
 
-from .problem import Optimization
+from .constants import Optimization
 from .problem import Problem
 
 class SolverProblem:

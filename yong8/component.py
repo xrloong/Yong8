@@ -1,8 +1,8 @@
 from injector import inject
 from enum import Enum
 
+from .constants import Optimization
 from .shape import ConstraintBoundaryShape
-from .problem import Optimization
 
 class ConstraintType(Enum):
 	Non = 0
