@@ -124,10 +124,6 @@ class ConstraintStroke(ConstraintPath):
 
 		for segment in self.segments:
 			segment.appendConstraints(problem)
-			problem.appendConstraint(self.getVarBoundaryLeft() <= segment.getVarBoundaryLeft())
-			problem.appendConstraint(self.getVarBoundaryTop() <= segment.getVarBoundaryTop())
-			problem.appendConstraint(self.getVarBoundaryRight() >= segment.getVarBoundaryRight())
-			problem.appendConstraint(self.getVarBoundaryBottom() >= segment.getVarBoundaryBottom())
 
 		# append constraints for arranging segments' width and height
 		for segment, weight in zip(self.segments, self.weights):
