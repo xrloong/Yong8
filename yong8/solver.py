@@ -71,8 +71,8 @@ class SolverProblemConverter:
 			symbols.append(symbol)
 			variables.append(solverVariable)
 
-		constraints = [self.convertSymExpr(constraint) for constraint in problem.getSymConstraints()]
-		objectives = [(objective[0], self.convertSymExpr(objective[1])) for objective in problem.getSymObjectives()]
+		constraints = [self.convertSymExpr(constraint.getSymExpr()) for constraint in problem.getConstraints()]
+		objectives = [(objective.getOptimization(), self.convertSymExpr(objective.getFunction().getSymExpr())) for objective in problem.getObjectives()]
 
 		solverProblem.setSymbolsAndVariables(symbols, variables)
 		solverProblem.setConstraints(constraints)
