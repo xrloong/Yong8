@@ -59,14 +59,12 @@ class SolverProblemConverter:
 
 		variableCounter = 0
 		for variable in problem.getVariables():
-			symbol = variable.getSymExpr()
-
-			variableOutName = symbol.name
-			variableInName = "x{0}".format(variableCounter)
-
+			variableName = "x{0}".format(variableCounter)
 			variableCounter += 1
 
-			solverVariable = self.glyphSolver.generateSolverVariable(variableInName)
+			symbol = variable.getSymExpr()
+
+			solverVariable = self.glyphSolver.generateSolverVariable(variableName)
 			self.solverVariableMap[symbol] = solverVariable
 			symbols.append(symbol)
 			variables.append(solverVariable)
