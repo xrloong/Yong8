@@ -28,7 +28,7 @@ class Z3GlyphSolver(AbsGlyphSolver):
 		for symbol in problem.getSymbols():
 			variable = problem.queryVariableBySym(symbol)
 			value = model[variable]
-			solutions[symbol] = value
+			solutions[symbol] = float(value.as_decimal(7)) if hasattr(value, 'as_decimal') else 0
 
 		return solutions
 
