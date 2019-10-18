@@ -129,10 +129,10 @@ class ConstraintComponent(ConstraintBoundaryShape):
 			subProblem = stroke.generateProblem(drawingGlyphPolicy)
 			problem.appendProblem(subProblem)
 
-			problem.appendConstraint(self.getVarOccupationBoundaryLeft() <= stroke.getVarOccupationBoundaryLeft())
-			problem.appendConstraint(self.getVarOccupationBoundaryTop() <= stroke.getVarOccupationBoundaryTop())
-			problem.appendConstraint(self.getVarOccupationBoundaryRight() >= stroke.getVarOccupationBoundaryRight())
-			problem.appendConstraint(self.getVarOccupationBoundaryBottom() >= stroke.getVarOccupationBoundaryBottom())
+			problem.appendConstraint(self.getVarBoundaryLeft() <= stroke.getVarBoundaryLeft())
+			problem.appendConstraint(self.getVarBoundaryTop() <= stroke.getVarBoundaryTop())
+			problem.appendConstraint(self.getVarBoundaryRight() >= stroke.getVarBoundaryRight())
+			problem.appendConstraint(self.getVarBoundaryBottom() >= stroke.getVarBoundaryBottom())
 
 		self.appendLayoutContraintsProblemTo(problem)
 
@@ -144,8 +144,8 @@ class ConstraintComponent(ConstraintBoundaryShape):
 	def appendContraintFromLayoutConstraint(self, problem, layoutConstraint):
 		if layoutConstraint.isToAlignCenter():
 			targetShape = layoutConstraint.getTargetShape()
-			problem.appendConstraint(self.getVarOccupationBoundaryCenterX() == targetShape.getVarOccupationBoundaryCenterX())
-			problem.appendConstraint(self.getVarOccupationBoundaryCenterY() == targetShape.getVarOccupationBoundaryCenterY())
+			problem.appendConstraint(self.getVarBoundaryCenterX() == targetShape.getVarBoundaryCenterX())
+			problem.appendConstraint(self.getVarBoundaryCenterY() == targetShape.getVarBoundaryCenterY())
 		if layoutConstraint.isRow():
 			problem.appendConstraint(layoutConstraint.getRowConstraint())
 		if layoutConstraint.isPointMatchPoint():

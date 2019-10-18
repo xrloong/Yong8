@@ -86,31 +86,31 @@ class BaseConstraintBeelineSegment(ConstraintPath):
 			yDir = sign(self.dirConfig[1])
 			if xDir == 1:
 				problem.appendConstraint(self.getVarStartX() + self.getVarVectorX() == self.getVarEndX())
-				problem.appendConstraint(self.getVarOccupationBoundaryLeft() == self.getVarStartX())
-				problem.appendConstraint(self.getVarOccupationBoundaryRight() == self.getVarEndX())
+				problem.appendConstraint(self.getVarBoundaryLeft() == self.getVarStartX())
+				problem.appendConstraint(self.getVarBoundaryRight() == self.getVarEndX())
 			elif xDir == -1:
 				problem.appendConstraint(self.getVarStartX() - self.getVarVectorX() == self.getVarEndX())
-				problem.appendConstraint(self.getVarOccupationBoundaryLeft() == self.getVarEndX())
-				problem.appendConstraint(self.getVarOccupationBoundaryRight() == self.getVarStartX())
+				problem.appendConstraint(self.getVarBoundaryLeft() == self.getVarEndX())
+				problem.appendConstraint(self.getVarBoundaryRight() == self.getVarStartX())
 			else:
-				problem.appendConstraint(self.getVarOccupationBoundaryLeft() == self.getVarStartX())
-				problem.appendConstraint(self.getVarOccupationBoundaryRight() == self.getVarEndX())
+				problem.appendConstraint(self.getVarBoundaryLeft() == self.getVarStartX())
+				problem.appendConstraint(self.getVarBoundaryRight() == self.getVarEndX())
 				problem.appendConstraint(self.getVarStartX() == self.getVarEndX())
 				problem.appendConstraint(self.getVarVectorX() == 0)
 				problem.appendConstraint(self.getVarBoundaryWidth() == 0)
 			problem.appendConstraint(self.getVarVectorX() >= 0 )
 
 			if yDir == 1:
-				problem.appendConstraint(self.getVarOccupationBoundaryTop() == self.getVarStartY())
-				problem.appendConstraint(self.getVarOccupationBoundaryBottom() == self.getVarEndY())
+				problem.appendConstraint(self.getVarBoundaryTop() == self.getVarStartY())
+				problem.appendConstraint(self.getVarBoundaryBottom() == self.getVarEndY())
 				problem.appendConstraint(self.getVarStartY() + self.getVarVectorY() == self.getVarEndY())
 			elif yDir == -1:
-				problem.appendConstraint(self.getVarOccupationBoundaryTop() == self.getVarEndY())
-				problem.appendConstraint(self.getVarOccupationBoundaryBottom() == self.getVarStartY())
+				problem.appendConstraint(self.getVarBoundaryTop() == self.getVarEndY())
+				problem.appendConstraint(self.getVarBoundaryBottom() == self.getVarStartY())
 				problem.appendConstraint(self.getVarStartY() - self.getVarVectorY() == self.getVarEndY())
 			else:
-				problem.appendConstraint(self.getVarOccupationBoundaryTop() == self.getVarStartY())
-				problem.appendConstraint(self.getVarOccupationBoundaryBottom() == self.getVarEndY())
+				problem.appendConstraint(self.getVarBoundaryTop() == self.getVarStartY())
+				problem.appendConstraint(self.getVarBoundaryBottom() == self.getVarEndY())
 				problem.appendConstraint(self.getVarStartY() == self.getVarEndY())
 				problem.appendConstraint(self.getVarVectorY() == 0)
 				problem.appendConstraint(self.getVarBoundaryHeight() == 0)

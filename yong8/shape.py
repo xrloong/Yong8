@@ -46,19 +46,19 @@ class ConstraintBoundaryShape(ConstraintShape):
 		self.uuid = uuid.uuid4()
 
 		componentPrefix = self.getComponentPrefix()
-		self.occupationBoundaryLeft = generateVariable(componentPrefix, "occupation_boundary_left")
-		self.occupationBoundaryTop = generateVariable(componentPrefix, "occupation_boundary_top")
-		self.occupationBoundaryRight = generateVariable(componentPrefix, "occupation_boundary_right")
-		self.occupationBoundaryBottom = generateVariable(componentPrefix, "occupation_boundary_bottom")
-		self.occupationBoundaryWidth = generateVariable(componentPrefix, "occupation_boundary_width")
-		self.occupationBoundaryHeight = generateVariable(componentPrefix, "occupation_boundary_height")
-		self.occupationBoundaryCenterX = generateVariable(componentPrefix, "occupation_boundary_centerX")
-		self.occupationBoundaryCenterY = generateVariable(componentPrefix, "occupation_boundary_centerY")
+		self.boundaryLeft = generateVariable(componentPrefix, "boundary_left")
+		self.boundaryTop = generateVariable(componentPrefix, "boundary_top")
+		self.boundaryRight = generateVariable(componentPrefix, "boundary_right")
+		self.boundaryBottom = generateVariable(componentPrefix, "boundary_bottom")
+		self.boundaryWidth = generateVariable(componentPrefix, "boundary_width")
+		self.boundaryHeight = generateVariable(componentPrefix, "boundary_height")
+		self.boundaryCenterX = generateVariable(componentPrefix, "boundary_centerX")
+		self.boundaryCenterY = generateVariable(componentPrefix, "boundary_centerY")
 
-		self.expMinX = self.occupationBoundaryLeft
-		self.expMinY = self.occupationBoundaryTop
-		self.expMaxX = self.occupationBoundaryRight
-		self.expMaxY = self.occupationBoundaryBottom
+		self.expMinX = self.boundaryLeft
+		self.expMinY = self.boundaryTop
+		self.expMaxX = self.boundaryRight
+		self.expMaxY = self.boundaryBottom
 
 	def getId(self):
 		return self.uuid
@@ -75,71 +75,47 @@ class ConstraintBoundaryShape(ConstraintShape):
 	def getComponentPrefix(self):
 		return self.getComponentName()+"_"+str(self.uuid)
 
+
 	def getVarBoundaryLeft(self):
-		return self.getVarOccupationBoundaryLeft()
+		return self.boundaryLeft
 
 	def getVarBoundaryTop(self):
-		return self.getVarOccupationBoundaryTop()
+		return self.boundaryTop
 
 	def getVarBoundaryRight(self):
-		return self.getVarOccupationBoundaryRight()
+		return self.boundaryRight
 
 	def getVarBoundaryBottom(self):
-		return self.getVarOccupationBoundaryBottom()
+		return self.boundaryBottom
 
 	def getVarBoundaryWidth(self):
-		return self.getVarOccupationBoundaryWidth()
+		return self.boundaryWidth
 
 	def getVarBoundaryHeight(self):
-		return self.getVarOccupationBoundaryHeight()
+		return self.boundaryHeight
 
 	def getVarBoundaryCenterX(self):
-		return self.getVarOccupationBoundaryCenterX()
+		return self.boundaryCenterX
 
 	def getVarBoundaryCenterY(self):
-		return self.getVarOccupationBoundaryCenterY()
+		return self.boundaryCenterY
 
 
-	def getVarOccupationBoundaryLeft(self):
-		return self.occupationBoundaryLeft
-
-	def getVarOccupationBoundaryTop(self):
-		return self.occupationBoundaryTop
-
-	def getVarOccupationBoundaryRight(self):
-		return self.occupationBoundaryRight
-
-	def getVarOccupationBoundaryBottom(self):
-		return self.occupationBoundaryBottom
-
-	def getVarOccupationBoundaryWidth(self):
-		return self.occupationBoundaryWidth
-
-	def getVarOccupationBoundaryHeight(self):
-		return self.occupationBoundaryHeight
-
-	def getVarOccupationBoundaryCenterX(self):
-		return self.occupationBoundaryCenterX
-
-	def getVarOccupationBoundaryCenterY(self):
-		return self.occupationBoundaryCenterY
-
-
-	def getOccupationBoundary(self):
+	def getBoundary(self):
 		return (
-			self.getVarOccupationBoundaryLeft().getValue(),
-			self.getVarOccupationBoundaryTop().getValue(),
-			self.getVarOccupationBoundaryRight().getValue(),
-			self.getVarOccupationBoundaryBottom().getValue(),
+			self.getVarBoundaryLeft().getValue(),
+			self.getVarBoundaryTop().getValue(),
+			self.getVarBoundaryRight().getValue(),
+			self.getVarBoundaryBottom().getValue(),
 			)
 
-	def getOccupationBoundaryCenter(self):
-		return (self.getVarOccupationBoundaryCenterX().getValue(),
-			self.getVarOccupationBoundaryCenterY().getValue())
+	def getBoundaryCenter(self):
+		return (self.getVarBoundaryCenterX().getValue(),
+			self.getVarBoundaryCenterY().getValue())
 
-	def getOccupationSize(self):
-		return (self.getVarOccupationBoundaryWidth().getValue(),
-			self.getVarOccupationBoundaryHeight().getValue())
+	def getSize(self):
+		return (self.getVarBoundaryWidth().getValue(),
+			self.getVarBoundaryHeight().getValue())
 
 
 	def getExpMinX(self):
@@ -155,64 +131,49 @@ class ConstraintBoundaryShape(ConstraintShape):
 		return self.expMaxY
 
 
-	def getBoundary(self):
-		return self.getOccupationBoundary()
-
-	def getBoundaryCenter(self):
-		return self.getOccupationBoundaryCenter()
-
-	def getSize(self):
-		return self.getOccupationSize()
-
 
 	def appendVariables(self, problem):
-		problem.addVariable(self.occupationBoundaryLeft)
-		problem.addVariable(self.occupationBoundaryTop)
-		problem.addVariable(self.occupationBoundaryRight)
-		problem.addVariable(self.occupationBoundaryBottom)
-		problem.addVariable(self.occupationBoundaryWidth)
-		problem.addVariable(self.occupationBoundaryHeight)
-		problem.addVariable(self.occupationBoundaryCenterX)
-		problem.addVariable(self.occupationBoundaryCenterY)
+		problem.addVariable(self.boundaryLeft)
+		problem.addVariable(self.boundaryTop)
+		problem.addVariable(self.boundaryRight)
+		problem.addVariable(self.boundaryBottom)
+		problem.addVariable(self.boundaryWidth)
+		problem.addVariable(self.boundaryHeight)
+		problem.addVariable(self.boundaryCenterX)
+		problem.addVariable(self.boundaryCenterY)
 
 	def appendConstraints(self, problem):
 		self.appendConstraintsForBoundary(problem)
 
 	def appendConstraintsForBoundary(self, problem):
-		# occupation constraints
-		problem.appendConstraint(self.getVarOccupationBoundaryLeft() <= self.getVarOccupationBoundaryRight())
-		problem.appendConstraint(self.getVarOccupationBoundaryTop() <= self.getVarOccupationBoundaryBottom())
-		problem.appendConstraint(self.getVarOccupationBoundaryCenterX()*2 == self.getVarOccupationBoundaryLeft() + self.getVarOccupationBoundaryRight())
-		problem.appendConstraint(self.getVarOccupationBoundaryCenterY()*2 == self.getVarOccupationBoundaryTop() + self.getVarOccupationBoundaryBottom())
-		problem.appendConstraint(self.getVarOccupationBoundaryWidth() == self.getVarOccupationBoundaryRight() - self.getVarOccupationBoundaryLeft())
-		problem.appendConstraint(self.getVarOccupationBoundaryHeight() == self.getVarOccupationBoundaryBottom() - self.getVarOccupationBoundaryTop())
+		# boundary constraints
+		problem.appendConstraint(self.getVarBoundaryLeft() <= self.getVarBoundaryRight())
+		problem.appendConstraint(self.getVarBoundaryTop() <= self.getVarBoundaryBottom())
+		problem.appendConstraint(self.getVarBoundaryCenterX()*2 == self.getVarBoundaryLeft() + self.getVarBoundaryRight())
+		problem.appendConstraint(self.getVarBoundaryCenterY()*2 == self.getVarBoundaryTop() + self.getVarBoundaryBottom())
+		problem.appendConstraint(self.getVarBoundaryWidth() == self.getVarBoundaryRight() - self.getVarBoundaryLeft())
+		problem.appendConstraint(self.getVarBoundaryHeight() == self.getVarBoundaryBottom() - self.getVarBoundaryTop())
 
-		# make occupation to match the shape
-		problem.appendConstraint(self.getVarOccupationBoundaryLeft() == self.getExpMinX())
-		problem.appendConstraint(self.getVarOccupationBoundaryTop() == self.getExpMinY())
-		problem.appendConstraint(self.getVarOccupationBoundaryRight() == self.getExpMaxX())
-		problem.appendConstraint(self.getVarOccupationBoundaryBottom() == self.getExpMaxY())
+		# make boundary to match the shape
+		problem.appendConstraint(self.getVarBoundaryLeft() == self.getExpMinX())
+		problem.appendConstraint(self.getVarBoundaryTop() == self.getExpMinY())
+		problem.appendConstraint(self.getVarBoundaryRight() == self.getExpMaxX())
+		problem.appendConstraint(self.getVarBoundaryBottom() == self.getExpMaxY())
 
 	def appendConstraintsWithBoundary(self, problem, boundary):
-		self.appendConstraintsWithOccupationBoundary(problem, boundary)
-
-	def appendConstraintsWithOccupationBoundary(self, problem, boundary):
 		left, top, right, bottom = boundary
-		problem.appendConstraint(self.getVarOccupationBoundaryLeft() == left)
-		problem.appendConstraint(self.getVarOccupationBoundaryTop() == top)
-		problem.appendConstraint(self.getVarOccupationBoundaryRight() == right)
-		problem.appendConstraint(self.getVarOccupationBoundaryBottom() == bottom)
+		problem.appendConstraint(self.getVarBoundaryLeft() == left)
+		problem.appendConstraint(self.getVarBoundaryTop() == top)
+		problem.appendConstraint(self.getVarBoundaryRight() == right)
+		problem.appendConstraint(self.getVarBoundaryBottom() == bottom)
 
 	def appendConstraintsWithSizeCenter(self, problem, size, center):
-		self.appendConstraintsWithOccupationSizeCenter(problem, size, center)
-
-	def appendConstraintsWithOccupationSizeCenter(self, problem, size, center):
 		width, height = size
 		centerX, centerY = center
-		problem.appendConstraint(self.getVarOccupationBoundaryWidth() == width)
-		problem.appendConstraint(self.getVarOccupationBoundaryHeight() == height)
-		problem.appendConstraint(self.getVarOccupationBoundaryCenterX() == centerX)
-		problem.appendConstraint(self.getVarOccupationBoundaryCenterY() == centerY)
+		problem.appendConstraint(self.getVarBoundaryWidth() == width)
+		problem.appendConstraint(self.getVarBoundaryHeight() == height)
+		problem.appendConstraint(self.getVarBoundaryCenterX() == centerX)
+		problem.appendConstraint(self.getVarBoundaryCenterY() == centerY)
 
 	def appendObjective(self, problem):
 		pass

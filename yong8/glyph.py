@@ -23,7 +23,7 @@ class ConstraintGlyph(ConstraintBoundaryShape):
 		return self.components
 
 	def getMargin(self):
-		return self.getOccupationBoundary()
+		return self.getBoundary()
 
 	def appendConstraints(self, problem):
 		super().appendConstraints(problem)
@@ -33,10 +33,10 @@ class ConstraintGlyph(ConstraintBoundaryShape):
 		marginHorizontal = drawingGlyphPolicy.getMarginHorizontal()
 		marginVertical = drawingGlyphPolicy.getMarginVertical()
 
-		problem.appendConstraint(self.getVarOccupationBoundaryLeft() - 0 == marginHorizontal)
-		problem.appendConstraint(self.getVarOccupationBoundaryTop() - 0 == marginVertical)
-		problem.appendConstraint(size[0] - self.getVarOccupationBoundaryRight() == marginHorizontal)
-		problem.appendConstraint(size[1] - self.getVarOccupationBoundaryBottom() == marginVertical)
+		problem.appendConstraint(self.getVarBoundaryLeft() - 0 == marginHorizontal)
+		problem.appendConstraint(self.getVarBoundaryTop() - 0 == marginVertical)
+		problem.appendConstraint(size[0] - self.getVarBoundaryRight() == marginHorizontal)
+		problem.appendConstraint(size[1] - self.getVarBoundaryBottom() == marginVertical)
 
 	def appendChildrenProblemTo(self, problem):
 		super().appendChildrenProblemTo(problem)
