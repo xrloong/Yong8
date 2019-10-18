@@ -1,5 +1,5 @@
+from .problem import generateVariable
 from .shape import ConstraintPath
-from .symbol import generateVariable
 
 sign = lambda x: x and (1, -1)[x < 0]
 

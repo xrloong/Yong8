@@ -137,9 +137,3 @@ Symbol = V
 Expr = E
 Relational = C
 
-def generateVariable(prefix, name):
-	variableName = prefix+"."+name
-
-	variable = V(variableName)
-	return variable
-

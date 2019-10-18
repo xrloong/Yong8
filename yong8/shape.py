@@ -2,9 +2,9 @@ import abc
 import uuid
 
 from .drawing import DrawingGlyphPolicy
+from .problem import generateVariable
 from .problem import Objective
 from .problem import Problem
-from .symbol import generateVariable
 
 class ConstraintShape(object, metaclass=abc.ABCMeta):
 	def __init__(self):

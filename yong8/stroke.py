@@ -1,5 +1,5 @@
+from .problem import generateVariable
 from .shape import ConstraintPath
-from .symbol import generateVariable
 
 class ConstraintStroke(ConstraintPath):
 	def __init__(self):

@@ -1,5 +1,10 @@
 from .constants import Optimization
 from .drawing import DrawingGlyphPolicy
+from .symbol import V
+
+def generateVariable(prefix, name) -> V:
+	variableName = prefix+"."+name
+	return V(variableName)
 
 class Objective:
 	def __init__(self, function, optimization: Optimization = Optimization.Maximize):
