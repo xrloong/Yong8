@@ -1,7 +1,3 @@
-from injector import inject
-
-from .constants import GlyphSolver
-
 class DrawingGlyphPolicy:
 	def __init__(self):
 		pass
@@ -21,26 +17,4 @@ class DrawingPolicy:
 
 	def getDrawingGlyphPolicy(self):
 		return self.drawingGlyphPolicy
-
-class ConstraintDrawingSystem:
-	@inject
-	def __init__(self, glyphSolver: GlyphSolver, drawingPolicy: DrawingPolicy):
-		self.glyphSolver = glyphSolver
-
-		self.drawingPolicy = drawingPolicy
-
-	def getDrawingPolicy(self):
-		return self.drawingPolicy
-
-	def getDrawingGlyphPolicy(self):
-		return self.drawingPolicy.getDrawingGlyphPolicy()
-
-	def getGlyphSolver(self):
-		return self.glyphSolver
-
-	def dumpVariables(self):
-		glyphSolver = self.glyphSolver
-		variableMap = glyphSolver.variableMap
-		for (name, var) in variableMap.items():
-			print(name, self.glyphSolver.varibleInToOutMap[name], var)
 

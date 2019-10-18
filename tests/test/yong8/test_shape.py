@@ -2,7 +2,6 @@ from .base import BaseTestCase
 
 from yong8.shape import ConstraintShape, ConstraintBoundaryShape
 from yong8.constants import GlyphSolver
-from yong8.constants import DrawingSystem
 from yong8.drawing import DrawingGlyphPolicy
 
 class ConstraintShapeTestCase(BaseTestCase):
