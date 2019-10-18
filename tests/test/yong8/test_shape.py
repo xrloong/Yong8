@@ -4,7 +4,7 @@ from .base import GlyphSolver
 from yong8.drawing import DrawingGlyphPolicy
 from yong8.factory import ShapeFactory
 
-class ConstraintBoundaryShape_Occupation_TestCase(BaseTestCase):
+class ConstraintBoundaryShape_TestCase(BaseTestCase):
 	def setUp(self):
 		super().setUp()
 
@@ -26,7 +26,7 @@ class ConstraintBoundaryShape_Occupation_TestCase(BaseTestCase):
 		shape = shapeFactory.generateShape()
 		self.assertIsNotNone(shape)
 
-	def testConstraintBoundaryShape_constraintOccupationLeftTopRightBottom(self):
+	def testConstraintBoundaryShape_constraintLeftTopRightBottom(self):
 		injector = self.getInjector()
 
 		shapeFactory = injector.get(ShapeFactory)
@@ -34,19 +34,19 @@ class ConstraintBoundaryShape_Occupation_TestCase(BaseTestCase):
 
 		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
 		problem = shape.generateProblem(drawingGlyphPolicy)
-		problem.appendConstraint(shape.getVarOccupationBoundaryLeft()==38)
-		problem.appendConstraint(shape.getVarOccupationBoundaryTop()==61)
-		problem.appendConstraint(shape.getVarOccupationBoundaryRight()==182)
-		problem.appendConstraint(shape.getVarOccupationBoundaryBottom()==129)
+		problem.appendConstraint(shape.getVarBoundaryLeft()==38)
+		problem.appendConstraint(shape.getVarBoundaryTop()==61)
+		problem.appendConstraint(shape.getVarBoundaryRight()==182)
+		problem.appendConstraint(shape.getVarBoundaryBottom()==129)
 
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
 
-		self.assertSequenceAlmostEqual(shape.getOccupationSize(), (144, 68))
-		self.assertSequenceAlmostEqual(shape.getOccupationBoundary(), (38, 61, 182, 129))
-		self.assertSequenceAlmostEqual(shape.getOccupationBoundaryCenter(), (110, 95))
+		self.assertSequenceAlmostEqual(shape.getSize(), (144, 68))
+		self.assertSequenceAlmostEqual(shape.getBoundary(), (38, 61, 182, 129))
+		self.assertSequenceAlmostEqual(shape.getBoundaryCenter(), (110, 95))
 
-	def testConstraintBoundaryShape_constraintOccupationSizeAndCenter(self):
+	def testConstraintBoundaryShape_constraintSizeAndCenter(self):
 		injector = self.getInjector()
 
 		shapeFactory = injector.get(ShapeFactory)
@@ -54,17 +54,17 @@ class ConstraintBoundaryShape_Occupation_TestCase(BaseTestCase):
 
 		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
 		problem = shape.generateProblem(drawingGlyphPolicy)
-		problem.appendConstraint(shape.getVarOccupationBoundaryWidth()==144)
-		problem.appendConstraint(shape.getVarOccupationBoundaryHeight()==68)
-		problem.appendConstraint(shape.getVarOccupationBoundaryCenterX()==110)
-		problem.appendConstraint(shape.getVarOccupationBoundaryCenterY()==95)
+		problem.appendConstraint(shape.getVarBoundaryWidth()==144)
+		problem.appendConstraint(shape.getVarBoundaryHeight()==68)
+		problem.appendConstraint(shape.getVarBoundaryCenterX()==110)
+		problem.appendConstraint(shape.getVarBoundaryCenterY()==95)
 
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
 
-		self.assertSequenceAlmostEqual(shape.getOccupationBoundary(), (38, 61, 182, 129))
+		self.assertSequenceAlmostEqual(shape.getBoundary(), (38, 61, 182, 129))
 
-	def testConstraintBoundaryShape_bindOccupationBoundary(self):
+	def testConstraintBoundaryShape_bindBoundary(self):
 		injector = self.getInjector()
 
 		shapeFactory = injector.get(ShapeFactory)
@@ -72,15 +72,15 @@ class ConstraintBoundaryShape_Occupation_TestCase(BaseTestCase):
 
 		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
 		problem = shape.generateProblem(drawingGlyphPolicy)
-		shape.appendConstraintsWithOccupationBoundary(problem, (38, 61, 182, 129))
+		shape.appendConstraintsWithBoundary(problem, (38, 61, 182, 129))
 
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
 
-		self.assertSequenceAlmostEqual(shape.getOccupationSize(), (144, 68))
-		self.assertSequenceAlmostEqual(shape.getOccupationBoundaryCenter(), (110.0, 95.0))
+		self.assertSequenceAlmostEqual(shape.getSize(), (144, 68))
+		self.assertSequenceAlmostEqual(shape.getBoundaryCenter(), (110.0, 95.0))
 
-	def testConstraintBoundaryShape_bindOccupationSizeCenter(self):
+	def testConstraintBoundaryShape_bindSizeCenter(self):
 		injector = self.getInjector()
 
 		shapeFactory = injector.get(ShapeFactory)
@@ -88,10 +88,10 @@ class ConstraintBoundaryShape_Occupation_TestCase(BaseTestCase):
 
 		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
 		problem = shape.generateProblem(drawingGlyphPolicy)
-		shape.appendConstraintsWithOccupationSizeCenter(problem, (144, 68), (110.0, 95.0))
+		shape.appendConstraintsWithSizeCenter(problem, (144, 68), (110.0, 95.0))
 
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
 
-		self.assertSequenceAlmostEqual(shape.getOccupationBoundary(), (38, 61, 182, 129))
+		self.assertSequenceAlmostEqual(shape.getBoundary(), (38, 61, 182, 129))
 

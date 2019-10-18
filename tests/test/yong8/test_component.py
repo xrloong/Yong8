@@ -43,10 +43,10 @@ class ConstraintComponentTestCase(BaseTestCase):
 		layoutConstraint1.setAsAlignCenter(stroke)
 
 		layoutConstraint2 = LayoutConstraint()
-		layoutConstraint2.setAsRow(component.getVarOccupationBoundaryWidth() == stroke.getVarOccupationBoundaryWidth())
+		layoutConstraint2.setAsRow(component.getVarBoundaryWidth() == stroke.getVarBoundaryWidth())
 
 		layoutConstraint3 = LayoutConstraint()
-		layoutConstraint3.setAsMinimize(component.getVarOccupationBoundaryHeight()*2)
+		layoutConstraint3.setAsMinimize(component.getVarBoundaryHeight()*2)
 
 		component.appendLayoutConstraint(layoutConstraint1)
 		component.appendLayoutConstraint(layoutConstraint2)
@@ -85,9 +85,9 @@ class ConstraintComponentTestCase(BaseTestCase):
 		layoutConstraint2 = LayoutConstraint()
 		layoutConstraint2.setAsAlignCenter(stroke2)
 		layoutConstraint3 = LayoutConstraint()
-		layoutConstraint3.setAsRow(component.getVarOccupationBoundaryWidth() == stroke1.getVarOccupationBoundaryWidth())
+		layoutConstraint3.setAsRow(component.getVarBoundaryWidth() == stroke1.getVarBoundaryWidth())
 		layoutConstraint4 = LayoutConstraint()
-		layoutConstraint4.setAsRow(component.getVarOccupationBoundaryHeight() == stroke2.getVarOccupationBoundaryHeight())
+		layoutConstraint4.setAsRow(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
 		component.appendLayoutConstraint(layoutConstraint1)
 		component.appendLayoutConstraint(layoutConstraint2)
 		component.appendLayoutConstraint(layoutConstraint3)
@@ -129,9 +129,9 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 
 		layoutConstraint1 = LayoutConstraint()
-		layoutConstraint1.setAsRow(component.getVarOccupationBoundaryWidth() == stroke2.getVarOccupationBoundaryWidth())
+		layoutConstraint1.setAsRow(component.getVarBoundaryWidth() == stroke2.getVarBoundaryWidth())
 		layoutConstraint2 = LayoutConstraint()
-		layoutConstraint2.setAsRow(component.getVarOccupationBoundaryHeight() == stroke2.getVarOccupationBoundaryHeight())
+		layoutConstraint2.setAsRow(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
 
 		layoutConstraint3 = LayoutConstraint()
 		layoutConstraint3.setAsPointMatchPoint(stroke1.resolvePointStart(), stroke2.resolvePointStart())
@@ -179,9 +179,9 @@ class ConstraintComponentTestCase(BaseTestCase):
 		layoutConstraint1 = LayoutConstraint()
 		layoutConstraint1.setAsSegmentsIntersection(s1, s2)
 		layoutConstraint3 = LayoutConstraint()
-		layoutConstraint3.setAsRow(component.getVarOccupationBoundaryWidth() == stroke1.getVarOccupationBoundaryWidth())
+		layoutConstraint3.setAsRow(component.getVarBoundaryWidth() == stroke1.getVarBoundaryWidth())
 		layoutConstraint4 = LayoutConstraint()
-		layoutConstraint4.setAsRow(component.getVarOccupationBoundaryHeight() == stroke2.getVarOccupationBoundaryHeight())
+		layoutConstraint4.setAsRow(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
 		component.appendLayoutConstraint(layoutConstraint1)
 		component.appendLayoutConstraint(layoutConstraint3)
 		component.appendLayoutConstraint(layoutConstraint4)
@@ -223,9 +223,9 @@ class ConstraintComponentTestCase(BaseTestCase):
 		layoutConstraint1 = LayoutConstraint()
 		layoutConstraint1.setAsSegmentsIntersection(s1, s2, IntersectionPos.BetweenStartEnd, IntersectionPos.Start)
 		layoutConstraint3 = LayoutConstraint()
-		layoutConstraint3.setAsRow(component.getVarOccupationBoundaryWidth() == stroke1.getVarOccupationBoundaryWidth())
+		layoutConstraint3.setAsRow(component.getVarBoundaryWidth() == stroke1.getVarBoundaryWidth())
 		layoutConstraint4 = LayoutConstraint()
-		layoutConstraint4.setAsRow(component.getVarOccupationBoundaryHeight() == stroke2.getVarOccupationBoundaryHeight())
+		layoutConstraint4.setAsRow(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
 		component.appendLayoutConstraint(layoutConstraint1)
 		component.appendLayoutConstraint(layoutConstraint3)
 		component.appendLayoutConstraint(layoutConstraint4)
@@ -274,9 +274,9 @@ class ConstraintComponentTestCase(BaseTestCase):
 		layoutConstraint3 = LayoutConstraint()
 		layoutConstraint3.setAsSegmentsIntersection(s2_2, s3, IntersectionPos.End, IntersectionPos.End)
 		layoutConstraint4 = LayoutConstraint()
-		layoutConstraint4.setAsRow(component.getVarOccupationBoundaryWidth() == stroke2.getVarOccupationBoundaryWidth())
+		layoutConstraint4.setAsRow(component.getVarBoundaryWidth() == stroke2.getVarBoundaryWidth())
 		layoutConstraint5 = LayoutConstraint()
-		layoutConstraint5.setAsRow(component.getVarOccupationBoundaryHeight() == stroke1.getVarOccupationBoundaryHeight())
+		layoutConstraint5.setAsRow(component.getVarBoundaryHeight() == stroke1.getVarBoundaryHeight())
 
 
 		component.appendLayoutConstraint(layoutConstraint1)
@@ -326,9 +326,9 @@ class ConstraintComponentTestCase(BaseTestCase):
 		layoutConstraint2 = LayoutConstraint()
 		layoutConstraint2.setAsSegmentsIntersection(s2, s3, IntersectionPos.End, IntersectionPos.BetweenStartEnd)
 		layoutConstraint3 = LayoutConstraint()
-		layoutConstraint3.setAsRow(component.getVarOccupationBoundaryWidth() == stroke3.getVarOccupationBoundaryWidth())
+		layoutConstraint3.setAsRow(component.getVarBoundaryWidth() == stroke3.getVarBoundaryWidth())
 		layoutConstraint4 = LayoutConstraint()
-		layoutConstraint4.setAsRow(component.getVarOccupationBoundaryHeight() == stroke2.getVarOccupationBoundaryHeight())
+		layoutConstraint4.setAsRow(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
 		component.appendLayoutConstraint(layoutConstraint1)
 		component.appendLayoutConstraint(layoutConstraint2)
 		component.appendLayoutConstraint(layoutConstraint3)
@@ -338,7 +338,7 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
 		problem = component.generateProblem(drawingGlyphPolicy)
-		problem.appendConstraint(stroke1.getVarOccupationBoundaryWidth() / stroke3.getVarOccupationBoundaryWidth() == 0.9)
+		problem.appendConstraint(stroke1.getVarBoundaryWidth() / stroke3.getVarBoundaryWidth() == 0.9)
 
 		(t1, t2) = layoutConstraint1.intersections
 		problem.appendConstraint(t1==0.5)
@@ -384,9 +384,9 @@ class ConstraintComponentTestCase(BaseTestCase):
 		layoutConstraint2 = LayoutConstraint()
 		layoutConstraint2.setAsSegmentsIntersection(s2, s3, IntersectionPos.End, IntersectionPos.BetweenStartEnd)
 		layoutConstraint3 = LayoutConstraint()
-		layoutConstraint3.setAsRow(component.getVarOccupationBoundaryWidth() == stroke1.getVarOccupationBoundaryWidth())
+		layoutConstraint3.setAsRow(component.getVarBoundaryWidth() == stroke1.getVarBoundaryWidth())
 		layoutConstraint4 = LayoutConstraint()
-		layoutConstraint4.setAsRow(component.getVarOccupationBoundaryHeight() == stroke2.getVarOccupationBoundaryHeight())
+		layoutConstraint4.setAsRow(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
 		component.appendLayoutConstraint(layoutConstraint1)
 		component.appendLayoutConstraint(layoutConstraint2)
 		component.appendLayoutConstraint(layoutConstraint3)
@@ -395,7 +395,7 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
 		problem = component.generateProblem(drawingGlyphPolicy)
-		problem.appendConstraint(stroke3.getVarOccupationBoundaryWidth() / stroke1.getVarOccupationBoundaryWidth() == 0.9)
+		problem.appendConstraint(stroke3.getVarBoundaryWidth() / stroke1.getVarBoundaryWidth() == 0.9)
 
 		(t1, t2) = layoutConstraint1.intersections
 		problem.appendConstraint(t1==0.5)
