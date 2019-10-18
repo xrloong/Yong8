@@ -1,10 +1,9 @@
 from .base import BaseTestCase
 from .base import GlyphSolver
 
-from yong8.segment import BaseConstraintBeelineSegment
-from yong8.segment import BeelineSegment_橫, BeelineSegment_豎
-from yong8.stroke import ConstraintStroke
 from yong8.drawing import DrawingGlyphPolicy
+from yong8.factory import SegmentFactory
+from yong8.factory import StrokeFactory
 
 class ConstraintStrokeTestCase(BaseTestCase):
 	def setUp(self):
@@ -13,13 +12,28 @@ class ConstraintStrokeTestCase(BaseTestCase):
 	def tearDown(self):
 		super().tearDown()
 
+	def testInjector(self):
+		injector = self.getInjector()
+		self.assertIsNotNone(injector)
+
+	def testInjectSegmentFactory(self):
+		injector = self.getInjector()
+		segmentFactory = injector.get(SegmentFactory)
+		self.assertIsNotNone(segmentFactory)
+
+	def testInjectStrokeFactory(self):
+		injector = self.getInjector()
+		strokeFactory = injector.get(StrokeFactory)
+		self.assertIsNotNone(strokeFactory)
+
 	def testStroke_1(self):
 		injector = self.getInjector()
 
-		s = injector.get(BaseConstraintBeelineSegment)
-		s.setDirConfig([1, -1])
-		stroke = injector.get(ConstraintStroke)
-		stroke.setSegments([s]);
+		segmentFactory = injector.get(SegmentFactory)
+		s = segmentFactory.generateBeelineSegment([1, -1])
+
+		strokeFactory = injector.get(StrokeFactory)
+		stroke = strokeFactory.generateStroke([s])
 
 		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
 		problem = stroke.generateProblem(drawingGlyphPolicy)
@@ -36,10 +50,12 @@ class ConstraintStrokeTestCase(BaseTestCase):
 	def testStroke_2(self):
 		injector = self.getInjector()
 
-		s1 = injector.get(BeelineSegment_橫)
-		s2 = injector.get(BeelineSegment_豎)
-		stroke = injector.get(ConstraintStroke)
-		stroke.setSegments([s1, s2]);
+		segmentFactory = injector.get(SegmentFactory)
+		s1 = segmentFactory.generateBeelineSegment_橫()
+		s2 = segmentFactory.generateBeelineSegment_豎()
+
+		strokeFactory = injector.get(StrokeFactory)
+		stroke = strokeFactory.generateStroke([s1, s2])
 
 		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
 		problem = stroke.generateProblem(drawingGlyphPolicy)
@@ -58,12 +74,14 @@ class ConstraintStrokeTestCase(BaseTestCase):
 	def testStroke_3(self):
 		injector = self.getInjector()
 
-		s1 = injector.get(BeelineSegment_橫)
-		s2 = injector.get(BeelineSegment_豎)
-		s3 = injector.get(BeelineSegment_橫)
-		s4 = injector.get(BeelineSegment_豎)
-		stroke = injector.get(ConstraintStroke)
-		stroke.setSegments((s1, s2, s3, s4), ((1, 0), (0, 3), (2, 0), (0, 1)));
+		segmentFactory = injector.get(SegmentFactory)
+		s1 = segmentFactory.generateBeelineSegment_橫()
+		s2 = segmentFactory.generateBeelineSegment_豎()
+		s3 = segmentFactory.generateBeelineSegment_橫()
+		s4 = segmentFactory.generateBeelineSegment_豎()
+
+		strokeFactory = injector.get(StrokeFactory)
+		stroke = strokeFactory.generateStroke((s1, s2, s3, s4), ((1, 0), (0, 3), (2, 0), (0, 1)))
 
 		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
 		problem = stroke.generateProblem(drawingGlyphPolicy)

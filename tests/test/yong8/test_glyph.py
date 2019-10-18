@@ -1,12 +1,11 @@
 from .base import BaseTestCase
 from .base import GlyphSolver
 
-from yong8.segment import BaseConstraintBeelineSegment
-from yong8.segment import BeelineSegment_橫, BeelineSegment_豎
-from yong8.stroke import ConstraintStroke
-from yong8.component import ConstraintComponent
-from yong8.glyph import ConstraintGlyph
 from yong8.drawing import DrawingGlyphPolicy
+from yong8.factory import SegmentFactory
+from yong8.factory import StrokeFactory
+from yong8.factory import ComponentFactory
+from yong8.factory import GlyphFactory
 
 class ConstraintGlyphTestCase(BaseTestCase):
 	def setUp(self):
@@ -18,14 +17,15 @@ class ConstraintGlyphTestCase(BaseTestCase):
 	def testGlyph_1(self):
 		injector = self.getInjector()
 
-		s = injector.get(BeelineSegment_橫)
-		stroke = injector.get(ConstraintStroke)
-		stroke.setSegments([s]);
-		strokeGroup = injector.get(ConstraintComponent)
-		strokeGroup.setStrokes([stroke])
-		glyph = injector.get(ConstraintGlyph)
-		glyph.setComponents([strokeGroup])
+		segmentFactory = injector.get(SegmentFactory)
+		strokeFactory = injector.get(StrokeFactory)
+		componentFactory = injector.get(ComponentFactory)
+		glyphFactory = injector.get(GlyphFactory)
 
+		s = segmentFactory.generateBeelineSegment_橫()
+		stroke = strokeFactory.generateStroke([s])
+		component = componentFactory.generateComponent([stroke])
+		glyph = glyphFactory.generateGlyph([component])
 
 		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
 		problem = glyph.generateProblem(drawingGlyphPolicy)
@@ -38,9 +38,9 @@ class ConstraintGlyphTestCase(BaseTestCase):
 	def testEmptyGlyph(self):
 		injector = self.getInjector()
 
-		glyph = injector.get(ConstraintGlyph)
-		glyph.setComponents([])
+		glyphFactory = injector.get(GlyphFactory)
 
+		glyph = glyphFactory.generateGlyph([])
 
 		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
 		problem = glyph.generateProblem(drawingGlyphPolicy)
@@ -54,9 +54,9 @@ class ConstraintGlyphTestCase(BaseTestCase):
 	def testGlyphMargin(self):
 		injector = self.getInjector()
 
-		glyph = injector.get(ConstraintGlyph)
-		glyph.setComponents([])
+		glyphFactory = injector.get(GlyphFactory)
 
+		glyph = glyphFactory.generateGlyph([])
 
 		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
 		problem = glyph.generateProblem(drawingGlyphPolicy)

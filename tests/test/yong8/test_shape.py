@@ -1,32 +1,8 @@
 from .base import BaseTestCase
 from .base import GlyphSolver
 
-from yong8.shape import ConstraintShape, ConstraintBoundaryShape
 from yong8.drawing import DrawingGlyphPolicy
-
-class ConstraintShapeTestCase(BaseTestCase):
-	def setUp(self):
-		super().setUp()
-
-	def tearDown(self):
-		super().tearDown()
-
-	def testConstraintShape(self):
-		injector = self.getInjector()
-
-		shape = injector.get(ConstraintShape)
-
-class ConstraintBoundaryShapeTestCase(BaseTestCase):
-	def setUp(self):
-		super().setUp()
-
-	def tearDown(self):
-		super().tearDown()
-
-	def testConstraintBoundaryShape(self):
-		injector = self.getInjector()
-
-		shape = injector.get(ConstraintBoundaryShape)
+from yong8.factory import ShapeFactory
 
 class ConstraintBoundaryShape_Occupation_TestCase(BaseTestCase):
 	def setUp(self):
@@ -35,15 +11,26 @@ class ConstraintBoundaryShape_Occupation_TestCase(BaseTestCase):
 	def tearDown(self):
 		super().tearDown()
 
+	def testInjector(self):
+		injector = self.getInjector()
+		self.assertIsNotNone(injector)
+
+	def testInjectShapeFactory(self):
+		injector = self.getInjector()
+		shapeFactory = injector.get(ShapeFactory)
+		self.assertIsNotNone(shapeFactory)
+
 	def testConstraintBoundaryShape(self):
 		injector = self.getInjector()
-
-		shape = injector.get(ConstraintBoundaryShape)
+		shapeFactory = injector.get(ShapeFactory)
+		shape = shapeFactory.generateShape()
+		self.assertIsNotNone(shape)
 
 	def testConstraintBoundaryShape_constraintOccupationLeftTopRightBottom(self):
 		injector = self.getInjector()
 
-		shape = injector.get(ConstraintBoundaryShape)
+		shapeFactory = injector.get(ShapeFactory)
+		shape = shapeFactory.generateShape()
 
 		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
 		problem = shape.generateProblem(drawingGlyphPolicy)
@@ -62,7 +49,8 @@ class ConstraintBoundaryShape_Occupation_TestCase(BaseTestCase):
 	def testConstraintBoundaryShape_constraintOccupationSizeAndCenter(self):
 		injector = self.getInjector()
 
-		shape = injector.get(ConstraintBoundaryShape)
+		shapeFactory = injector.get(ShapeFactory)
+		shape = shapeFactory.generateShape()
 
 		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
 		problem = shape.generateProblem(drawingGlyphPolicy)
@@ -79,7 +67,8 @@ class ConstraintBoundaryShape_Occupation_TestCase(BaseTestCase):
 	def testConstraintBoundaryShape_bindOccupationBoundary(self):
 		injector = self.getInjector()
 
-		shape = injector.get(ConstraintBoundaryShape)
+		shapeFactory = injector.get(ShapeFactory)
+		shape = shapeFactory.generateShape()
 
 		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
 		problem = shape.generateProblem(drawingGlyphPolicy)
@@ -94,7 +83,8 @@ class ConstraintBoundaryShape_Occupation_TestCase(BaseTestCase):
 	def testConstraintBoundaryShape_bindOccupationSizeCenter(self):
 		injector = self.getInjector()
 
-		shape = injector.get(ConstraintBoundaryShape)
+		shapeFactory = injector.get(ShapeFactory)
+		shape = shapeFactory.generateShape()
 
 		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
 		problem = shape.generateProblem(drawingGlyphPolicy)
@@ -112,15 +102,26 @@ class ConstraintBoundaryShape_Extension_TestCase(BaseTestCase):
 	def tearDown(self):
 		super().tearDown()
 
+	def testInjector(self):
+		injector = self.getInjector()
+		self.assertIsNotNone(injector)
+
+	def testInjectShapeFactory(self):
+		injector = self.getInjector()
+		shapeFactory = injector.get(ShapeFactory)
+		self.assertIsNotNone(shapeFactory)
+
 	def testConstraintBoundaryShape(self):
 		injector = self.getInjector()
-
-		shape = injector.get(ConstraintBoundaryShape)
+		shapeFactory = injector.get(ShapeFactory)
+		shape = shapeFactory.generateShape()
+		self.assertIsNotNone(shape)
 
 	def testConstraintBoundaryShape_constraintExtensionLeftTopRightBottom(self):
 		injector = self.getInjector()
 
-		shape = injector.get(ConstraintBoundaryShape)
+		shapeFactory = injector.get(ShapeFactory)
+		shape = shapeFactory.generateShape()
 
 		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
 		problem = shape.generateProblem(drawingGlyphPolicy)
@@ -139,7 +140,8 @@ class ConstraintBoundaryShape_Extension_TestCase(BaseTestCase):
 	def testConstraintBoundaryShape_constraintExtensionSizeAndCenter(self):
 		injector = self.getInjector()
 
-		shape = injector.get(ConstraintBoundaryShape)
+		shapeFactory = injector.get(ShapeFactory)
+		shape = shapeFactory.generateShape()
 
 		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
 		problem = shape.generateProblem(drawingGlyphPolicy)
@@ -156,7 +158,8 @@ class ConstraintBoundaryShape_Extension_TestCase(BaseTestCase):
 	def testConstraintBoundaryShape_bindExtensionBoundary(self):
 		injector = self.getInjector()
 
-		shape = injector.get(ConstraintBoundaryShape)
+		shapeFactory = injector.get(ShapeFactory)
+		shape = shapeFactory.generateShape()
 
 		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
 		problem = shape.generateProblem(drawingGlyphPolicy)
@@ -171,7 +174,8 @@ class ConstraintBoundaryShape_Extension_TestCase(BaseTestCase):
 	def testConstraintBoundaryShape_bindExtensionSizeCenter(self):
 		injector = self.getInjector()
 
-		shape = injector.get(ConstraintBoundaryShape)
+		shapeFactory = injector.get(ShapeFactory)
+		shape = shapeFactory.generateShape()
 
 		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
 		problem = shape.generateProblem(drawingGlyphPolicy)

@@ -1,12 +1,8 @@
 from .base import BaseTestCase
 from .base import GlyphSolver
 
-from yong8.segment import BaseConstraintBeelineSegment
-from yong8.segment import BeelineSegment_NN, BeelineSegment_N0, BeelineSegment_NP
-from yong8.segment import BeelineSegment_0N, BeelineSegment_00, BeelineSegment_0P
-from yong8.segment import BeelineSegment_PN, BeelineSegment_P0, BeelineSegment_PP
-from yong8.segment import BeelineSegment_橫, BeelineSegment_豎
 from yong8.drawing import DrawingGlyphPolicy
+from yong8.factory import SegmentFactory
 
 class ConstraintSegmentTestCase(BaseTestCase):
 	def setUp(self):
@@ -15,10 +11,20 @@ class ConstraintSegmentTestCase(BaseTestCase):
 	def tearDown(self):
 		super().tearDown()
 
+	def testInjector(self):
+		injector = self.getInjector()
+		self.assertIsNotNone(injector)
+
+	def testInjectSegmentFactory(self):
+		injector = self.getInjector()
+		segmentFactory = injector.get(SegmentFactory)
+		self.assertIsNotNone(segmentFactory)
+
 	def testBeelineSegment_NN(self):
 		injector = self.getInjector()
 
-		s = injector.get(BeelineSegment_NN)
+		segmentFactory = injector.get(SegmentFactory)
+		s = segmentFactory.generateBeelineSegment_NN()
 
 		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
 		problem = s.generateProblem(drawingGlyphPolicy)
@@ -33,7 +39,8 @@ class ConstraintSegmentTestCase(BaseTestCase):
 	def testBeelineSegment_NP(self):
 		injector = self.getInjector()
 
-		s = injector.get(BeelineSegment_NP)
+		segmentFactory = injector.get(SegmentFactory)
+		s = segmentFactory.generateBeelineSegment_NP()
 
 		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
 		problem = s.generateProblem(drawingGlyphPolicy)
@@ -48,7 +55,8 @@ class ConstraintSegmentTestCase(BaseTestCase):
 	def testBeelineSegment_PN(self):
 		injector = self.getInjector()
 
-		s = injector.get(BeelineSegment_PN)
+		segmentFactory = injector.get(SegmentFactory)
+		s = segmentFactory.generateBeelineSegment_PN()
 
 		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
 		problem = s.generateProblem(drawingGlyphPolicy)
@@ -63,7 +71,8 @@ class ConstraintSegmentTestCase(BaseTestCase):
 	def testBeelineSegment_PP(self):
 		injector = self.getInjector()
 
-		s = injector.get(BeelineSegment_PP)
+		segmentFactory = injector.get(SegmentFactory)
+		s = segmentFactory.generateBeelineSegment_PP()
 
 		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
 		problem = s.generateProblem(drawingGlyphPolicy)
@@ -79,8 +88,8 @@ class ConstraintSegmentTestCase(BaseTestCase):
 	def testSegment_1(self):
 		injector = self.getInjector()
 
-		s = injector.get(BaseConstraintBeelineSegment)
-		s.setDirConfig([1, -1])
+		segmentFactory = injector.get(SegmentFactory)
+		s = segmentFactory.generateBeelineSegment([1, -1])
 
 		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
 		problem = s.generateProblem(drawingGlyphPolicy)
@@ -95,8 +104,8 @@ class ConstraintSegmentTestCase(BaseTestCase):
 	def testSegment_2(self):
 		injector = self.getInjector()
 
-		s = injector.get(BaseConstraintBeelineSegment)
-		s.setDirConfig([1, -1])
+		segmentFactory = injector.get(SegmentFactory)
+		s = segmentFactory.generateBeelineSegment([1, -1])
 
 		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
 		problem = s.generateProblem(drawingGlyphPolicy)

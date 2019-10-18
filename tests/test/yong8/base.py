@@ -17,13 +17,14 @@ class BaseTestCase(unittest.TestCase):
 		from injector import Injector
 		from yong8.shape import ConstraintShape
 		from .injection import DrawingModule
+		from .injection import FactoryModule
 
 		from solver import Solver
 
 		def configure(binder):
 			binder.bind(GlyphSolver, to=Solver())
 
-		return Injector([configure, DrawingModule()])
+		return Injector([configure, DrawingModule(), FactoryModule()])
 
 	def assertSequenceAlmostEqual(self, seq1, seq2):
 		def almost_equal(value_1, value_2):
