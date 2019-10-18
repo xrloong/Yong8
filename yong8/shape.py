@@ -269,7 +269,7 @@ class ConstraintBoundaryShape(ConstraintShape):
 		problem.appendConstraint(self.getVarExtensionBoundaryCenterY() == self.getVarOccupationBoundaryCenterY())
 
 	def appendConstraintsWithBoundary(self, problem, boundary):
-		self.appendConstraintsWithExtensionBoundary(problem, boundary)
+		self.appendConstraintsWithOccupationBoundary(problem, boundary)
 
 	def appendConstraintsWithOccupationBoundary(self, problem, boundary):
 		left, top, right, bottom = boundary
