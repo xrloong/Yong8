@@ -16,7 +16,7 @@ class BaseTestCase(unittest.TestCase):
 	def getInjector(self):
 		from injector import Injector
 		from yong8.shape import ConstraintShape
-		from .drawing_module import DrawingModule
+		from .injection import DrawingModule
 
 		from solver import Solver
 
