@@ -1,9 +1,6 @@
-from injector import inject
-
 from .shape import ConstraintBoundaryShape
 
 class ConstraintGlyph(ConstraintBoundaryShape):
-	@inject
 	def __init__(self):
 		super().__init__()
 

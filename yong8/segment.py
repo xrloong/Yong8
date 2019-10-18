@@ -1,12 +1,9 @@
-from injector import inject
-
 from .shape import ConstraintPath
 from .symbol import generateVariable
 
 sign = lambda x: x and (1, -1)[x < 0]
 
 class BaseConstraintBeelineSegment(ConstraintPath):
-	@inject
 	def __init__(self, dirConfig = None):
 		super().__init__()
 
@@ -128,47 +125,38 @@ class BaseConstraintBeelineSegment(ConstraintPath):
 
 # define beelines
 class BeelineSegment_NN(BaseConstraintBeelineSegment):
-	@inject
 	def __init__(self):
 		super().__init__([-1, -1])
 
 class BeelineSegment_N0(BaseConstraintBeelineSegment):
-	@inject
 	def __init__(self):
 		super().__init__([-1, 0])
 
 class BeelineSegment_NP(BaseConstraintBeelineSegment):
-	@inject
 	def __init__(self):
 		super().__init__([-1, 1])
 
 class BeelineSegment_0N(BaseConstraintBeelineSegment):
-	@inject
 	def __init__(self):
 		super().__init__([0, -1])
 
 class BeelineSegment_00(BaseConstraintBeelineSegment):
-	@inject
 	def __init__(self):
 		super().__init__([0, 0])
 
 class BeelineSegment_0P(BaseConstraintBeelineSegment):
-	@inject
 	def __init__(self):
 		super().__init__([0, 1])
 
 class BeelineSegment_PN(BaseConstraintBeelineSegment):
-	@inject
 	def __init__(self):
 		super().__init__([1, -1])
 
 class BeelineSegment_P0(BaseConstraintBeelineSegment):
-	@inject
 	def __init__(self):
 		super().__init__([1, 0])
 
 class BeelineSegment_PP(BaseConstraintBeelineSegment):
-	@inject
 	def __init__(self):
 		super().__init__([1, 1])
 
@@ -178,7 +166,6 @@ class BeelineSegment_豎(BeelineSegment_0P): pass
 
 
 class BaseConstraintQCurveSegment(ConstraintPath):
-	@inject
 	def __init__(self):
 		super().__init__()
 

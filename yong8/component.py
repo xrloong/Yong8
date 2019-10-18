@@ -1,4 +1,3 @@
-from injector import inject
 from enum import Enum
 
 from .constants import Optimization
@@ -98,7 +97,6 @@ class LayoutConstraint:
 		return self.segments
 
 class ConstraintComponent(ConstraintBoundaryShape):
-	@inject
 	def __init__(self):
 		super().__init__()
 		self.layoutConstraints = []

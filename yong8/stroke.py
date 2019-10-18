@@ -1,10 +1,7 @@
-from injector import inject
-
 from .shape import ConstraintPath
 from .symbol import generateVariable
 
 class ConstraintStroke(ConstraintPath):
-	@inject
 	def __init__(self):
 		super().__init__()
 		componentPrefix = self.getComponentPrefix()

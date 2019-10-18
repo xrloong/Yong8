@@ -1,15 +1,12 @@
 import abc
 import uuid
 
-from injector import inject
-
 from .drawing import DrawingGlyphPolicy
 from .problem import Objective
 from .problem import Problem
 from .symbol import generateVariable
 
 class ConstraintShape(object, metaclass=abc.ABCMeta):
-	@inject
 	def __init__(self):
 		super().__init__()
 
@@ -43,7 +40,6 @@ class ConstraintShape(object, metaclass=abc.ABCMeta):
 		return problem
 
 class ConstraintBoundaryShape(ConstraintShape):
-	@inject
 	def __init__(self):
 		super().__init__()
 
@@ -394,7 +390,6 @@ class PathParams:
 		self.range_weight_max_y = weightMax
 
 class ConstraintPath(ConstraintBoundaryShape):
-	@inject
 	def __init__(self):
 		super().__init__()
 
