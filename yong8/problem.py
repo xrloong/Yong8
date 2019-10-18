@@ -1,6 +1,7 @@
 from .constants import Optimization
 from .drawing import DrawingGlyphPolicy
 from .symbol import V
+from .symbol import C
 
 def generateVariable(prefix, name) -> V:
 	variableName = prefix+"."+name
@@ -25,10 +26,10 @@ class Problem:
 
 		self.drawingGlyphPolicy = drawingGlyphPolicy
 
-	def addVariable(self, variable):
+	def addVariable(self, variable: V):
 		self.variables.append(variable)
 
-	def appendConstraint(self, constraint):
+	def appendConstraint(self, constraint: C):
 		self.constraints.append(constraint)
 
 	def appendObjective(self, objective: Objective):
