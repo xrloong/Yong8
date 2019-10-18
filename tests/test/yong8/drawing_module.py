@@ -1,8 +1,8 @@
 from injector import Module
 from injector import provider
 
-from .drawing import DrawingPolicy
-from .drawing import DrawingGlyphPolicy
+from yong8.drawing import DrawingPolicy
+from yong8.drawing import DrawingGlyphPolicy
 
 class DrawingModule(Module):
 	@provider

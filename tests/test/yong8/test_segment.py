@@ -1,11 +1,11 @@
 from .base import BaseTestCase
+from .base import GlyphSolver
 
 from yong8.segment import BaseConstraintBeelineSegment
 from yong8.segment import BeelineSegment_NN, BeelineSegment_N0, BeelineSegment_NP
 from yong8.segment import BeelineSegment_0N, BeelineSegment_00, BeelineSegment_0P
 from yong8.segment import BeelineSegment_PN, BeelineSegment_P0, BeelineSegment_PP
 from yong8.segment import BeelineSegment_橫, BeelineSegment_豎
-from yong8.constants import GlyphSolver
 from yong8.drawing import DrawingGlyphPolicy
 
 class ConstraintSegmentTestCase(BaseTestCase):

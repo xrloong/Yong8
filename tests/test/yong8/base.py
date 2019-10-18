@@ -1,6 +1,8 @@
 import unittest
 
-from yong8.constants import GlyphSolver
+from injector import Key
+
+GlyphSolver = Key('GlyphSolver')
 
 class BaseTestCase(unittest.TestCase):
 	def setUp(self):
@@ -14,7 +16,7 @@ class BaseTestCase(unittest.TestCase):
 	def getInjector(self):
 		from injector import Injector
 		from yong8.shape import ConstraintShape
-		from yong8.drawing_module import DrawingModule
+		from .drawing_module import DrawingModule
 
 		from solver import Solver
 
