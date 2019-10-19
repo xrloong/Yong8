@@ -17,13 +17,11 @@ class ConstraintGlyphTestCase(BaseTestCase):
 	def testGlyph_1(self):
 		injector = self.getInjector()
 
-		segmentFactory = injector.get(SegmentFactory)
 		strokeFactory = injector.get(StrokeFactory)
 		componentFactory = injector.get(ComponentFactory)
 		glyphFactory = injector.get(GlyphFactory)
 
-		s = segmentFactory.generateBeelineSegment_橫()
-		stroke = strokeFactory.generateStroke([s])
+		stroke = strokeFactory.橫()
 		component = componentFactory.generateComponent([stroke])
 		glyph = glyphFactory.generateGlyph([component])
 

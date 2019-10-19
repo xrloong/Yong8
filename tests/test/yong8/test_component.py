@@ -2,7 +2,6 @@ from .base import BaseTestCase
 from .base import GlyphSolver
 
 from yong8.drawing import DrawingGlyphPolicy
-from yong8.factory import SegmentFactory
 from yong8.factory import StrokeFactory
 from yong8.factory import ComponentFactory
 
@@ -31,12 +30,10 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		injector = self.getInjector()
 
-		segmentFactory = injector.get(SegmentFactory)
 		strokeFactory = injector.get(StrokeFactory)
 		componentFactory = injector.get(ComponentFactory)
 
-		s = segmentFactory.generateBeelineSegment_橫()
-		stroke = strokeFactory.generateStroke([s])
+		stroke = strokeFactory.橫()
 		component = componentFactory.generateComponent([stroke])
 
 		layoutConstraint1 = LayoutConstraint()
@@ -68,15 +65,11 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		injector = self.getInjector()
 
-		segmentFactory = injector.get(SegmentFactory)
 		strokeFactory = injector.get(StrokeFactory)
 		componentFactory = injector.get(ComponentFactory)
 
-		s1 = segmentFactory.generateBeelineSegment_橫()
-		stroke1 = strokeFactory.generateStroke([s1])
-
-		s2 = segmentFactory.generateBeelineSegment_豎()
-		stroke2 = strokeFactory.generateStroke([s2])
+		stroke1 = strokeFactory.橫()
+		stroke2 = strokeFactory.豎()
 
 		component = componentFactory.generateComponent([stroke1, stroke2])
 
@@ -111,19 +104,12 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		injector = self.getInjector()
 
-		segmentFactory = injector.get(SegmentFactory)
 		strokeFactory = injector.get(StrokeFactory)
 		componentFactory = injector.get(ComponentFactory)
 
-		s1 = segmentFactory.generateBeelineSegment_豎()
-		stroke1 = strokeFactory.generateStroke([s1])
-
-		s2_1 = segmentFactory.generateBeelineSegment_橫()
-		s2_2 = segmentFactory.generateBeelineSegment_豎()
-		stroke2 = strokeFactory.generateStroke([s2_1, s2_2])
-
-		s3 = segmentFactory.generateBeelineSegment_橫()
-		stroke3 = strokeFactory.generateStroke([s3])
+		stroke1 = strokeFactory.豎()
+		stroke2 = strokeFactory.橫折()
+		stroke3 = strokeFactory.橫()
 
 		component = componentFactory.generateComponent([stroke1, stroke2, stroke3])
 
@@ -164,20 +150,16 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		injector = self.getInjector()
 
-		segmentFactory = injector.get(SegmentFactory)
 		strokeFactory = injector.get(StrokeFactory)
 		componentFactory = injector.get(ComponentFactory)
 
-		s1 = segmentFactory.generateBeelineSegment_橫()
-		stroke1 = strokeFactory.generateStroke([s1])
-
-		s2 = segmentFactory.generateBeelineSegment_豎()
-		stroke2 = strokeFactory.generateStroke([s2])
+		stroke1 = strokeFactory.橫()
+		stroke2 = strokeFactory.豎()
 
 		component = componentFactory.generateComponent([stroke1, stroke2])
 
 		layoutConstraint1 = LayoutConstraint()
-		layoutConstraint1.setAsSegmentsIntersection(s1, s2)
+		layoutConstraint1.setAsSegmentsIntersection(stroke1.getSegments()[0], stroke2.getSegments()[0])
 		layoutConstraint3 = LayoutConstraint()
 		layoutConstraint3.setAsRow(component.getVarBoundaryWidth() == stroke1.getVarBoundaryWidth())
 		layoutConstraint4 = LayoutConstraint()
@@ -208,20 +190,16 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		injector = self.getInjector()
 
-		segmentFactory = injector.get(SegmentFactory)
 		strokeFactory = injector.get(StrokeFactory)
 		componentFactory = injector.get(ComponentFactory)
 
-		s1 = segmentFactory.generateBeelineSegment_橫()
-		stroke1 = strokeFactory.generateStroke([s1])
-
-		s2 = segmentFactory.generateBeelineSegment_豎()
-		stroke2 = strokeFactory.generateStroke([s2])
+		stroke1 = strokeFactory.橫()
+		stroke2 = strokeFactory.豎()
 
 		component = componentFactory.generateComponent([stroke1, stroke2])
 
 		layoutConstraint1 = LayoutConstraint()
-		layoutConstraint1.setAsSegmentsIntersection(s1, s2, IntersectionPos.BetweenStartEnd, IntersectionPos.Start)
+		layoutConstraint1.setAsSegmentsIntersection(stroke1.getSegments()[0], stroke2.getSegments()[0], IntersectionPos.BetweenStartEnd, IntersectionPos.Start)
 		layoutConstraint3 = LayoutConstraint()
 		layoutConstraint3.setAsRow(component.getVarBoundaryWidth() == stroke1.getVarBoundaryWidth())
 		layoutConstraint4 = LayoutConstraint()
@@ -251,28 +229,21 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		injector = self.getInjector()
 
-		segmentFactory = injector.get(SegmentFactory)
 		strokeFactory = injector.get(StrokeFactory)
 		componentFactory = injector.get(ComponentFactory)
 
-		s1 = segmentFactory.generateBeelineSegment_豎()
-		stroke1 = strokeFactory.generateStroke([s1])
-
-		s2_1 = segmentFactory.generateBeelineSegment_橫()
-		s2_2 = segmentFactory.generateBeelineSegment_豎()
-		stroke2 = strokeFactory.generateStroke([s2_1, s2_2])
-
-		s3 = segmentFactory.generateBeelineSegment_橫()
-		stroke3 = strokeFactory.generateStroke([s3])
+		stroke1 = strokeFactory.豎()
+		stroke2 = strokeFactory.橫折()
+		stroke3 = strokeFactory.橫()
 
 		component = componentFactory.generateComponent([stroke1, stroke2, stroke3])
 
 		layoutConstraint1 = LayoutConstraint()
-		layoutConstraint1.setAsSegmentsIntersection(s1, s2_1, IntersectionPos.Start, IntersectionPos.Start)
+		layoutConstraint1.setAsSegmentsIntersection(stroke1.getSegments()[0], stroke2.getSegments()[0], IntersectionPos.Start, IntersectionPos.Start)
 		layoutConstraint2 = LayoutConstraint()
-		layoutConstraint2.setAsSegmentsIntersection(s1, s3, IntersectionPos.End, IntersectionPos.Start)
+		layoutConstraint2.setAsSegmentsIntersection(stroke1.getSegments()[0], stroke3.getSegments()[0], IntersectionPos.End, IntersectionPos.Start)
 		layoutConstraint3 = LayoutConstraint()
-		layoutConstraint3.setAsSegmentsIntersection(s2_2, s3, IntersectionPos.End, IntersectionPos.End)
+		layoutConstraint3.setAsSegmentsIntersection(stroke2.getSegments()[1], stroke3.getSegments()[0], IntersectionPos.End, IntersectionPos.End)
 		layoutConstraint4 = LayoutConstraint()
 		layoutConstraint4.setAsRow(component.getVarBoundaryWidth() == stroke2.getVarBoundaryWidth())
 		layoutConstraint5 = LayoutConstraint()
@@ -306,25 +277,19 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		injector = self.getInjector()
 
-		segmentFactory = injector.get(SegmentFactory)
 		strokeFactory = injector.get(StrokeFactory)
 		componentFactory = injector.get(ComponentFactory)
 
-		s1 = segmentFactory.generateBeelineSegment_橫()
-		stroke1 = strokeFactory.generateStroke([s1])
-
-		s2 = segmentFactory.generateBeelineSegment_豎()
-		stroke2 = strokeFactory.generateStroke([s2])
-
-		s3 = segmentFactory.generateBeelineSegment_橫()
-		stroke3 = strokeFactory.generateStroke([s3])
+		stroke1 = strokeFactory.橫()
+		stroke2 = strokeFactory.豎()
+		stroke3 = strokeFactory.橫()
 
 		component = componentFactory.generateComponent([stroke1, stroke2, stroke3])
 
 		layoutConstraint1 = LayoutConstraint()
-		layoutConstraint1.setAsSegmentsIntersection(s1, s2)
+		layoutConstraint1.setAsSegmentsIntersection(stroke1.getSegments()[0], stroke2.getSegments()[0])
 		layoutConstraint2 = LayoutConstraint()
-		layoutConstraint2.setAsSegmentsIntersection(s2, s3, IntersectionPos.End, IntersectionPos.BetweenStartEnd)
+		layoutConstraint2.setAsSegmentsIntersection(stroke2.getSegments()[0], stroke3.getSegments()[0], IntersectionPos.End, IntersectionPos.BetweenStartEnd)
 		layoutConstraint3 = LayoutConstraint()
 		layoutConstraint3.setAsRow(component.getVarBoundaryWidth() == stroke3.getVarBoundaryWidth())
 		layoutConstraint4 = LayoutConstraint()
@@ -364,25 +329,19 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		injector = self.getInjector()
 
-		segmentFactory = injector.get(SegmentFactory)
 		strokeFactory = injector.get(StrokeFactory)
 		componentFactory = injector.get(ComponentFactory)
 
-		s1 = segmentFactory.generateBeelineSegment_橫()
-		stroke1 = strokeFactory.generateStroke([s1])
-
-		s2 = segmentFactory.generateBeelineSegment_豎()
-		stroke2 = strokeFactory.generateStroke([s2])
-
-		s3 = segmentFactory.generateBeelineSegment_橫()
-		stroke3 = strokeFactory.generateStroke([s3])
+		stroke1 = strokeFactory.橫()
+		stroke2 = strokeFactory.豎()
+		stroke3 = strokeFactory.橫()
 
 		component = componentFactory.generateComponent([stroke1, stroke2, stroke3])
 
 		layoutConstraint1 = LayoutConstraint()
-		layoutConstraint1.setAsSegmentsIntersection(s1, s2)
+		layoutConstraint1.setAsSegmentsIntersection(stroke1.getSegments()[0], stroke2.getSegments()[0])
 		layoutConstraint2 = LayoutConstraint()
-		layoutConstraint2.setAsSegmentsIntersection(s2, s3, IntersectionPos.End, IntersectionPos.BetweenStartEnd)
+		layoutConstraint2.setAsSegmentsIntersection(stroke2.getSegments()[0], stroke3.getSegments()[0], IntersectionPos.End, IntersectionPos.BetweenStartEnd)
 		layoutConstraint3 = LayoutConstraint()
 		layoutConstraint3.setAsRow(component.getVarBoundaryWidth() == stroke1.getVarBoundaryWidth())
 		layoutConstraint4 = LayoutConstraint()
