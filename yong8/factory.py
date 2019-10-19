@@ -61,9 +61,7 @@ class StrokeFactory:
 		self.segmentFactory = SegmentFactory()
 
 	def generateStroke(self, segments, weights = None):
-		stroke = ConstraintStroke()
-		stroke.setSegments(segments, weights)
-		return stroke
+		return ConstraintStroke(segments, weights)
 
 	def 提(self):
 		raise NotImplementedError('提() is not implemented yet')
