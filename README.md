@@ -36,4 +36,19 @@ $ pip3 install <<package-name>>
 $ sh test.sh
 ```
 
+範例（Examples）
+====
+```console
+$ PYTHONPATH=".:solvers/gekko" python3 examples/<<example>>.py
+```
+
+目前的範例有：
+
+| 漢字 |    範例    |
+| :--: | :--------: |
+|  一  |  U4E00.py  |
+|  十  |  U5341.py  |
+|  土  |  U5341.py  |
+|  士  |  U5341.py  |
+
 
