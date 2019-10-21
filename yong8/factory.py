@@ -175,13 +175,11 @@ class StrokeFactory:
 
 class ComponentFactory:
 	def generateComponent(self, strokes):
-		component = ConstraintComponent()
-		component.setStrokes(strokes)
+		component = ConstraintComponent(strokes)
 		return component
 
 class GlyphFactory:
 	def generateGlyph(self, components):
-		glyph = ConstraintGlyph()
-		glyph.setComponents(components)
+		glyph = ConstraintGlyph(components)
 		return glyph
 

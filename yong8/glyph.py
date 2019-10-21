@@ -1,9 +1,10 @@
 from .shape import ConstraintBoundaryShape
 
 class ConstraintGlyph(ConstraintBoundaryShape):
-	def __init__(self):
+	def __init__(self, components):
 		super().__init__()
 
+		self.components = components
 		componentPrefix = self.getComponentPrefix()
 
 	def getComponentName(self):
@@ -15,9 +16,6 @@ class ConstraintGlyph(ConstraintBoundaryShape):
 			if c != None:
 				return c
 		return None
-
-	def setComponents(self, components):
-		self.components = components
 
 	def getComponents(self):
 		return self.components

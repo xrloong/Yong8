@@ -97,8 +97,10 @@ class LayoutConstraint:
 		return self.segments
 
 class ConstraintComponent(ConstraintBoundaryShape):
-	def __init__(self):
+	def __init__(self, strokes):
 		super().__init__()
+
+		self.strokes = strokes
 		self.layoutConstraints = []
 
 	def getComponentName(self):
@@ -110,9 +112,6 @@ class ConstraintComponent(ConstraintBoundaryShape):
 			if s != None:
 				return s
 		return None
-
-	def setStrokes(self, strokes):
-		self.strokes = strokes
 
 	def getStrokes(self):
 		return self.strokes
