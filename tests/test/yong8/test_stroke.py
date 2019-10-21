@@ -29,26 +29,6 @@ class ConstraintStrokeTestCase(BaseTestCase):
 		injector = self.getInjector()
 
 		segmentFactory = injector.get(SegmentFactory)
-		s = segmentFactory.generateBeelineSegment([1, -1])
-
-		strokeFactory = injector.get(StrokeFactory)
-		stroke = strokeFactory.generateStroke([s])
-
-		problem = stroke.generateProblem()
-		stroke.appendConstraintsWithBoundary(problem, (38, 61, 182, 129))
-
-		glyphSolver = injector.get(GlyphSolver)
-		glyphSolver.solveProblem(problem)
-
-		self.assertSequenceAlmostEqual(s.getStartPoint(), (38.0, 129.0))
-		self.assertSequenceAlmostEqual(s.getEndPoint(), (182.0, 61.0))
-		self.assertSequenceAlmostEqual(stroke.getStartPoint(), (38.0, 129.0))
-		self.assertSequenceAlmostEqual(stroke.getEndPoint(), (182.0, 61.0))
-
-	def testStroke_2(self):
-		injector = self.getInjector()
-
-		segmentFactory = injector.get(SegmentFactory)
 		s1 = segmentFactory.generateBeelineSegment_橫()
 		s2 = segmentFactory.generateBeelineSegment_豎()
 
@@ -68,7 +48,7 @@ class ConstraintStrokeTestCase(BaseTestCase):
 		self.assertSequenceAlmostEqual(stroke.getStartPoint(), (38.0, 61.0))
 		self.assertSequenceAlmostEqual(stroke.getEndPoint(), (182.0, 129.0))
 
-	def testStroke_3(self):
+	def testStroke_2(self):
 		injector = self.getInjector()
 
 		segmentFactory = injector.get(SegmentFactory)
