@@ -3,7 +3,6 @@ from yong8.factory import ComponentFactory
 
 from yong8.component import LayoutConstraint
 from yong8.component import ConstraintComponent
-from yong8.component import IntersectionPos
 
 from solver import Solver
 # 一

@@ -6,7 +6,9 @@ from yong8.factory import ComponentFactory
 
 from yong8.component import LayoutConstraint
 from yong8.component import ConstraintComponent
-from yong8.component import IntersectionPos
+
+from yong8.constraint import IntersectionPos
+from yong8.constraint import SegmentIntersectionConstraint
 
 class ConstraintComponentTestCase(BaseTestCase):
 	def setUp(self):
@@ -154,20 +156,19 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		component = componentFactory.generateComponent([stroke1, stroke2])
 
-		layoutConstraint1 = LayoutConstraint()
-		layoutConstraint1.setAsSegmentsIntersection(stroke1.getSegments()[0], stroke2.getSegments()[0])
 		layoutConstraint3 = LayoutConstraint()
 		layoutConstraint3.setAsRow(component.getVarBoundaryWidth() == stroke1.getVarBoundaryWidth())
 		layoutConstraint4 = LayoutConstraint()
 		layoutConstraint4.setAsRow(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
-		component.appendLayoutConstraint(layoutConstraint1)
 		component.appendLayoutConstraint(layoutConstraint3)
 		component.appendLayoutConstraint(layoutConstraint4)
 
+		siConstraint1 = SegmentIntersectionConstraint(stroke1.getSegments()[0], stroke2.getSegments()[0])
+		component.appendProblemConstraint(siConstraint1)
 
 		problem = component.generateProblem()
 
-		(t1, t2) = layoutConstraint1.intersections
+		(t1, t2) = siConstraint1.intersections
 		problem.appendConstraint(t1==0.5)
 		problem.appendConstraint(t2==0.5)
 		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
@@ -193,20 +194,19 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		component = componentFactory.generateComponent([stroke1, stroke2])
 
-		layoutConstraint1 = LayoutConstraint()
-		layoutConstraint1.setAsSegmentsIntersection(stroke1.getSegments()[0], stroke2.getSegments()[0], IntersectionPos.BetweenStartEnd, IntersectionPos.Start)
 		layoutConstraint3 = LayoutConstraint()
 		layoutConstraint3.setAsRow(component.getVarBoundaryWidth() == stroke1.getVarBoundaryWidth())
 		layoutConstraint4 = LayoutConstraint()
 		layoutConstraint4.setAsRow(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
-		component.appendLayoutConstraint(layoutConstraint1)
 		component.appendLayoutConstraint(layoutConstraint3)
 		component.appendLayoutConstraint(layoutConstraint4)
 
+		siConstraint1 = SegmentIntersectionConstraint(stroke1.getSegments()[0], stroke2.getSegments()[0], IntersectionPos.BetweenStartEnd, IntersectionPos.Start)
+		component.appendProblemConstraint(siConstraint1)
 
 		problem = component.generateProblem()
 
-		(t1, t2) = layoutConstraint1.intersections
+		(t1, t2) = siConstraint1.intersections
 		problem.appendConstraint(t1==0.5)
 		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
 
@@ -232,24 +232,21 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		component = componentFactory.generateComponent([stroke1, stroke2, stroke3])
 
-		layoutConstraint1 = LayoutConstraint()
-		layoutConstraint1.setAsSegmentsIntersection(stroke1.getSegments()[0], stroke2.getSegments()[0], IntersectionPos.Start, IntersectionPos.Start)
-		layoutConstraint2 = LayoutConstraint()
-		layoutConstraint2.setAsSegmentsIntersection(stroke1.getSegments()[0], stroke3.getSegments()[0], IntersectionPos.End, IntersectionPos.Start)
-		layoutConstraint3 = LayoutConstraint()
-		layoutConstraint3.setAsSegmentsIntersection(stroke2.getSegments()[1], stroke3.getSegments()[0], IntersectionPos.End, IntersectionPos.End)
 		layoutConstraint4 = LayoutConstraint()
 		layoutConstraint4.setAsRow(component.getVarBoundaryWidth() == stroke2.getVarBoundaryWidth())
 		layoutConstraint5 = LayoutConstraint()
 		layoutConstraint5.setAsRow(component.getVarBoundaryHeight() == stroke1.getVarBoundaryHeight())
 
 
-		component.appendLayoutConstraint(layoutConstraint1)
-		component.appendLayoutConstraint(layoutConstraint2)
-		component.appendLayoutConstraint(layoutConstraint3)
 		component.appendLayoutConstraint(layoutConstraint4)
 		component.appendLayoutConstraint(layoutConstraint5)
 
+		siConstraint1 = SegmentIntersectionConstraint(stroke1.getSegments()[0], stroke2.getSegments()[0], IntersectionPos.Start, IntersectionPos.Start)
+		component.appendProblemConstraint(siConstraint1)
+		siConstraint2 = SegmentIntersectionConstraint(stroke1.getSegments()[0], stroke3.getSegments()[0], IntersectionPos.End, IntersectionPos.Start)
+		component.appendProblemConstraint(siConstraint2)
+		siConstraint3 = SegmentIntersectionConstraint(stroke2.getSegments()[1], stroke3.getSegments()[0], IntersectionPos.End, IntersectionPos.End)
+		component.appendProblemConstraint(siConstraint3)
 
 		problem = component.generateProblem()
 		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
@@ -279,28 +276,28 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		component = componentFactory.generateComponent([stroke1, stroke2, stroke3])
 
-		layoutConstraint1 = LayoutConstraint()
-		layoutConstraint1.setAsSegmentsIntersection(stroke1.getSegments()[0], stroke2.getSegments()[0])
-		layoutConstraint2 = LayoutConstraint()
-		layoutConstraint2.setAsSegmentsIntersection(stroke2.getSegments()[0], stroke3.getSegments()[0], IntersectionPos.End, IntersectionPos.BetweenStartEnd)
 		layoutConstraint3 = LayoutConstraint()
 		layoutConstraint3.setAsRow(component.getVarBoundaryWidth() == stroke3.getVarBoundaryWidth())
 		layoutConstraint4 = LayoutConstraint()
 		layoutConstraint4.setAsRow(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
-		component.appendLayoutConstraint(layoutConstraint1)
-		component.appendLayoutConstraint(layoutConstraint2)
 		component.appendLayoutConstraint(layoutConstraint3)
 		component.appendLayoutConstraint(layoutConstraint4)
 
+
+		siConstraint1 = SegmentIntersectionConstraint(stroke1.getSegments()[0], stroke2.getSegments()[0])
+		component.appendProblemConstraint(siConstraint1)
+
+		siConstraint2 = SegmentIntersectionConstraint(stroke2.getSegments()[0], stroke3.getSegments()[0], IntersectionPos.End, IntersectionPos.BetweenStartEnd)
+		component.appendProblemConstraint(siConstraint2)
 
 
 		problem = component.generateProblem()
 		problem.appendConstraint(stroke1.getVarBoundaryWidth() / stroke3.getVarBoundaryWidth() == 0.9)
 
-		(t1, t2) = layoutConstraint1.intersections
+		(t1, t2) = siConstraint1.intersections
 		problem.appendConstraint(t1==0.5)
 		problem.appendConstraint(t2==0.5)
-		(t1, t2) = layoutConstraint2.intersections
+		(t1, t2) = siConstraint2.intersections
 		problem.appendConstraint(t2==0.5)
 		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
 
@@ -330,27 +327,27 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		component = componentFactory.generateComponent([stroke1, stroke2, stroke3])
 
-		layoutConstraint1 = LayoutConstraint()
-		layoutConstraint1.setAsSegmentsIntersection(stroke1.getSegments()[0], stroke2.getSegments()[0])
-		layoutConstraint2 = LayoutConstraint()
-		layoutConstraint2.setAsSegmentsIntersection(stroke2.getSegments()[0], stroke3.getSegments()[0], IntersectionPos.End, IntersectionPos.BetweenStartEnd)
 		layoutConstraint3 = LayoutConstraint()
 		layoutConstraint3.setAsRow(component.getVarBoundaryWidth() == stroke1.getVarBoundaryWidth())
 		layoutConstraint4 = LayoutConstraint()
 		layoutConstraint4.setAsRow(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
-		component.appendLayoutConstraint(layoutConstraint1)
-		component.appendLayoutConstraint(layoutConstraint2)
 		component.appendLayoutConstraint(layoutConstraint3)
 		component.appendLayoutConstraint(layoutConstraint4)
+
+		siConstraint1 = SegmentIntersectionConstraint(stroke1.getSegments()[0], stroke2.getSegments()[0])
+		component.appendProblemConstraint(siConstraint1)
+
+		siConstraint2 = SegmentIntersectionConstraint(stroke2.getSegments()[0], stroke3.getSegments()[0], IntersectionPos.End, IntersectionPos.BetweenStartEnd)
+		component.appendProblemConstraint(siConstraint2)
 
 
 		problem = component.generateProblem()
 		problem.appendConstraint(stroke3.getVarBoundaryWidth() / stroke1.getVarBoundaryWidth() == 0.9)
 
-		(t1, t2) = layoutConstraint1.intersections
+		(t1, t2) = siConstraint1.intersections
 		problem.appendConstraint(t1==0.5)
 		problem.appendConstraint(t2==0.5)
-		(t1, t2) = layoutConstraint2.intersections
+		(t1, t2) = siConstraint2.intersections
 		problem.appendConstraint(t2==0.5)
 		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
 
