@@ -38,9 +38,5 @@ glyphSolver = Solver()
 glyphSolver.solveProblem(problem)
 
 print("Glyph: 十")
-for stroke in component.getStrokes():
-    print("stroke:", stroke)
-    print("start point:", stroke.getStartPoint())
-    print("end point:", stroke.getEndPoint())
-    print("")
+component.dump()
 

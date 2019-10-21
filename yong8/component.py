@@ -103,6 +103,13 @@ class ConstraintComponent(ConstraintBoundaryShape):
 		self.strokes = strokes
 		self.layoutConstraints = []
 
+	def dump(self):
+		for stroke in self.strokes:
+			print("stroke:", stroke)
+			print("start point:", stroke.getStartPoint())
+			print("end point:", stroke.getEndPoint())
+			print()
+
 	def getComponentName(self):
 		return "stroke_group"
 
