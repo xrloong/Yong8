@@ -1,4 +1,3 @@
-from yong8.drawing import DrawingGlyphPolicy
 from yong8.factory import StrokeFactory
 from yong8.factory import ComponentFactory
 
@@ -28,8 +27,7 @@ component.appendLayoutConstraint(layoutConstraint3)
 component.appendLayoutConstraint(layoutConstraint4)
 
 
-drawingGlyphPolicy = DrawingGlyphPolicy()
-problem = component.generateProblem(drawingGlyphPolicy)
+problem = component.generateProblem()
 
 (t1, t2) = layoutConstraint1.intersections
 problem.appendConstraint(t1==0.5)

@@ -1,7 +1,6 @@
 from .base import BaseTestCase
 from .base import GlyphSolver
 
-from yong8.drawing import DrawingGlyphPolicy
 from yong8.factory import StrokeFactory
 from yong8.factory import ComponentFactory
 
@@ -50,8 +49,7 @@ class ConstraintComponentTestCase(BaseTestCase):
 		component.appendLayoutConstraint(layoutConstraint3)
 
 
-		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
-		problem = component.generateProblem(drawingGlyphPolicy)
+		problem = component.generateProblem()
 		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
 
 		glyphSolver = injector.get(GlyphSolver)
@@ -87,8 +85,7 @@ class ConstraintComponentTestCase(BaseTestCase):
 		component.appendLayoutConstraint(layoutConstraint4)
 
 
-		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
-		problem = component.generateProblem(drawingGlyphPolicy)
+		problem = component.generateProblem()
 		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
 
 		glyphSolver = injector.get(GlyphSolver)
@@ -133,8 +130,7 @@ class ConstraintComponentTestCase(BaseTestCase):
 		component.appendLayoutConstraint(layoutConstraint5)
 
 
-		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
-		problem = component.generateProblem(drawingGlyphPolicy)
+		problem = component.generateProblem()
 		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
 
 		glyphSolver = injector.get(GlyphSolver)
@@ -169,8 +165,7 @@ class ConstraintComponentTestCase(BaseTestCase):
 		component.appendLayoutConstraint(layoutConstraint4)
 
 
-		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
-		problem = component.generateProblem(drawingGlyphPolicy)
+		problem = component.generateProblem()
 
 		(t1, t2) = layoutConstraint1.intersections
 		problem.appendConstraint(t1==0.5)
@@ -209,8 +204,7 @@ class ConstraintComponentTestCase(BaseTestCase):
 		component.appendLayoutConstraint(layoutConstraint4)
 
 
-		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
-		problem = component.generateProblem(drawingGlyphPolicy)
+		problem = component.generateProblem()
 
 		(t1, t2) = layoutConstraint1.intersections
 		problem.appendConstraint(t1==0.5)
@@ -257,8 +251,7 @@ class ConstraintComponentTestCase(BaseTestCase):
 		component.appendLayoutConstraint(layoutConstraint5)
 
 
-		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
-		problem = component.generateProblem(drawingGlyphPolicy)
+		problem = component.generateProblem()
 		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
 
 		glyphSolver = injector.get(GlyphSolver)
@@ -301,8 +294,7 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 
 
-		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
-		problem = component.generateProblem(drawingGlyphPolicy)
+		problem = component.generateProblem()
 		problem.appendConstraint(stroke1.getVarBoundaryWidth() / stroke3.getVarBoundaryWidth() == 0.9)
 
 		(t1, t2) = layoutConstraint1.intersections
@@ -352,8 +344,7 @@ class ConstraintComponentTestCase(BaseTestCase):
 		component.appendLayoutConstraint(layoutConstraint4)
 
 
-		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
-		problem = component.generateProblem(drawingGlyphPolicy)
+		problem = component.generateProblem()
 		problem.appendConstraint(stroke3.getVarBoundaryWidth() / stroke1.getVarBoundaryWidth() == 0.9)
 
 		(t1, t2) = layoutConstraint1.intersections

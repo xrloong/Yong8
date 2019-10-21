@@ -123,10 +123,8 @@ class ConstraintComponent(ConstraintBoundaryShape):
 	def appendChildrenProblemTo(self, problem):
 		super().appendChildrenProblemTo(problem)
 
-		drawingGlyphPolicy = problem.getDrawingGlyphPolicy()
-
 		for stroke in self.getStrokes():
-			subProblem = stroke.generateProblem(drawingGlyphPolicy)
+			subProblem = stroke.generateProblem()
 			problem.appendProblem(subProblem)
 
 			problem.appendConstraint(self.getVarBoundaryLeft() <= stroke.getVarBoundaryLeft())

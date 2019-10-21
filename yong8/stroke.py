@@ -126,10 +126,8 @@ class ConstraintStroke(ConstraintPath):
 	def appendChildrenProblemTo(self, problem):
 		super().appendChildrenProblemTo(problem)
 
-		drawingGlyphPolicy = problem.getDrawingGlyphPolicy()
-
 		for segment in self.getSegments():
-			subProblem = segment.generateProblem(drawingGlyphPolicy)
+			subProblem = segment.generateProblem()
 			problem.appendProblem(subProblem)
 
 		# append constraints for arranging segments' width and height

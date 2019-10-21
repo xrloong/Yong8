@@ -1,7 +1,6 @@
 from .base import BaseTestCase
 from .base import GlyphSolver
 
-from yong8.drawing import DrawingGlyphPolicy
 from yong8.factory import ShapeFactory
 
 class ConstraintBoundaryShape_TestCase(BaseTestCase):
@@ -32,8 +31,7 @@ class ConstraintBoundaryShape_TestCase(BaseTestCase):
 		shapeFactory = injector.get(ShapeFactory)
 		shape = shapeFactory.generateShape()
 
-		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
-		problem = shape.generateProblem(drawingGlyphPolicy)
+		problem = shape.generateProblem()
 		problem.appendConstraint(shape.getVarBoundaryLeft()==38)
 		problem.appendConstraint(shape.getVarBoundaryTop()==61)
 		problem.appendConstraint(shape.getVarBoundaryRight()==182)
@@ -52,8 +50,7 @@ class ConstraintBoundaryShape_TestCase(BaseTestCase):
 		shapeFactory = injector.get(ShapeFactory)
 		shape = shapeFactory.generateShape()
 
-		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
-		problem = shape.generateProblem(drawingGlyphPolicy)
+		problem = shape.generateProblem()
 		problem.appendConstraint(shape.getVarBoundaryWidth()==144)
 		problem.appendConstraint(shape.getVarBoundaryHeight()==68)
 		problem.appendConstraint(shape.getVarBoundaryCenterX()==110)
@@ -70,8 +67,7 @@ class ConstraintBoundaryShape_TestCase(BaseTestCase):
 		shapeFactory = injector.get(ShapeFactory)
 		shape = shapeFactory.generateShape()
 
-		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
-		problem = shape.generateProblem(drawingGlyphPolicy)
+		problem = shape.generateProblem()
 		shape.appendConstraintsWithBoundary(problem, (38, 61, 182, 129))
 
 		glyphSolver = injector.get(GlyphSolver)
@@ -86,8 +82,7 @@ class ConstraintBoundaryShape_TestCase(BaseTestCase):
 		shapeFactory = injector.get(ShapeFactory)
 		shape = shapeFactory.generateShape()
 
-		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
-		problem = shape.generateProblem(drawingGlyphPolicy)
+		problem = shape.generateProblem()
 		shape.appendConstraintsWithSizeCenter(problem, (144, 68), (110.0, 95.0))
 
 		glyphSolver = injector.get(GlyphSolver)

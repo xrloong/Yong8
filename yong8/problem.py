@@ -1,5 +1,4 @@
 from .constants import Optimization
-from .drawing import DrawingGlyphPolicy
 from .symbol import V
 from .symbol import C
 
@@ -19,12 +18,10 @@ class Objective:
 		return self.function
 
 class Problem:
-	def __init__(self, drawingGlyphPolicy: DrawingGlyphPolicy):
+	def __init__(self):
 		self.variables = []
 		self.constraints = []
 		self.objectives = []
-
-		self.drawingGlyphPolicy = drawingGlyphPolicy
 
 	def addVariable(self, variable: V):
 		self.variables.append(variable)
@@ -60,7 +57,4 @@ class Problem:
 
 	def getObjectives(self):
 		return self.objectives
-
-	def getDrawingGlyphPolicy(self):
-		return self.drawingGlyphPolicy
 

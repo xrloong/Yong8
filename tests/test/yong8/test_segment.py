@@ -1,7 +1,6 @@
 from .base import BaseTestCase
 from .base import GlyphSolver
 
-from yong8.drawing import DrawingGlyphPolicy
 from yong8.factory import SegmentFactory
 
 class ConstraintSegmentTestCase(BaseTestCase):
@@ -26,8 +25,7 @@ class ConstraintSegmentTestCase(BaseTestCase):
 		segmentFactory = injector.get(SegmentFactory)
 		s = segmentFactory.generateBeelineSegment_NN()
 
-		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
-		problem = s.generateProblem(drawingGlyphPolicy)
+		problem = s.generateProblem()
 		s.appendConstraintsWithBoundary(problem, [38, 61, 182, 129])
 
 		glyphSolver = injector.get(GlyphSolver)
@@ -42,8 +40,7 @@ class ConstraintSegmentTestCase(BaseTestCase):
 		segmentFactory = injector.get(SegmentFactory)
 		s = segmentFactory.generateBeelineSegment_NP()
 
-		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
-		problem = s.generateProblem(drawingGlyphPolicy)
+		problem = s.generateProblem()
 		s.appendConstraintsWithBoundary(problem, [38, 61, 182, 129])
 
 		glyphSolver = injector.get(GlyphSolver)
@@ -58,8 +55,7 @@ class ConstraintSegmentTestCase(BaseTestCase):
 		segmentFactory = injector.get(SegmentFactory)
 		s = segmentFactory.generateBeelineSegment_PN()
 
-		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
-		problem = s.generateProblem(drawingGlyphPolicy)
+		problem = s.generateProblem()
 		s.appendConstraintsWithBoundary(problem, [38, 61, 182, 129])
 
 		glyphSolver = injector.get(GlyphSolver)
@@ -74,8 +70,7 @@ class ConstraintSegmentTestCase(BaseTestCase):
 		segmentFactory = injector.get(SegmentFactory)
 		s = segmentFactory.generateBeelineSegment_PP()
 
-		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
-		problem = s.generateProblem(drawingGlyphPolicy)
+		problem = s.generateProblem()
 		s.appendConstraintsWithBoundary(problem, [38, 61, 182, 129])
 
 		glyphSolver = injector.get(GlyphSolver)
@@ -91,8 +86,7 @@ class ConstraintSegmentTestCase(BaseTestCase):
 		segmentFactory = injector.get(SegmentFactory)
 		s = segmentFactory.generateBeelineSegment([1, -1])
 
-		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
-		problem = s.generateProblem(drawingGlyphPolicy)
+		problem = s.generateProblem()
 		s.appendConstraintsWithBoundary(problem, (38, 61, 182, 129))
 
 		glyphSolver = injector.get(GlyphSolver)
@@ -107,8 +101,7 @@ class ConstraintSegmentTestCase(BaseTestCase):
 		segmentFactory = injector.get(SegmentFactory)
 		s = segmentFactory.generateBeelineSegment([1, -1])
 
-		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
-		problem = s.generateProblem(drawingGlyphPolicy)
+		problem = s.generateProblem()
 		s.appendConstraintsWithSizeCenter(problem, (144, 68), (110, 95))
 
 		glyphSolver = injector.get(GlyphSolver)

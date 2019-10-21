@@ -1,7 +1,6 @@
 import abc
 import uuid
 
-from .drawing import DrawingGlyphPolicy
 from .problem import generateVariable
 from .problem import Objective
 from .problem import Problem
@@ -34,8 +33,8 @@ class ConstraintShape(object, metaclass=abc.ABCMeta):
 		self.appendSelfProblemTo(problem)
 		self.appendChildrenProblemTo(problem)
 
-	def generateProblem(self, drawingPolicyPolicy: DrawingGlyphPolicy):
-		problem = Problem(drawingPolicyPolicy)
+	def generateProblem(self):
+		problem = Problem()
 		self.appendProblemTo(problem)
 		return problem
 

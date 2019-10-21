@@ -1,4 +1,3 @@
-from yong8.drawing import DrawingGlyphPolicy
 from yong8.factory import StrokeFactory
 from yong8.factory import ComponentFactory
 
@@ -29,8 +28,7 @@ component.appendLayoutConstraint(layoutConstraint2)
 component.appendLayoutConstraint(layoutConstraint3)
 
 
-drawingGlyphPolicy = DrawingGlyphPolicy()
-problem = component.generateProblem(drawingGlyphPolicy)
+problem = component.generateProblem()
 component.appendConstraintsWithBoundary(problem, (10, 10, 245, 245))
 
 glyphSolver = Solver()

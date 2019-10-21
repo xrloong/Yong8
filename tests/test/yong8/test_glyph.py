@@ -20,13 +20,22 @@ class ConstraintGlyphTestCase(BaseTestCase):
 		strokeFactory = injector.get(StrokeFactory)
 		componentFactory = injector.get(ComponentFactory)
 		glyphFactory = injector.get(GlyphFactory)
+		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
+
+		size = drawingGlyphPolicy.getGlyphSize()
+		marginHorizontal = drawingGlyphPolicy.getMarginHorizontal()
+		marginVertical = drawingGlyphPolicy.getMarginVertical()
 
 		stroke = strokeFactory.橫()
 		component = componentFactory.generateComponent([stroke])
 		glyph = glyphFactory.generateGlyph([component])
 
-		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
-		problem = glyph.generateProblem(drawingGlyphPolicy)
+		problem = glyph.generateProblem()
+
+		problem.appendConstraint(glyph.getVarBoundaryLeft() - 0 == marginHorizontal)
+		problem.appendConstraint(glyph.getVarBoundaryTop() - 0 == marginVertical)
+		problem.appendConstraint(size[0] - glyph.getVarBoundaryRight() == marginHorizontal)
+		problem.appendConstraint(size[1] - glyph.getVarBoundaryBottom() == marginVertical)
 
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
@@ -37,11 +46,19 @@ class ConstraintGlyphTestCase(BaseTestCase):
 		injector = self.getInjector()
 
 		glyphFactory = injector.get(GlyphFactory)
+		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
+
+		size = drawingGlyphPolicy.getGlyphSize()
+		marginHorizontal = drawingGlyphPolicy.getMarginHorizontal()
+		marginVertical = drawingGlyphPolicy.getMarginVertical()
 
 		glyph = glyphFactory.generateGlyph([])
+		problem = glyph.generateProblem()
 
-		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
-		problem = glyph.generateProblem(drawingGlyphPolicy)
+		problem.appendConstraint(glyph.getVarBoundaryLeft() - 0 == marginHorizontal)
+		problem.appendConstraint(glyph.getVarBoundaryTop() - 0 == marginVertical)
+		problem.appendConstraint(size[0] - glyph.getVarBoundaryRight() == marginHorizontal)
+		problem.appendConstraint(size[1] - glyph.getVarBoundaryBottom() == marginVertical)
 
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
@@ -53,11 +70,19 @@ class ConstraintGlyphTestCase(BaseTestCase):
 		injector = self.getInjector()
 
 		glyphFactory = injector.get(GlyphFactory)
+		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
+
+		size = drawingGlyphPolicy.getGlyphSize()
+		marginHorizontal = drawingGlyphPolicy.getMarginHorizontal()
+		marginVertical = drawingGlyphPolicy.getMarginVertical()
 
 		glyph = glyphFactory.generateGlyph([])
+		problem = glyph.generateProblem()
 
-		drawingGlyphPolicy = injector.get(DrawingGlyphPolicy)
-		problem = glyph.generateProblem(drawingGlyphPolicy)
+		problem.appendConstraint(glyph.getVarBoundaryLeft() - 0 == marginHorizontal)
+		problem.appendConstraint(glyph.getVarBoundaryTop() - 0 == marginVertical)
+		problem.appendConstraint(size[0] - glyph.getVarBoundaryRight() == marginHorizontal)
+		problem.appendConstraint(size[1] - glyph.getVarBoundaryBottom() == marginVertical)
 
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
