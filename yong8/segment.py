@@ -123,46 +123,6 @@ class BaseConstraintBeelineSegment(ConstraintPath):
 	def appendObjective(self, problem):
 		super().appendObjective(problem)
 
-# define beelines
-class BeelineSegment_NN(BaseConstraintBeelineSegment):
-	def __init__(self):
-		super().__init__([-1, -1])
-
-class BeelineSegment_N0(BaseConstraintBeelineSegment):
-	def __init__(self):
-		super().__init__([-1, 0])
-
-class BeelineSegment_NP(BaseConstraintBeelineSegment):
-	def __init__(self):
-		super().__init__([-1, 1])
-
-class BeelineSegment_0N(BaseConstraintBeelineSegment):
-	def __init__(self):
-		super().__init__([0, -1])
-
-class BeelineSegment_00(BaseConstraintBeelineSegment):
-	def __init__(self):
-		super().__init__([0, 0])
-
-class BeelineSegment_0P(BaseConstraintBeelineSegment):
-	def __init__(self):
-		super().__init__([0, 1])
-
-class BeelineSegment_PN(BaseConstraintBeelineSegment):
-	def __init__(self):
-		super().__init__([1, -1])
-
-class BeelineSegment_P0(BaseConstraintBeelineSegment):
-	def __init__(self):
-		super().__init__([1, 0])
-
-class BeelineSegment_PP(BaseConstraintBeelineSegment):
-	def __init__(self):
-		super().__init__([1, 1])
-
-
-class BeelineSegment_橫(BeelineSegment_P0): pass
-class BeelineSegment_豎(BeelineSegment_0P): pass
 
 
 class BaseConstraintQCurveSegment(ConstraintPath):
