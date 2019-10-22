@@ -43,12 +43,8 @@ class ConstraintComponentTestCase(BaseTestCase):
 		layoutConstraint2 = LayoutConstraint()
 		layoutConstraint2.setAsRow(component.getVarBoundaryWidth() == stroke.getVarBoundaryWidth())
 
-		layoutConstraint3 = LayoutConstraint()
-		layoutConstraint3.setAsMinimize(component.getVarBoundaryHeight()*2)
-
 		component.appendLayoutConstraint(layoutConstraint1)
 		component.appendLayoutConstraint(layoutConstraint2)
-		component.appendLayoutConstraint(layoutConstraint3)
 
 
 		problem = component.generateProblem()

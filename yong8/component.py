@@ -8,9 +8,6 @@ from .shape import ConstraintBoundaryShape
 class ConstraintType(Enum):
 	Non = 0
 	Row = 1
-	Objective = 2
-	Maximize = 3
-	Minimize = 4
 	AlignToCenter = 5
 	PointMatchPoint = 6
 
@@ -22,18 +19,6 @@ class LayoutConstraint:
 		self.type = ConstraintType.Row
 		self.constraint = constraint
 
-	def setAsObjective(self, objective):
-		self.type = ConstraintType.Objective
-		self.objective = objective
-
-	def setAsMaximize(self, objective):
-		self.type = ConstraintType.Maximize
-		self.objective = objective
-
-	def setAsMinimize(self, objective):
-		self.type = ConstraintType.Minimize
-		self.objective = objective
-
 	def setAsAlignCenter(self, shape):
 		self.type = ConstraintType.AlignToCenter
 		self.targetShape = shape
@@ -44,15 +29,6 @@ class LayoutConstraint:
 
 	def isRow(self):
 		return self.type == ConstraintType.Row
-
-	def isObjective(self):
-		return self.type == ConstraintType.Objective
-
-	def isMaximize(self):
-		return self.type == ConstraintType.Maximize
-
-	def isMinimize(self):
-		return self.type == ConstraintType.Minimize
 
 	def isToAlignCenter(self):
 		return self.type == ConstraintType.AlignToCenter
@@ -129,7 +105,6 @@ class ConstraintComponent(ConstraintBoundaryShape):
 	def appendLayoutContraintsProblemTo(self, problem):
 		for layoutConstraint in self.layoutConstraints:
 			self.appendContraintFromLayoutConstraint(problem, layoutConstraint)
-			self.appendObjectiveFromLayoutConstraint(problem, layoutConstraint)
 
 	def appendContraintFromLayoutConstraint(self, problem, layoutConstraint):
 		if layoutConstraint.isToAlignCenter():
@@ -143,12 +118,4 @@ class ConstraintComponent(ConstraintBoundaryShape):
 			point1, point2 = pointMatchPoint
 			problem.appendConstraint(point1[0] == point2[0])
 			problem.appendConstraint(point1[1] == point2[1])
-
-	def appendObjectiveFromLayoutConstraint(self, problem, layoutConstraint):
-		if layoutConstraint.isObjective():
-			problem.appendObjective(Objective(layoutConstraint.getObjective(), Optimization.Maximize))
-		if layoutConstraint.isMaximize():
-			problem.appendObjective(Objective(layoutConstraint.getObjective(), Optimization.Maximize))
-		if layoutConstraint.isMinimize():
-			problem.appendObjective(Objective(layoutConstraint.getObjective(), Optimization.Minimize))
 
