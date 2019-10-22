@@ -8,7 +8,6 @@ from .shape import ConstraintBoundaryShape
 class ConstraintType(Enum):
 	Non = 0
 	Row = 1
-	AlignToCenter = 5
 
 class LayoutConstraint:
 	def __init__(self):
@@ -18,15 +17,8 @@ class LayoutConstraint:
 		self.type = ConstraintType.Row
 		self.constraint = constraint
 
-	def setAsAlignCenter(self, shape):
-		self.type = ConstraintType.AlignToCenter
-		self.targetShape = shape
-
 	def isRow(self):
 		return self.type == ConstraintType.Row
-
-	def isToAlignCenter(self):
-		return self.type == ConstraintType.AlignToCenter
 
 	def getTargetShape(self):
 		return self.targetShape
@@ -96,10 +88,6 @@ class ConstraintComponent(ConstraintBoundaryShape):
 			self.appendContraintFromLayoutConstraint(problem, layoutConstraint)
 
 	def appendContraintFromLayoutConstraint(self, problem, layoutConstraint):
-		if layoutConstraint.isToAlignCenter():
-			targetShape = layoutConstraint.getTargetShape()
-			problem.appendConstraint(self.getVarBoundaryCenterX() == targetShape.getVarBoundaryCenterX())
-			problem.appendConstraint(self.getVarBoundaryCenterY() == targetShape.getVarBoundaryCenterY())
 		if layoutConstraint.isRow():
 			problem.appendConstraint(layoutConstraint.getRowConstraint())
 

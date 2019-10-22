@@ -10,6 +10,7 @@ from yong8.component import ConstraintComponent
 from yong8.constraint import IntersectionPos
 from yong8.constraint import SegmentIntersectionConstraint
 from yong8.constraint import PointMatchingConstraint
+from yong8.constraint import AlignCenterConstraint
 
 class ConstraintComponentTestCase(BaseTestCase):
 	def setUp(self):
@@ -38,13 +39,12 @@ class ConstraintComponentTestCase(BaseTestCase):
 		stroke = strokeFactory.橫()
 		component = componentFactory.generateComponent([stroke])
 
-		layoutConstraint1 = LayoutConstraint()
-		layoutConstraint1.setAsAlignCenter(stroke)
+		compoundConstraint1 = AlignCenterConstraint(component, stroke)
 
 		layoutConstraint2 = LayoutConstraint()
 		layoutConstraint2.setAsRow(component.getVarBoundaryWidth() == stroke.getVarBoundaryWidth())
 
-		component.appendLayoutConstraint(layoutConstraint1)
+		component.appendCompoundConstraint(compoundConstraint1)
 		component.appendLayoutConstraint(layoutConstraint2)
 
 
@@ -70,16 +70,14 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		component = componentFactory.generateComponent([stroke1, stroke2])
 
-		layoutConstraint1 = LayoutConstraint()
-		layoutConstraint1.setAsAlignCenter(stroke1)
-		layoutConstraint2 = LayoutConstraint()
-		layoutConstraint2.setAsAlignCenter(stroke2)
+		compoundConstraint1 = AlignCenterConstraint(component, stroke1)
+		compoundConstraint2 = AlignCenterConstraint(component, stroke2)
 		layoutConstraint3 = LayoutConstraint()
 		layoutConstraint3.setAsRow(component.getVarBoundaryWidth() == stroke1.getVarBoundaryWidth())
 		layoutConstraint4 = LayoutConstraint()
 		layoutConstraint4.setAsRow(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
-		component.appendLayoutConstraint(layoutConstraint1)
-		component.appendLayoutConstraint(layoutConstraint2)
+		component.appendCompoundConstraint(compoundConstraint1)
+		component.appendCompoundConstraint(compoundConstraint2)
 		component.appendLayoutConstraint(layoutConstraint3)
 		component.appendLayoutConstraint(layoutConstraint4)
 

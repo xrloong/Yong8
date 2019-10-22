@@ -4,6 +4,8 @@ from yong8.factory import ComponentFactory
 from yong8.component import LayoutConstraint
 from yong8.component import ConstraintComponent
 
+from yong8.constraint import AlignCenterConstraint
+
 from solver import Solver
 # 一
 
@@ -13,13 +15,12 @@ componentFactory = ComponentFactory()
 stroke = strokeFactory.橫()
 component = componentFactory.generateComponent([stroke])
 
-layoutConstraint1 = LayoutConstraint()
-layoutConstraint1.setAsAlignCenter(stroke)
+compoundConstraint1 = AlignCenterConstraint(component, stroke)
 
 layoutConstraint2 = LayoutConstraint()
 layoutConstraint2.setAsRow(component.getVarBoundaryWidth() == stroke.getVarBoundaryWidth())
 
-component.appendLayoutConstraint(layoutConstraint1)
+component.appendCompoundConstraint(compoundConstraint1)
 component.appendLayoutConstraint(layoutConstraint2)
 
 

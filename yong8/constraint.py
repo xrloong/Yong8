@@ -107,3 +107,22 @@ class PointMatchingConstraint(CompoundConstraint):
 	def getObjectives(self):
 		return ()
 
+class AlignCenterConstraint(CompoundConstraint):
+	def __init__(self, shape1, shape2):
+		self.shape1 = shape1
+		self.shape2 = shape2
+
+	def getVariables(self):
+		return ()
+
+	def getConstraints(self):
+		shape1 = self.shape1
+		shape2 = self.shape2
+		return (
+			shape1.getVarBoundaryCenterX() == shape2.getVarBoundaryCenterX(),
+			shape1.getVarBoundaryCenterY() == shape2.getVarBoundaryCenterY()
+			)
+
+	def getObjectives(self):
+		return ()
+
