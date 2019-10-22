@@ -9,7 +9,6 @@ class ConstraintType(Enum):
 	Non = 0
 	Row = 1
 	AlignToCenter = 5
-	PointMatchPoint = 6
 
 class LayoutConstraint:
 	def __init__(self):
@@ -23,18 +22,11 @@ class LayoutConstraint:
 		self.type = ConstraintType.AlignToCenter
 		self.targetShape = shape
 
-	def setAsPointMatchPoint(self, point1, point2):
-		self.type = ConstraintType.PointMatchPoint
-		self.pointMatchPoint = (point1, point2)
-
 	def isRow(self):
 		return self.type == ConstraintType.Row
 
 	def isToAlignCenter(self):
 		return self.type == ConstraintType.AlignToCenter
-
-	def isPointMatchPoint(self):
-		return self.type == ConstraintType.PointMatchPoint
 
 	def getTargetShape(self):
 		return self.targetShape
@@ -44,9 +36,6 @@ class LayoutConstraint:
 
 	def getObjective(self):
 		return self.objective
-
-	def getPointMatchPoint(self):
-		return self.pointMatchPoint
 
 	def getSegments(self):
 		return self.segments
@@ -113,9 +102,4 @@ class ConstraintComponent(ConstraintBoundaryShape):
 			problem.appendConstraint(self.getVarBoundaryCenterY() == targetShape.getVarBoundaryCenterY())
 		if layoutConstraint.isRow():
 			problem.appendConstraint(layoutConstraint.getRowConstraint())
-		if layoutConstraint.isPointMatchPoint():
-			pointMatchPoint = layoutConstraint.getPointMatchPoint()
-			point1, point2 = pointMatchPoint
-			problem.appendConstraint(point1[0] == point2[0])
-			problem.appendConstraint(point1[1] == point2[1])
 

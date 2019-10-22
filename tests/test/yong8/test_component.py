@@ -9,6 +9,7 @@ from yong8.component import ConstraintComponent
 
 from yong8.constraint import IntersectionPos
 from yong8.constraint import SegmentIntersectionConstraint
+from yong8.constraint import PointMatchingConstraint
 
 class ConstraintComponentTestCase(BaseTestCase):
 	def setUp(self):
@@ -114,18 +115,15 @@ class ConstraintComponentTestCase(BaseTestCase):
 		layoutConstraint2 = LayoutConstraint()
 		layoutConstraint2.setAsRow(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
 
-		layoutConstraint3 = LayoutConstraint()
-		layoutConstraint3.setAsPointMatchPoint(stroke1.resolvePointStart(), stroke2.resolvePointStart())
-		layoutConstraint4 = LayoutConstraint()
-		layoutConstraint4.setAsPointMatchPoint(stroke1.resolvePointEnd(), stroke3.resolvePointStart())
-		layoutConstraint5 = LayoutConstraint()
-		layoutConstraint5.setAsPointMatchPoint(stroke2.resolvePointEnd(), stroke3.resolvePointEnd())
+		compoundConstraint3 = PointMatchingConstraint(stroke1.resolvePointStart(), stroke2.resolvePointStart())
+		compoundConstraint4 = PointMatchingConstraint(stroke1.resolvePointEnd(), stroke3.resolvePointStart())
+		compoundConstraint5 = PointMatchingConstraint(stroke2.resolvePointEnd(), stroke3.resolvePointEnd())
 
 		component.appendLayoutConstraint(layoutConstraint1)
 		component.appendLayoutConstraint(layoutConstraint2)
-		component.appendLayoutConstraint(layoutConstraint3)
-		component.appendLayoutConstraint(layoutConstraint4)
-		component.appendLayoutConstraint(layoutConstraint5)
+		component.appendCompoundConstraint(compoundConstraint3)
+		component.appendCompoundConstraint(compoundConstraint4)
+		component.appendCompoundConstraint(compoundConstraint5)
 
 
 		problem = component.generateProblem()

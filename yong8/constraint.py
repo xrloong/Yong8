@@ -88,3 +88,22 @@ class SegmentIntersectionConstraint(CompoundConstraint):
 	def getObjectives(self):
 		return ()
 
+class PointMatchingConstraint(CompoundConstraint):
+	def __init__(self, point1, point2):
+		self.point1 = point1
+		self.point2 = point2
+
+	def getVariables(self):
+		return ()
+
+	def getConstraints(self):
+		point1 = self.point1
+		point2 = self.point2
+		return (
+			point1[0] == point2[0],
+			point1[1] == point2[1],
+			)
+
+	def getObjectives(self):
+		return ()
+
