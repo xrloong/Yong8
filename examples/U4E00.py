@@ -1,10 +1,10 @@
 from yong8.factory import StrokeFactory
 from yong8.factory import ComponentFactory
 
-from yong8.component import LayoutConstraint
 from yong8.component import ConstraintComponent
 
 from yong8.constraint import AlignCenterConstraint
+from yong8.constraint import RawConstraint
 
 from solver import Solver
 # 一
@@ -16,12 +16,10 @@ stroke = strokeFactory.橫()
 component = componentFactory.generateComponent([stroke])
 
 compoundConstraint1 = AlignCenterConstraint(component, stroke)
-
-layoutConstraint2 = LayoutConstraint()
-layoutConstraint2.setAsRow(component.getVarBoundaryWidth() == stroke.getVarBoundaryWidth())
+compoundConstraint2 = RawConstraint(component.getVarBoundaryWidth() == stroke.getVarBoundaryWidth())
 
 component.appendCompoundConstraint(compoundConstraint1)
-component.appendLayoutConstraint(layoutConstraint2)
+component.appendCompoundConstraint(compoundConstraint2)
 
 
 problem = component.generateProblem()

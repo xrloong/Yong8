@@ -1,11 +1,11 @@
 from yong8.factory import StrokeFactory
 from yong8.factory import ComponentFactory
 
-from yong8.component import LayoutConstraint
 from yong8.component import ConstraintComponent
 
 from yong8.constraint import IntersectionPos
 from yong8.constraint import SegmentIntersectionConstraint
+from yong8.constraint import RawConstraint
 
 from solver import Solver
 # 十
@@ -18,15 +18,12 @@ stroke2 = strokeFactory.豎()
 
 component = componentFactory.generateComponent([stroke1, stroke2])
 
-layoutConstraint3 = LayoutConstraint()
-layoutConstraint3.setAsRow(component.getVarBoundaryWidth() == stroke1.getVarBoundaryWidth())
-layoutConstraint4 = LayoutConstraint()
-layoutConstraint4.setAsRow(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
-component.appendLayoutConstraint(layoutConstraint3)
-component.appendLayoutConstraint(layoutConstraint4)
-
 compoundConstraint1 = SegmentIntersectionConstraint(stroke1.getSegments()[0], stroke2.getSegments()[0])
+compoundConstraint2 = RawConstraint(component.getVarBoundaryWidth() == stroke1.getVarBoundaryWidth())
+compoundConstraint3 = RawConstraint(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
 component.appendCompoundConstraint(compoundConstraint1)
+component.appendCompoundConstraint(compoundConstraint2)
+component.appendCompoundConstraint(compoundConstraint3)
 
 problem = component.generateProblem()
 

@@ -5,39 +5,11 @@ from .problem import generateVariable
 from .problem import Objective
 from .shape import ConstraintBoundaryShape
 
-class ConstraintType(Enum):
-	Non = 0
-	Row = 1
-
-class LayoutConstraint:
-	def __init__(self):
-		self.type = ConstraintType.Non
-
-	def setAsRow(self, constraint):
-		self.type = ConstraintType.Row
-		self.constraint = constraint
-
-	def isRow(self):
-		return self.type == ConstraintType.Row
-
-	def getTargetShape(self):
-		return self.targetShape
-
-	def getRowConstraint(self):
-		return self.constraint
-
-	def getObjective(self):
-		return self.objective
-
-	def getSegments(self):
-		return self.segments
-
 class ConstraintComponent(ConstraintBoundaryShape):
 	def __init__(self, strokes):
 		super().__init__()
 
 		self.strokes = strokes
-		self.layoutConstraints = []
 		self.compoundConstraints = []
 
 	def dump(self):
@@ -60,9 +32,6 @@ class ConstraintComponent(ConstraintBoundaryShape):
 	def getStrokes(self):
 		return self.strokes
 
-	def appendLayoutConstraint(self, layoutConstraint):
-		self.layoutConstraints.append(layoutConstraint)
-
 	def appendCompoundConstraint(self, compoundConstraint):
 		self.compoundConstraints.append(compoundConstraint)
 
@@ -78,16 +47,6 @@ class ConstraintComponent(ConstraintBoundaryShape):
 			problem.appendConstraint(self.getVarBoundaryRight() >= stroke.getVarBoundaryRight())
 			problem.appendConstraint(self.getVarBoundaryBottom() >= stroke.getVarBoundaryBottom())
 
-		self.appendLayoutContraintsProblemTo(problem)
-
 		for compoundConstraint in self.compoundConstraints:
 			problem.appendCompoundConstraint(compoundConstraint)
-
-	def appendLayoutContraintsProblemTo(self, problem):
-		for layoutConstraint in self.layoutConstraints:
-			self.appendContraintFromLayoutConstraint(problem, layoutConstraint)
-
-	def appendContraintFromLayoutConstraint(self, problem, layoutConstraint):
-		if layoutConstraint.isRow():
-			problem.appendConstraint(layoutConstraint.getRowConstraint())
 

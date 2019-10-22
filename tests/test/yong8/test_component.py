@@ -4,13 +4,13 @@ from .base import GlyphSolver
 from yong8.factory import StrokeFactory
 from yong8.factory import ComponentFactory
 
-from yong8.component import LayoutConstraint
 from yong8.component import ConstraintComponent
 
 from yong8.constraint import IntersectionPos
 from yong8.constraint import SegmentIntersectionConstraint
 from yong8.constraint import PointMatchingConstraint
 from yong8.constraint import AlignCenterConstraint
+from yong8.constraint import RawConstraint
 
 class ConstraintComponentTestCase(BaseTestCase):
 	def setUp(self):
@@ -40,12 +40,10 @@ class ConstraintComponentTestCase(BaseTestCase):
 		component = componentFactory.generateComponent([stroke])
 
 		compoundConstraint1 = AlignCenterConstraint(component, stroke)
-
-		layoutConstraint2 = LayoutConstraint()
-		layoutConstraint2.setAsRow(component.getVarBoundaryWidth() == stroke.getVarBoundaryWidth())
+		compoundConstraint2 = RawConstraint(component.getVarBoundaryWidth() == stroke.getVarBoundaryWidth())
 
 		component.appendCompoundConstraint(compoundConstraint1)
-		component.appendLayoutConstraint(layoutConstraint2)
+		component.appendCompoundConstraint(compoundConstraint2)
 
 
 		problem = component.generateProblem()
@@ -72,14 +70,12 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		compoundConstraint1 = AlignCenterConstraint(component, stroke1)
 		compoundConstraint2 = AlignCenterConstraint(component, stroke2)
-		layoutConstraint3 = LayoutConstraint()
-		layoutConstraint3.setAsRow(component.getVarBoundaryWidth() == stroke1.getVarBoundaryWidth())
-		layoutConstraint4 = LayoutConstraint()
-		layoutConstraint4.setAsRow(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
+		compoundConstraint3 = RawConstraint(component.getVarBoundaryWidth() == stroke1.getVarBoundaryWidth())
+		compoundConstraint4 = RawConstraint(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
 		component.appendCompoundConstraint(compoundConstraint1)
 		component.appendCompoundConstraint(compoundConstraint2)
-		component.appendLayoutConstraint(layoutConstraint3)
-		component.appendLayoutConstraint(layoutConstraint4)
+		component.appendCompoundConstraint(compoundConstraint3)
+		component.appendCompoundConstraint(compoundConstraint4)
 
 
 		problem = component.generateProblem()
@@ -108,17 +104,14 @@ class ConstraintComponentTestCase(BaseTestCase):
 		component = componentFactory.generateComponent([stroke1, stroke2, stroke3])
 
 
-		layoutConstraint1 = LayoutConstraint()
-		layoutConstraint1.setAsRow(component.getVarBoundaryWidth() == stroke2.getVarBoundaryWidth())
-		layoutConstraint2 = LayoutConstraint()
-		layoutConstraint2.setAsRow(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
-
+		compoundConstraint1 = RawConstraint(component.getVarBoundaryWidth() == stroke2.getVarBoundaryWidth())
+		compoundConstraint2 = RawConstraint(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
 		compoundConstraint3 = PointMatchingConstraint(stroke1.resolvePointStart(), stroke2.resolvePointStart())
 		compoundConstraint4 = PointMatchingConstraint(stroke1.resolvePointEnd(), stroke3.resolvePointStart())
 		compoundConstraint5 = PointMatchingConstraint(stroke2.resolvePointEnd(), stroke3.resolvePointEnd())
 
-		component.appendLayoutConstraint(layoutConstraint1)
-		component.appendLayoutConstraint(layoutConstraint2)
+		component.appendCompoundConstraint(compoundConstraint1)
+		component.appendCompoundConstraint(compoundConstraint2)
 		component.appendCompoundConstraint(compoundConstraint3)
 		component.appendCompoundConstraint(compoundConstraint4)
 		component.appendCompoundConstraint(compoundConstraint5)
@@ -148,15 +141,12 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		component = componentFactory.generateComponent([stroke1, stroke2])
 
-		layoutConstraint3 = LayoutConstraint()
-		layoutConstraint3.setAsRow(component.getVarBoundaryWidth() == stroke1.getVarBoundaryWidth())
-		layoutConstraint4 = LayoutConstraint()
-		layoutConstraint4.setAsRow(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
-		component.appendLayoutConstraint(layoutConstraint3)
-		component.appendLayoutConstraint(layoutConstraint4)
-
 		compoundConstraint1 = SegmentIntersectionConstraint(stroke1.getSegments()[0], stroke2.getSegments()[0])
+		compoundConstraint3 = RawConstraint(component.getVarBoundaryWidth() == stroke1.getVarBoundaryWidth())
+		compoundConstraint4 = RawConstraint(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
 		component.appendCompoundConstraint(compoundConstraint1)
+		component.appendCompoundConstraint(compoundConstraint3)
+		component.appendCompoundConstraint(compoundConstraint4)
 
 		problem = component.generateProblem()
 
@@ -186,15 +176,13 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		component = componentFactory.generateComponent([stroke1, stroke2])
 
-		layoutConstraint3 = LayoutConstraint()
-		layoutConstraint3.setAsRow(component.getVarBoundaryWidth() == stroke1.getVarBoundaryWidth())
-		layoutConstraint4 = LayoutConstraint()
-		layoutConstraint4.setAsRow(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
-		component.appendLayoutConstraint(layoutConstraint3)
-		component.appendLayoutConstraint(layoutConstraint4)
-
 		compoundConstraint1 = SegmentIntersectionConstraint(stroke1.getSegments()[0], stroke2.getSegments()[0], IntersectionPos.BetweenStartEnd, IntersectionPos.Start)
+		compoundConstraint3 = RawConstraint(component.getVarBoundaryWidth() == stroke1.getVarBoundaryWidth())
+		compoundConstraint4 = RawConstraint(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
+
 		component.appendCompoundConstraint(compoundConstraint1)
+		component.appendCompoundConstraint(compoundConstraint3)
+		component.appendCompoundConstraint(compoundConstraint4)
 
 		problem = component.generateProblem()
 
@@ -224,22 +212,17 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		component = componentFactory.generateComponent([stroke1, stroke2, stroke3])
 
-		layoutConstraint4 = LayoutConstraint()
-		layoutConstraint4.setAsRow(component.getVarBoundaryWidth() == stroke2.getVarBoundaryWidth())
-		layoutConstraint5 = LayoutConstraint()
-		layoutConstraint5.setAsRow(component.getVarBoundaryHeight() == stroke1.getVarBoundaryHeight())
-
-
-		component.appendLayoutConstraint(layoutConstraint4)
-		component.appendLayoutConstraint(layoutConstraint5)
-
 		compoundConstraint1 = SegmentIntersectionConstraint(stroke1.getSegments()[0], stroke2.getSegments()[0], IntersectionPos.Start, IntersectionPos.Start)
 		compoundConstraint2 = SegmentIntersectionConstraint(stroke1.getSegments()[0], stroke3.getSegments()[0], IntersectionPos.End, IntersectionPos.Start)
 		compoundConstraint3 = SegmentIntersectionConstraint(stroke2.getSegments()[1], stroke3.getSegments()[0], IntersectionPos.End, IntersectionPos.End)
+		compoundConstraint4 = RawConstraint(component.getVarBoundaryWidth() == stroke2.getVarBoundaryWidth())
+		compoundConstraint5 = RawConstraint(component.getVarBoundaryHeight() == stroke1.getVarBoundaryHeight())
 
 		component.appendCompoundConstraint(compoundConstraint1)
 		component.appendCompoundConstraint(compoundConstraint2)
 		component.appendCompoundConstraint(compoundConstraint3)
+		component.appendCompoundConstraint(compoundConstraint4)
+		component.appendCompoundConstraint(compoundConstraint5)
 
 		problem = component.generateProblem()
 		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
@@ -269,19 +252,15 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		component = componentFactory.generateComponent([stroke1, stroke2, stroke3])
 
-		layoutConstraint3 = LayoutConstraint()
-		layoutConstraint3.setAsRow(component.getVarBoundaryWidth() == stroke3.getVarBoundaryWidth())
-		layoutConstraint4 = LayoutConstraint()
-		layoutConstraint4.setAsRow(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
-		component.appendLayoutConstraint(layoutConstraint3)
-		component.appendLayoutConstraint(layoutConstraint4)
-
-
 		compoundConstraint1 = SegmentIntersectionConstraint(stroke1.getSegments()[0], stroke2.getSegments()[0])
 		compoundConstraint2 = SegmentIntersectionConstraint(stroke2.getSegments()[0], stroke3.getSegments()[0], IntersectionPos.End, IntersectionPos.BetweenStartEnd)
+		compoundConstraint3 = RawConstraint(component.getVarBoundaryWidth() == stroke3.getVarBoundaryWidth())
+		compoundConstraint4 = RawConstraint(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
 
 		component.appendCompoundConstraint(compoundConstraint1)
 		component.appendCompoundConstraint(compoundConstraint2)
+		component.appendCompoundConstraint(compoundConstraint3)
+		component.appendCompoundConstraint(compoundConstraint4)
 
 
 		problem = component.generateProblem()
@@ -320,18 +299,15 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		component = componentFactory.generateComponent([stroke1, stroke2, stroke3])
 
-		layoutConstraint3 = LayoutConstraint()
-		layoutConstraint3.setAsRow(component.getVarBoundaryWidth() == stroke1.getVarBoundaryWidth())
-		layoutConstraint4 = LayoutConstraint()
-		layoutConstraint4.setAsRow(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
-		component.appendLayoutConstraint(layoutConstraint3)
-		component.appendLayoutConstraint(layoutConstraint4)
-
 		compoundConstraint1 = SegmentIntersectionConstraint(stroke1.getSegments()[0], stroke2.getSegments()[0])
 		compoundConstraint2 = SegmentIntersectionConstraint(stroke2.getSegments()[0], stroke3.getSegments()[0], IntersectionPos.End, IntersectionPos.BetweenStartEnd)
+		compoundConstraint3 = RawConstraint(component.getVarBoundaryWidth() == stroke1.getVarBoundaryWidth())
+		compoundConstraint4 = RawConstraint(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
 
 		component.appendCompoundConstraint(compoundConstraint1)
 		component.appendCompoundConstraint(compoundConstraint2)
+		component.appendCompoundConstraint(compoundConstraint3)
+		component.appendCompoundConstraint(compoundConstraint4)
 
 
 		problem = component.generateProblem()
