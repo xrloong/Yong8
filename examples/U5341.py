@@ -25,12 +25,12 @@ layoutConstraint4.setAsRow(component.getVarBoundaryHeight() == stroke2.getVarBou
 component.appendLayoutConstraint(layoutConstraint3)
 component.appendLayoutConstraint(layoutConstraint4)
 
-siConstraint1 = SegmentIntersectionConstraint(stroke1.getSegments()[0], stroke2.getSegments()[0])
-component.appendProblemConstraint(siConstraint1)
+compoundConstraint1 = SegmentIntersectionConstraint(stroke1.getSegments()[0], stroke2.getSegments()[0])
+component.appendCompoundConstraint(compoundConstraint1)
 
 problem = component.generateProblem()
 
-(t1, t2) = siConstraint1.intersections
+(t1, t2) = compoundConstraint1.intersections
 problem.appendConstraint(t1==0.5)
 problem.appendConstraint(t2==0.5)
 component.appendConstraintsWithBoundary(problem, (10, 10, 245, 245))

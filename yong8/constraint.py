@@ -1,8 +1,17 @@
+import abc
 import uuid
 from enum import Enum
 
-from .problem import AbsProblem
-from .problem import generateVariable
+class CompoundConstraint(object, metaclass=abc.ABCMeta):
+	def getVariables(self):
+		raise NotImplementedError('users must define getVariables() to use this base class')
+
+	def getConstraints(self):
+		raise NotImplementedError('users must define getConstraints() to use this base class')
+
+	def getObjectives(self):
+		raise NotImplementedError('users must define getObjectives() to use this base class')
+
 
 class IntersectionPos(Enum):
 	Unknown = 0
@@ -12,12 +21,14 @@ class IntersectionPos(Enum):
 	End = 4
 	AfterEnd = 5
 
-class SegmentIntersectionConstraint(AbsProblem):
+class SegmentIntersectionConstraint(CompoundConstraint):
 	def __init__(self, segment1, segment2, intersectionPos1 = IntersectionPos.BetweenStartEnd, intersectionPos2 = IntersectionPos.BetweenStartEnd):
 		self.seg1 = segment1
 		self.seg2 = segment2
 
 		self.uuid = uuid.uuid4()
+
+		from .problem import generateVariable
 
 		intersectionPrefix = "intersection-{0}-{1}".format(segment1.getId(), segment2.getId())
 		self.intersectionX = generateVariable(intersectionPrefix, "intersection_x")

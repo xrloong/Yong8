@@ -81,7 +81,7 @@ class ConstraintComponent(ConstraintBoundaryShape):
 
 		self.strokes = strokes
 		self.layoutConstraints = []
-		self.problemConstraints = []
+		self.compoundConstraints = []
 
 	def dump(self):
 		for stroke in self.strokes:
@@ -106,8 +106,8 @@ class ConstraintComponent(ConstraintBoundaryShape):
 	def appendLayoutConstraint(self, layoutConstraint):
 		self.layoutConstraints.append(layoutConstraint)
 
-	def appendProblemConstraint(self, problemConstraint):
-		self.problemConstraints.append(problemConstraint)
+	def appendCompoundConstraint(self, compoundConstraint):
+		self.compoundConstraints.append(compoundConstraint)
 
 	def appendChildrenProblemTo(self, problem):
 		super().appendChildrenProblemTo(problem)
@@ -123,8 +123,8 @@ class ConstraintComponent(ConstraintBoundaryShape):
 
 		self.appendLayoutContraintsProblemTo(problem)
 
-		for problemConstraint in self.problemConstraints:
-			problem.appendProblem(problemConstraint)
+		for compoundConstraint in self.compoundConstraints:
+			problem.appendCompoundConstraint(compoundConstraint)
 
 	def appendLayoutContraintsProblemTo(self, problem):
 		for layoutConstraint in self.layoutConstraints:

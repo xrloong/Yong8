@@ -1,6 +1,5 @@
-import abc
-
 from .constants import Optimization
+from .constraint import CompoundConstraint
 from .symbol import V
 from .symbol import C
 
@@ -19,18 +18,7 @@ class Objective:
 	def getFunction(self):
 		return self.function
 
-class AbsProblem(object, metaclass=abc.ABCMeta):
-	def getVariables(self):
-		raise NotImplementedError('users must define getVariables() to use this base class')
-
-	def getConstraints(self):
-		raise NotImplementedError('users must define getConstraints() to use this base class')
-
-	def getObjectives(self):
-		raise NotImplementedError('users must define getObjectives() to use this base class')
-
-
-class Problem:
+class Problem(CompoundConstraint):
 	def __init__(self):
 		self.variables = []
 		self.constraints = []
@@ -56,6 +44,11 @@ class Problem:
 	def _appendAllObjectives(self, objectives):
 		for objective in objectives:
 			self.appendObjective(objective)
+
+	def appendCompoundConstraint(self, constraint: CompoundConstraint):
+		self._addAllVariables(constraint.getVariables())
+		self._appendAllConstraints(constraint.getConstraints())
+		self._appendAllObjectives(constraint.getObjectives())
 
 	def appendProblem(self, problem):
 		self._addAllVariables(problem.getVariables())
