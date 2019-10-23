@@ -26,35 +26,23 @@ class BaseConstraintBeelineSegment(ConstraintPath):
 		pathParams = self.getPathParams()
 		xDir = sign(self.dirConfig[0])
 		if xDir == 1:
-			self.expMinX = self.getVarStartX()
-			self.expMaxX = self.getVarEndX()
 			pathParams.setWidthWeight(1)
 			pathParams.setRangeWeightX(0, 1)
 		elif xDir == -1:
-			self.expMinX = self.getVarEndX()
-			self.expMaxX = self.getVarStartX()
 			pathParams.setWidthWeight(1)
 			pathParams.setRangeWeightX(1, 0)
 		else:
-			self.expMinX = self.getVarStartX()
-			self.expMaxX = self.getVarStartX()
 			pathParams.setWidthWeight(0)
 			pathParams.setRangeWeightX(0, 0, 0)
 
 		yDir = sign(self.dirConfig[1])
 		if yDir == 1:
-			self.expMinY = self.getVarStartY()
-			self.expMaxY = self.getVarEndY()
 			pathParams.setHeightWeight(1)
 			pathParams.setRangeWeightY(0, 1)
 		elif yDir == -1:
-			self.expMinY = self.getVarEndY()
-			self.expMaxY = self.getVarStartY()
 			pathParams.setHeightWeight(1)
 			pathParams.setRangeWeightY(1, 0)
 		else:
-			self.expMinY = self.getVarStartY()
-			self.expMaxY = self.getVarStartY()
 			pathParams.setHeightWeight(0)
 			pathParams.setRangeWeightY(0, 0, 0)
 
