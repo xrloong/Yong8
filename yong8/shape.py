@@ -3,6 +3,7 @@ import uuid
 
 from .problem import generateVariable
 from .problem import Objective
+from .problem import Optimization
 from .problem import Problem
 
 class ConstraintShape(object, metaclass=abc.ABCMeta):
@@ -54,6 +55,7 @@ class ConstraintRegion(ConstraintShape):
 		self.uuid = uuid.uuid4()
 
 		componentPrefix = self.getComponentPrefix()
+
 		self.boundaryLeft = generateVariable(componentPrefix, "boundary_left")
 		self.boundaryTop = generateVariable(componentPrefix, "boundary_top")
 		self.boundaryRight = generateVariable(componentPrefix, "boundary_right")
@@ -77,7 +79,6 @@ class ConstraintRegion(ConstraintShape):
 
 	def getComponentPrefix(self):
 		return self.getComponentName()+"_"+str(self.uuid)
-
 
 	def getVarBoundaryLeft(self):
 		return self.boundaryLeft
@@ -165,8 +166,64 @@ class ConstraintBoundaryShape(ConstraintRegion):
 	def __init__(self):
 		super().__init__()
 
+		componentPrefix = self.getComponentPrefix()
+
+		self.minX = generateVariable(componentPrefix, "min_x")
+		self.minY = generateVariable(componentPrefix, "min_y")
+		self.maxX = generateVariable(componentPrefix, "max_x")
+		self.maxY = generateVariable(componentPrefix, "max_y")
+
 	def getComponentName(self):
 		return "region"
+
+	def getVarMinX(self):
+		return self.minX
+
+	def getVarMinY(self):
+		return self.minY
+
+	def getVarMaxX(self):
+		return self.maxX
+
+	def getVarMaxY(self):
+		return self.maxY
+
+	def getMinX(self):
+		return self.minX.getValue()
+
+	def getMinY(self):
+		return self.minY.getValue()
+
+	def getMaxX(self):
+		return self.maxX.getValue()
+
+	def getMaxY(self):
+		return self.maxY.getValue()
+
+	def getOccupationBoundary(self):
+		return (
+			self.getMinX(),
+			self.getMinY(),
+			self.getMaxX(),
+			self.getMaxY(),
+			)
+
+	def appendVariablesTo(self, problem):
+		super().appendVariablesTo(problem)
+
+		problem.addVariable(self.getVarMinX())
+		problem.addVariable(self.getVarMinY())
+		problem.addVariable(self.getVarMaxX())
+		problem.addVariable(self.getVarMaxY())
+
+	def appendConstraintsTo(self, problem):
+		super().appendConstraintsTo(problem)
+
+		problem.appendConstraint(self.getVarBoundaryLeft() == self.getVarMinX())
+		problem.appendConstraint(self.getVarBoundaryTop() == self.getVarMinY())
+		problem.appendConstraint(self.getVarBoundaryRight() == self.getVarMaxX())
+		problem.appendConstraint(self.getVarBoundaryBottom() == self.getVarMaxY())
+
 
 class PathParams:
 	def __init__(self):
@@ -326,8 +383,28 @@ class ConstraintPath(ConstraintBoundaryShape):
 		super().appendConstraintsTo(problem)
 		self.appendConstraintsForPoints(problem)
 
+		problem.appendConstraint(self.getVarMinX() <= self.getVarStartX())
+		problem.appendConstraint(self.getVarMinX() <= self.getVarEndX())
+		problem.appendConstraint(self.getVarMinY() <= self.getVarStartY())
+		problem.appendConstraint(self.getVarMinY() <= self.getVarEndY())
+
+		problem.appendConstraint(self.getVarMaxX() >= self.getVarStartX())
+		problem.appendConstraint(self.getVarMaxX() >= self.getVarEndX())
+		problem.appendConstraint(self.getVarMaxY() >= self.getVarStartY())
+		problem.appendConstraint(self.getVarMaxY() >= self.getVarEndY())
+
 	def appendObjectivesTo(self, problem):
 		super().appendObjectivesTo(problem)
+
+		problem.appendObjective(Objective(self.getVarStartX() - self.getVarMinX(), Optimization.Minimize))
+		problem.appendObjective(Objective(self.getVarEndX() - self.getVarMinX(), Optimization.Minimize))
+		problem.appendObjective(Objective(self.getVarStartY() - self.getVarMinY(), Optimization.Minimize))
+		problem.appendObjective(Objective(self.getVarEndY() - self.getVarMinY(), Optimization.Minimize))
+
+		problem.appendObjective(Objective(self.getVarMaxX() - self.getVarStartX(), Optimization.Minimize))
+		problem.appendObjective(Objective(self.getVarMaxX() - self.getVarEndX(), Optimization.Minimize))
+		problem.appendObjective(Objective(self.getVarMaxY() - self.getVarStartY(), Optimization.Minimize))
+		problem.appendObjective(Objective(self.getVarMaxY() - self.getVarEndY(), Optimization.Minimize))
 
 	def resolvePointStart(self):
 		return (self.getVarStartX(), self.getVarStartY())

@@ -123,14 +123,8 @@ class BaseConstraintBeelineSegment(ConstraintPath):
 	def appendConstraintsTo(self, problem):
 		super().appendConstraintsTo(problem)
 
-		problem.appendConstraint(self.getVarBoundaryLeft() == self.expMinX)
-		problem.appendConstraint(self.getVarBoundaryTop() == self.expMinY)
-		problem.appendConstraint(self.getVarBoundaryRight() == self.expMaxX)
-		problem.appendConstraint(self.getVarBoundaryBottom() == self.expMaxY)
-
 	def appendObjectivesTo(self, problem):
 		super().appendObjectivesTo(problem)
-
 
 
 class BaseConstraintQCurveSegment(ConstraintPath):
