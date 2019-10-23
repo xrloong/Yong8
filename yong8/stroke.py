@@ -123,6 +123,11 @@ class ConstraintStroke(ConstraintPath):
 		problem.appendConstraint(self.unitWidth == self.unitWidth)
 		problem.appendConstraint(self.unitHeight == self.unitHeight)
 
+		problem.appendConstraint(self.getVarBoundaryLeft() == self.expMinX)
+		problem.appendConstraint(self.getVarBoundaryTop() == self.expMinY)
+		problem.appendConstraint(self.getVarBoundaryRight() == self.expMaxX)
+		problem.appendConstraint(self.getVarBoundaryBottom() == self.expMaxY)
+
 	def appendChildrenProblemTo(self, problem):
 		super().appendChildrenProblemTo(problem)
 

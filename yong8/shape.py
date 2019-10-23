@@ -63,11 +63,6 @@ class ConstraintRegion(ConstraintShape):
 		self.boundaryCenterX = generateVariable(componentPrefix, "boundary_centerX")
 		self.boundaryCenterY = generateVariable(componentPrefix, "boundary_centerY")
 
-		self.expMinX = self.boundaryLeft
-		self.expMinY = self.boundaryTop
-		self.expMaxX = self.boundaryRight
-		self.expMaxY = self.boundaryBottom
-
 	def getId(self):
 		return self.uuid
 
@@ -126,20 +121,6 @@ class ConstraintRegion(ConstraintShape):
 			self.getVarBoundaryHeight().getValue())
 
 
-	def getExpMinX(self):
-		return self.expMinX
-
-	def getExpMinY(self):
-		return self.expMinY
-
-	def getExpMaxX(self):
-		return self.expMaxX
-
-	def getExpMaxY(self):
-		return self.expMaxY
-
-
-
 	def appendVariablesTo(self, problem):
 		problem.addVariable(self.boundaryLeft)
 		problem.addVariable(self.boundaryTop)
@@ -161,12 +142,6 @@ class ConstraintRegion(ConstraintShape):
 		problem.appendConstraint(self.getVarBoundaryCenterY()*2 == self.getVarBoundaryTop() + self.getVarBoundaryBottom())
 		problem.appendConstraint(self.getVarBoundaryWidth() == self.getVarBoundaryRight() - self.getVarBoundaryLeft())
 		problem.appendConstraint(self.getVarBoundaryHeight() == self.getVarBoundaryBottom() - self.getVarBoundaryTop())
-
-		# make boundary to match the shape
-		problem.appendConstraint(self.getVarBoundaryLeft() == self.getExpMinX())
-		problem.appendConstraint(self.getVarBoundaryTop() == self.getExpMinY())
-		problem.appendConstraint(self.getVarBoundaryRight() == self.getExpMaxX())
-		problem.appendConstraint(self.getVarBoundaryBottom() == self.getExpMaxY())
 
 	def appendConstraintsWithBoundary(self, problem, boundary):
 		left, top, right, bottom = boundary
