@@ -12,19 +12,19 @@ class ConstraintShape(object, metaclass=abc.ABCMeta):
 	def draw(self, drawingSystem):
 		raise NotImplementedError('users must define draw to use this base class')
 
-	def appendVariables(self, problem):
-		raise NotImplementedError('users must define appendVariables to use this base class')
+	def appendVariablesTo(self, problem):
+		raise NotImplementedError('users must define appendVariablesTo() to use this base class')
 
-	def appendConstraints(self, problem):
-		raise NotImplementedError('users must define appendConstraints to use this base class')
+	def appendConstraintsTo(self, problem):
+		raise NotImplementedError('users must define appendConstraintsTo() to use this base class')
 
-	def appendObjective(self, problem):
-		raise NotImplementedError('users must define appendObjetive to use this base class')
+	def appendObjectivesTo(self, problem):
+		raise NotImplementedError('users must define appendObjetivesTo() to use this base class')
 
 	def appendSelfProblemTo(self, problem):
-		self.appendVariables(problem)
-		self.appendConstraints(problem)
-		self.appendObjective(problem)
+		self.appendVariablesTo(problem)
+		self.appendConstraintsTo(problem)
+		self.appendObjectivesTo(problem)
 
 	def appendChildrenProblemTo(self, problem):
 		pass
@@ -131,7 +131,7 @@ class ConstraintBoundaryShape(ConstraintShape):
 
 
 
-	def appendVariables(self, problem):
+	def appendVariablesTo(self, problem):
 		problem.addVariable(self.boundaryLeft)
 		problem.addVariable(self.boundaryTop)
 		problem.addVariable(self.boundaryRight)
@@ -141,7 +141,7 @@ class ConstraintBoundaryShape(ConstraintShape):
 		problem.addVariable(self.boundaryCenterX)
 		problem.addVariable(self.boundaryCenterY)
 
-	def appendConstraints(self, problem):
+	def appendConstraintsTo(self, problem):
 		self.appendConstraintsForBoundary(problem)
 
 	def appendConstraintsForBoundary(self, problem):
@@ -174,7 +174,7 @@ class ConstraintBoundaryShape(ConstraintShape):
 		problem.appendConstraint(self.getVarBoundaryCenterX() == centerX)
 		problem.appendConstraint(self.getVarBoundaryCenterY() == centerY)
 
-	def appendObjective(self, problem):
+	def appendObjectivesTo(self, problem):
 		pass
 
 class PathParams:
@@ -311,8 +311,8 @@ class ConstraintPath(ConstraintBoundaryShape):
 	def getVarEndY(self):
 		return self.endY
 
-	def appendVariables(self, problem):
-		super().appendVariables(problem)
+	def appendVariablesTo(self, problem):
+		super().appendVariablesTo(problem)
 		problem.addVariable(self.startX)
 		problem.addVariable(self.startY)
 		problem.addVariable(self.endX)
@@ -331,12 +331,12 @@ class ConstraintPath(ConstraintBoundaryShape):
 		problem.appendConstraint(self.getVarBoundaryBottom() >= self.startY)
 		problem.appendConstraint(self.getVarBoundaryBottom() >= self.endY)
 
-	def appendConstraints(self, problem):
-		super().appendConstraints(problem)
+	def appendConstraintsTo(self, problem):
+		super().appendConstraintsTo(problem)
 		self.appendConstraintsForPoints(problem)
 
-	def appendObjective(self, problem):
-		super().appendObjective(problem)
+	def appendObjectivesTo(self, problem):
+		super().appendObjectivesTo(problem)
 
 	def resolvePointStart(self):
 		return (self.getVarStartX(), self.getVarStartY())

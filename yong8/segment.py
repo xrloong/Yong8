@@ -73,8 +73,8 @@ class BaseConstraintBeelineSegment(ConstraintPath):
 	def getVarVectorY(self):
 		return self.params[1]
 
-	def appendVariables(self, problem):
-		super().appendVariables(problem)
+	def appendVariablesTo(self, problem):
+		super().appendVariablesTo(problem)
 		for variable in self.params:
 			problem.addVariable(variable)
 
@@ -120,8 +120,8 @@ class BaseConstraintBeelineSegment(ConstraintPath):
 		super().appendConstraintsForPoints(problem)
 		self.appendConstraintsForPath(problem)
 
-	def appendObjective(self, problem):
-		super().appendObjective(problem)
+	def appendObjectivesTo(self, problem):
+		super().appendObjectivesTo(problem)
 
 
 
@@ -152,8 +152,8 @@ class BaseConstraintQCurveSegment(ConstraintPath):
 	def getVarVectorY_2(self):
 		return self.params[3]
 
-	def appendVariables(self, problem):
-		super().appendVariables(problem)
+	def appendVariablesTo(self, problem):
+		super().appendVariablesTo(problem)
 		for variable in self.params:
 			problem.addVariable(variable)
 
