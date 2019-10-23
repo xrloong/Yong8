@@ -47,7 +47,7 @@ class ConstraintShape(object, metaclass=abc.ABCMeta):
 		self.appendProblemTo(problem)
 		return problem
 
-class ConstraintBoundaryShape(ConstraintShape):
+class ConstraintRegion(ConstraintShape):
 	def __init__(self):
 		super().__init__()
 
@@ -185,6 +185,13 @@ class ConstraintBoundaryShape(ConstraintShape):
 
 	def appendObjectivesTo(self, problem):
 		pass
+
+class ConstraintBoundaryShape(ConstraintRegion):
+	def __init__(self):
+		super().__init__()
+
+	def getComponentName(self):
+		return "region"
 
 class PathParams:
 	def __init__(self):
