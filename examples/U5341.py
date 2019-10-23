@@ -21,9 +21,9 @@ component = componentFactory.generateComponent([stroke1, stroke2])
 compoundConstraint1 = SegmentIntersectionConstraint(stroke1.getSegments()[0], stroke2.getSegments()[0])
 compoundConstraint2 = RawConstraint(component.getVarBoundaryWidth() == stroke1.getVarBoundaryWidth())
 compoundConstraint3 = RawConstraint(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
-component.appendCompoundConstraint(compoundConstraint1)
-component.appendCompoundConstraint(compoundConstraint2)
-component.appendCompoundConstraint(compoundConstraint3)
+component.addCompoundConstraint(compoundConstraint1)
+component.addCompoundConstraint(compoundConstraint2)
+component.addCompoundConstraint(compoundConstraint3)
 
 problem = component.generateProblem()
 

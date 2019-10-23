@@ -42,8 +42,8 @@ class ConstraintComponentTestCase(BaseTestCase):
 		compoundConstraint1 = AlignCenterConstraint(component, stroke)
 		compoundConstraint2 = RawConstraint(component.getVarBoundaryWidth() == stroke.getVarBoundaryWidth())
 
-		component.appendCompoundConstraint(compoundConstraint1)
-		component.appendCompoundConstraint(compoundConstraint2)
+		component.addCompoundConstraint(compoundConstraint1)
+		component.addCompoundConstraint(compoundConstraint2)
 
 
 		problem = component.generateProblem()
@@ -72,10 +72,10 @@ class ConstraintComponentTestCase(BaseTestCase):
 		compoundConstraint2 = AlignCenterConstraint(component, stroke2)
 		compoundConstraint3 = RawConstraint(component.getVarBoundaryWidth() == stroke1.getVarBoundaryWidth())
 		compoundConstraint4 = RawConstraint(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
-		component.appendCompoundConstraint(compoundConstraint1)
-		component.appendCompoundConstraint(compoundConstraint2)
-		component.appendCompoundConstraint(compoundConstraint3)
-		component.appendCompoundConstraint(compoundConstraint4)
+		component.addCompoundConstraint(compoundConstraint1)
+		component.addCompoundConstraint(compoundConstraint2)
+		component.addCompoundConstraint(compoundConstraint3)
+		component.addCompoundConstraint(compoundConstraint4)
 
 
 		problem = component.generateProblem()
@@ -110,11 +110,11 @@ class ConstraintComponentTestCase(BaseTestCase):
 		compoundConstraint4 = PointMatchingConstraint(stroke1.resolvePointEnd(), stroke3.resolvePointStart())
 		compoundConstraint5 = PointMatchingConstraint(stroke2.resolvePointEnd(), stroke3.resolvePointEnd())
 
-		component.appendCompoundConstraint(compoundConstraint1)
-		component.appendCompoundConstraint(compoundConstraint2)
-		component.appendCompoundConstraint(compoundConstraint3)
-		component.appendCompoundConstraint(compoundConstraint4)
-		component.appendCompoundConstraint(compoundConstraint5)
+		component.addCompoundConstraint(compoundConstraint1)
+		component.addCompoundConstraint(compoundConstraint2)
+		component.addCompoundConstraint(compoundConstraint3)
+		component.addCompoundConstraint(compoundConstraint4)
+		component.addCompoundConstraint(compoundConstraint5)
 
 
 		problem = component.generateProblem()
@@ -144,9 +144,9 @@ class ConstraintComponentTestCase(BaseTestCase):
 		compoundConstraint1 = SegmentIntersectionConstraint(stroke1.getSegments()[0], stroke2.getSegments()[0])
 		compoundConstraint3 = RawConstraint(component.getVarBoundaryWidth() == stroke1.getVarBoundaryWidth())
 		compoundConstraint4 = RawConstraint(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
-		component.appendCompoundConstraint(compoundConstraint1)
-		component.appendCompoundConstraint(compoundConstraint3)
-		component.appendCompoundConstraint(compoundConstraint4)
+		component.addCompoundConstraint(compoundConstraint1)
+		component.addCompoundConstraint(compoundConstraint3)
+		component.addCompoundConstraint(compoundConstraint4)
 
 		problem = component.generateProblem()
 
@@ -180,9 +180,9 @@ class ConstraintComponentTestCase(BaseTestCase):
 		compoundConstraint3 = RawConstraint(component.getVarBoundaryWidth() == stroke1.getVarBoundaryWidth())
 		compoundConstraint4 = RawConstraint(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
 
-		component.appendCompoundConstraint(compoundConstraint1)
-		component.appendCompoundConstraint(compoundConstraint3)
-		component.appendCompoundConstraint(compoundConstraint4)
+		component.addCompoundConstraint(compoundConstraint1)
+		component.addCompoundConstraint(compoundConstraint3)
+		component.addCompoundConstraint(compoundConstraint4)
 
 		problem = component.generateProblem()
 
@@ -218,11 +218,11 @@ class ConstraintComponentTestCase(BaseTestCase):
 		compoundConstraint4 = RawConstraint(component.getVarBoundaryWidth() == stroke2.getVarBoundaryWidth())
 		compoundConstraint5 = RawConstraint(component.getVarBoundaryHeight() == stroke1.getVarBoundaryHeight())
 
-		component.appendCompoundConstraint(compoundConstraint1)
-		component.appendCompoundConstraint(compoundConstraint2)
-		component.appendCompoundConstraint(compoundConstraint3)
-		component.appendCompoundConstraint(compoundConstraint4)
-		component.appendCompoundConstraint(compoundConstraint5)
+		component.addCompoundConstraint(compoundConstraint1)
+		component.addCompoundConstraint(compoundConstraint2)
+		component.addCompoundConstraint(compoundConstraint3)
+		component.addCompoundConstraint(compoundConstraint4)
+		component.addCompoundConstraint(compoundConstraint5)
 
 		problem = component.generateProblem()
 		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
@@ -257,10 +257,10 @@ class ConstraintComponentTestCase(BaseTestCase):
 		compoundConstraint3 = RawConstraint(component.getVarBoundaryWidth() == stroke3.getVarBoundaryWidth())
 		compoundConstraint4 = RawConstraint(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
 
-		component.appendCompoundConstraint(compoundConstraint1)
-		component.appendCompoundConstraint(compoundConstraint2)
-		component.appendCompoundConstraint(compoundConstraint3)
-		component.appendCompoundConstraint(compoundConstraint4)
+		component.addCompoundConstraint(compoundConstraint1)
+		component.addCompoundConstraint(compoundConstraint2)
+		component.addCompoundConstraint(compoundConstraint3)
+		component.addCompoundConstraint(compoundConstraint4)
 
 
 		problem = component.generateProblem()
@@ -304,10 +304,10 @@ class ConstraintComponentTestCase(BaseTestCase):
 		compoundConstraint3 = RawConstraint(component.getVarBoundaryWidth() == stroke1.getVarBoundaryWidth())
 		compoundConstraint4 = RawConstraint(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
 
-		component.appendCompoundConstraint(compoundConstraint1)
-		component.appendCompoundConstraint(compoundConstraint2)
-		component.appendCompoundConstraint(compoundConstraint3)
-		component.appendCompoundConstraint(compoundConstraint4)
+		component.addCompoundConstraint(compoundConstraint1)
+		component.addCompoundConstraint(compoundConstraint2)
+		component.addCompoundConstraint(compoundConstraint3)
+		component.addCompoundConstraint(compoundConstraint4)
 
 
 		problem = component.generateProblem()

@@ -32,7 +32,7 @@ class ConstraintComponent(ConstraintBoundaryShape):
 	def getStrokes(self):
 		return self.strokes
 
-	def appendCompoundConstraint(self, compoundConstraint):
+	def addCompoundConstraint(self, compoundConstraint):
 		self.compoundConstraints.append(compoundConstraint)
 
 	def appendChildrenProblemTo(self, problem):

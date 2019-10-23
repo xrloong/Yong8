@@ -18,8 +18,8 @@ component = componentFactory.generateComponent([stroke])
 compoundConstraint1 = AlignCenterConstraint(component, stroke)
 compoundConstraint2 = RawConstraint(component.getVarBoundaryWidth() == stroke.getVarBoundaryWidth())
 
-component.appendCompoundConstraint(compoundConstraint1)
-component.appendCompoundConstraint(compoundConstraint2)
+component.addCompoundConstraint(compoundConstraint1)
+component.addCompoundConstraint(compoundConstraint2)
 
 
 problem = component.generateProblem()

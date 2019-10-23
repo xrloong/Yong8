@@ -24,8 +24,8 @@ compoundConstraint2 = SegmentIntersectionConstraint(stroke2.getSegments()[0], st
 compoundConstraint3 = RawConstraint(component.getVarBoundaryWidth() == stroke3.getVarBoundaryWidth())
 compoundConstraint4 = RawConstraint(component.getVarBoundaryHeight() == stroke2.getVarBoundaryHeight())
 
-component.appendCompoundConstraint(compoundConstraint1)
-component.appendCompoundConstraint(compoundConstraint2)
+component.addCompoundConstraint(compoundConstraint1)
+component.addCompoundConstraint(compoundConstraint2)
 
 problem = component.generateProblem()
 problem.appendConstraint(stroke1.getVarBoundaryWidth() / stroke3.getVarBoundaryWidth() == 0.9)
