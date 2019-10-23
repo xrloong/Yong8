@@ -98,7 +98,7 @@ class BaseConstraintBeelineSegment(ConstraintPath):
 				problem.appendConstraint(self.getVarStartX() == self.getVarEndX())
 				problem.appendConstraint(self.getVarVectorX() == 0)
 				problem.appendConstraint(self.getVarBoundaryWidth() == 0)
-			problem.appendConstraint(self.getVarVectorX() >= 0 )
+			problem.appendConstraint(self.getVarVectorX() >= 0)
 
 			if yDir == 1:
 				problem.appendConstraint(self.getVarBoundaryTop() == self.getVarStartY())
@@ -114,7 +114,7 @@ class BaseConstraintBeelineSegment(ConstraintPath):
 				problem.appendConstraint(self.getVarStartY() == self.getVarEndY())
 				problem.appendConstraint(self.getVarVectorY() == 0)
 				problem.appendConstraint(self.getVarBoundaryHeight() == 0)
-			problem.appendConstraint(self.getVarVectorY() >= 0 )
+			problem.appendConstraint(self.getVarVectorY() >= 0)
 
 	def appendConstraintsForPoints(self, problem):
 		super().appendConstraintsForPoints(problem)
