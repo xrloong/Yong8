@@ -10,7 +10,6 @@ class ConstraintComponent(ConstraintBoundaryShape):
 		super().__init__()
 
 		self.strokes = strokes
-		self.compoundConstraints = []
 
 	def dump(self):
 		for stroke in self.strokes:
@@ -32,9 +31,6 @@ class ConstraintComponent(ConstraintBoundaryShape):
 	def getStrokes(self):
 		return self.strokes
 
-	def addCompoundConstraint(self, compoundConstraint):
-		self.compoundConstraints.append(compoundConstraint)
-
 	def appendChildrenProblemTo(self, problem):
 		super().appendChildrenProblemTo(problem)
 
@@ -46,7 +42,4 @@ class ConstraintComponent(ConstraintBoundaryShape):
 			problem.appendConstraint(self.getVarBoundaryTop() <= stroke.getVarBoundaryTop())
 			problem.appendConstraint(self.getVarBoundaryRight() >= stroke.getVarBoundaryRight())
 			problem.appendConstraint(self.getVarBoundaryBottom() >= stroke.getVarBoundaryBottom())
-
-		for compoundConstraint in self.compoundConstraints:
-			problem.appendCompoundConstraint(compoundConstraint)
 

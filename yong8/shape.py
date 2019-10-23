@@ -8,9 +8,13 @@ from .problem import Problem
 class ConstraintShape(object, metaclass=abc.ABCMeta):
 	def __init__(self):
 		super().__init__()
+		self.compoundConstraints = []
 
 	def draw(self, drawingSystem):
 		raise NotImplementedError('users must define draw to use this base class')
+
+	def addCompoundConstraint(self, compoundConstraint):
+		self.compoundConstraints.append(compoundConstraint)
 
 	def appendVariablesTo(self, problem):
 		raise NotImplementedError('users must define appendVariablesTo() to use this base class')
@@ -29,9 +33,14 @@ class ConstraintShape(object, metaclass=abc.ABCMeta):
 	def appendChildrenProblemTo(self, problem):
 		pass
 
+	def appendCompoundConstraintTo(self, problem):
+		for compoundConstraint in self.compoundConstraints:
+			problem.appendCompoundConstraint(compoundConstraint)
+
 	def appendProblemTo(self, problem):
 		self.appendSelfProblemTo(problem)
 		self.appendChildrenProblemTo(problem)
+		self.appendCompoundConstraintTo(problem)
 
 	def generateProblem(self):
 		problem = Problem()
