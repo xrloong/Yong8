@@ -1,4 +1,6 @@
 from .problem import generateVariable
+from .problem import Objective
+from .problem import Optimization
 from .shape import ConstraintPath
 
 class ConstraintStroke(ConstraintPath):
@@ -35,10 +37,6 @@ class ConstraintStroke(ConstraintPath):
 		minY = 0
 		maxX = 0
 		maxY = 0
-		expMinX = accumulatedExpressionX
-		expMinY = accumulatedExpressionY
-		expMaxX = accumulatedExpressionX
-		expMaxY = accumulatedExpressionY
 		for segment, weight in zip(segments, weights):
 			pathParams = segment.getPathParams()
 
@@ -80,20 +78,12 @@ class ConstraintStroke(ConstraintPath):
 			accumulatedExpressionY += segment.getVarVectorY() * diffWeightEndY
 			if currentMinX < minX:
 				minX = currentMinX
-				expMinX = accumulatedExpressionX
 			if currentMinY < minY:
 				minY = currentMinY
-				expMinY = accumulatedExpressionY
 			if currentMaxX > maxX:
 				maxX = currentMaxX
-				expMaxX = accumulatedExpressionX
 			if currentMaxY > maxY:
 				maxY = currentMaxY
-				expMaxY = accumulatedExpressionY
-		self.expMinX = expMinX
-		self.expMaxX = expMaxX
-		self.expMinY = expMinY
-		self.expMaxY = expMaxY
 		if maxX-minX>0:
 			weightSum = maxX-minX
 			pathParams.setRangeWeightX((0-minX)/weightSum, (accumulatedEndX-minX)/weightSum)
@@ -123,10 +113,11 @@ class ConstraintStroke(ConstraintPath):
 		problem.appendConstraint(self.unitWidth == self.unitWidth)
 		problem.appendConstraint(self.unitHeight == self.unitHeight)
 
-		problem.appendConstraint(self.getVarBoundaryLeft() == self.expMinX)
-		problem.appendConstraint(self.getVarBoundaryTop() == self.expMinY)
-		problem.appendConstraint(self.getVarBoundaryRight() == self.expMaxX)
-		problem.appendConstraint(self.getVarBoundaryBottom() == self.expMaxY)
+		for segment in self.getSegments():
+			problem.appendConstraint(self.getVarMinX() <= segment.getVarMinX())
+			problem.appendConstraint(self.getVarMinY() <= segment.getVarMinY())
+			problem.appendConstraint(self.getVarMaxX() >= segment.getVarMaxX())
+			problem.appendConstraint(self.getVarMaxY() >= segment.getVarMaxY())
 
 	def appendChildrenProblemTo(self, problem):
 		super().appendChildrenProblemTo(problem)
@@ -157,4 +148,13 @@ class ConstraintStroke(ConstraintPath):
 		else:
 			problem.appendConstraint(self.getVarStartX() == self.getVarEndX())
 			problem.appendConstraint(self.getVarStartY() == self.getVarEndY())
+
+	def appendObjectivesTo(self, problem):
+		super().appendObjectivesTo(problem)
+
+		for segment in self.getSegments():
+			problem.appendObjective(Objective(10*(segment.getVarMinX() - self.getVarMinX()), Optimization.Minimize))
+			problem.appendObjective(Objective(10*(segment.getVarMinY() - self.getVarMinY()), Optimization.Minimize))
+			problem.appendObjective(Objective(10*(self.getVarMaxX() - segment.getVarMaxX()), Optimization.Minimize))
+			problem.appendObjective(Objective(10*(self.getVarMaxY() - segment.getVarMaxY()), Optimization.Minimize))
 

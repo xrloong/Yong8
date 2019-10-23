@@ -31,6 +31,15 @@ class ConstraintComponent(ConstraintBoundaryShape):
 	def getStrokes(self):
 		return self.strokes
 
+	def appendConstraintsTo(self, problem):
+		super().appendConstraintsTo(problem)
+
+		for stroke in self.getStrokes():
+			problem.appendConstraint(self.getVarMinX() <= stroke.getVarMinX())
+			problem.appendConstraint(self.getVarMinY() <= stroke.getVarMinY())
+			problem.appendConstraint(self.getVarMaxX() >= stroke.getVarMaxX())
+			problem.appendConstraint(self.getVarMaxY() >= stroke.getVarMaxY())
+
 	def appendChildrenProblemTo(self, problem):
 		super().appendChildrenProblemTo(problem)
 
@@ -42,4 +51,13 @@ class ConstraintComponent(ConstraintBoundaryShape):
 			problem.appendConstraint(self.getVarBoundaryTop() <= stroke.getVarBoundaryTop())
 			problem.appendConstraint(self.getVarBoundaryRight() >= stroke.getVarBoundaryRight())
 			problem.appendConstraint(self.getVarBoundaryBottom() >= stroke.getVarBoundaryBottom())
+
+	def appendObjectivesTo(self, problem):
+		super().appendObjectivesTo(problem)
+
+		for stroke in self.getStrokes():
+			problem.appendObjective(Objective(10*(stroke.getVarMinX() - self.getVarMinX()), Optimization.Minimize))
+			problem.appendObjective(Objective(10*(stroke.getVarMinY() - self.getVarMinY()), Optimization.Minimize))
+			problem.appendObjective(Objective(10*(self.getVarMaxX() - stroke.getVarMaxX()), Optimization.Minimize))
+			problem.appendObjective(Objective(10*(self.getVarMaxY() - stroke.getVarMaxY()), Optimization.Minimize))
 
