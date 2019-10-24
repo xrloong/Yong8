@@ -104,12 +104,9 @@ class BaseConstraintBeelineSegment(ConstraintPath):
 				problem.appendConstraint(self.getVarBoundaryHeight() == 0)
 			problem.appendConstraint(self.getVarVectorY() >= 0)
 
-	def appendConstraintsForPoints(self, problem):
-		super().appendConstraintsForPoints(problem)
-		self.appendConstraintsForPath(problem)
-
 	def appendConstraintsTo(self, problem):
 		super().appendConstraintsTo(problem)
+		self.appendConstraintsForPath(problem)
 
 	def appendObjectivesTo(self, problem):
 		super().appendObjectivesTo(problem)

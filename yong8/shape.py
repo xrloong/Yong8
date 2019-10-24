@@ -202,6 +202,9 @@ class ConstraintBoundaryShape(ConstraintRegion):
 		problem.appendConstraint(self.getVarBoundaryRight() == self.getVarMaxX())
 		problem.appendConstraint(self.getVarBoundaryBottom() == self.getVarMaxY())
 
+	def appendObjectivesTo(self, problem):
+		super().appendObjectivesTo(problem)
+
 
 class PathParams:
 	def __init__(self):
@@ -336,27 +339,22 @@ class ConstraintPath(ConstraintBoundaryShape):
 
 	def appendVariablesTo(self, problem):
 		super().appendVariablesTo(problem)
-		problem.addVariable(self.startX)
-		problem.addVariable(self.startY)
-		problem.addVariable(self.endX)
-		problem.addVariable(self.endY)
-
-	def appendConstraintsForPoints(self, problem):
-		problem.appendConstraint(self.getVarBoundaryLeft() <= self.startX)
-		problem.appendConstraint(self.getVarBoundaryLeft() <= self.endX)
-
-		problem.appendConstraint(self.getVarBoundaryTop() <= self.startY)
-		problem.appendConstraint(self.getVarBoundaryTop() <= self.endY)
-
-		problem.appendConstraint(self.getVarBoundaryRight() >= self.startX)
-		problem.appendConstraint(self.getVarBoundaryRight() >= self.endX)
-
-		problem.appendConstraint(self.getVarBoundaryBottom() >= self.startY)
-		problem.appendConstraint(self.getVarBoundaryBottom() >= self.endY)
+		problem.addVariable(self.getVarStartX())
+		problem.addVariable(self.getVarStartY())
+		problem.addVariable(self.getVarEndX())
+		problem.addVariable(self.getVarEndY())
 
 	def appendConstraintsTo(self, problem):
 		super().appendConstraintsTo(problem)
-		self.appendConstraintsForPoints(problem)
+
+		problem.appendConstraint(self.getVarBoundaryLeft() <= self.getVarStartX())
+		problem.appendConstraint(self.getVarBoundaryLeft() <= self.getVarEndX())
+		problem.appendConstraint(self.getVarBoundaryTop() <= self.getVarStartY())
+		problem.appendConstraint(self.getVarBoundaryTop() <= self.getVarEndY())
+		problem.appendConstraint(self.getVarBoundaryRight() >= self.getVarStartX())
+		problem.appendConstraint(self.getVarBoundaryRight() >= self.getVarEndX())
+		problem.appendConstraint(self.getVarBoundaryBottom() >= self.getVarStartY())
+		problem.appendConstraint(self.getVarBoundaryBottom() >= self.getVarEndY())
 
 		problem.appendConstraint(self.getVarMinX() <= self.getVarStartX())
 		problem.appendConstraint(self.getVarMinX() <= self.getVarEndX())
