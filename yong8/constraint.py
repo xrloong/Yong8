@@ -148,3 +148,26 @@ class BoundaryConstraint(CompoundConstraint):
 	def getObjectives(self):
 		return ()
 
+class SizeCenterConstraint(CompoundConstraint):
+	def __init__(self, shape, size, center):
+		self.shape = shape
+		self.size = size
+		self.center = center
+
+	def getVariables(self):
+		return ()
+
+	def getConstraints(self):
+		shape = self.shape
+		width, height = self.size
+		centerX, centerY = self.center
+		return (
+			shape.getVarBoundaryWidth() == width,
+			shape.getVarBoundaryHeight() == height,
+			shape.getVarBoundaryCenterX() == centerX,
+			shape.getVarBoundaryCenterY() == centerY
+			)
+
+	def getObjectives(self):
+		return ()
+

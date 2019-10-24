@@ -4,6 +4,7 @@ from .base import GlyphSolver
 from yong8.factory import ShapeFactory
 
 from yong8.constraint import BoundaryConstraint
+from yong8.constraint import SizeCenterConstraint
 
 class ConstraintBoundaryShape_TestCase(BaseTestCase):
 	def setUp(self):
@@ -85,8 +86,9 @@ class ConstraintBoundaryShape_TestCase(BaseTestCase):
 		shapeFactory = injector.get(ShapeFactory)
 		shape = shapeFactory.generateShape()
 
+		shape.addCompoundConstraint(SizeCenterConstraint(shape, (144, 68), (110.0, 95.0)))
+
 		problem = shape.generateProblem()
-		shape.appendConstraintsWithSizeCenter(problem, (144, 68), (110.0, 95.0))
 
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
