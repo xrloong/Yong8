@@ -133,10 +133,6 @@ class ConstraintRegion(ConstraintShape):
 		problem.addVariable(self.boundaryCenterY)
 
 	def appendConstraintsTo(self, problem):
-		self.appendConstraintsForBoundary(problem)
-
-	def appendConstraintsForBoundary(self, problem):
-		# boundary constraints
 		problem.appendConstraint(self.getVarBoundaryLeft() <= self.getVarBoundaryRight())
 		problem.appendConstraint(self.getVarBoundaryTop() <= self.getVarBoundaryBottom())
 		problem.appendConstraint(self.getVarBoundaryCenterX()*2 == self.getVarBoundaryLeft() + self.getVarBoundaryRight())
