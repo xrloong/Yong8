@@ -11,9 +11,6 @@ class ConstraintShape(object, metaclass=abc.ABCMeta):
 		super().__init__()
 		self.compoundConstraints = []
 
-	def draw(self, drawingSystem):
-		raise NotImplementedError('users must define draw to use this base class')
-
 	def addCompoundConstraint(self, compoundConstraint):
 		self.compoundConstraints.append(compoundConstraint)
 
@@ -307,9 +304,6 @@ class ConstraintPath(ConstraintBoundaryShape):
 
 	def getComponentName(self):
 		return "path"
-
-	def draw(self, drawingSystem):
-		pass
 
 	def computeBoundary(self):
 		return self.getBoundary()

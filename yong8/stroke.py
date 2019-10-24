@@ -98,9 +98,6 @@ class ConstraintStroke(ConstraintPath):
 	def getSegments(self):
 		return self.segments
 
-	def draw(self, drawingSystem):
-		pass
-
 	def appendVariablesTo(self, problem):
 		super().appendVariablesTo(problem)
 		problem.addVariable(self.unitWidth)
