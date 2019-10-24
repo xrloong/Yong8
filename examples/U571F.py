@@ -5,6 +5,7 @@ from yong8.component import ConstraintComponent
 
 from yong8.constraint import IntersectionPos
 from yong8.constraint import SegmentIntersectionConstraint
+from yong8.constraint import BoundaryConstraint
 
 from solver import Solver
 # 土
@@ -23,6 +24,8 @@ compoundConstraint2 = SegmentIntersectionConstraint(stroke2.getSegments()[0], st
 component.addCompoundConstraint(compoundConstraint1)
 component.addCompoundConstraint(compoundConstraint2)
 
+component.addCompoundConstraint(BoundaryConstraint(component, (10, 10, 245, 245)))
+
 problem = component.generateProblem()
 problem.appendConstraint(stroke1.getVarBoundaryWidth() / stroke3.getVarBoundaryWidth() == 0.9)
 
@@ -31,7 +34,6 @@ problem.appendConstraint(t1==0.5)
 problem.appendConstraint(t2==0.5)
 (t1, t2) = compoundConstraint2.intersections
 problem.appendConstraint(t2==0.5)
-component.appendConstraintsWithBoundary(problem, (10, 10, 245, 245))
 
 glyphSolver = Solver()
 glyphSolver.solveProblem(problem)

@@ -127,3 +127,24 @@ class AlignCenterConstraint(CompoundConstraint):
 	def getObjectives(self):
 		return ()
 
+class BoundaryConstraint(CompoundConstraint):
+	def __init__(self, shape, boundary):
+		self.shape = shape
+		self.boundary = boundary
+
+	def getVariables(self):
+		return ()
+
+	def getConstraints(self):
+		shape = self.shape
+		left, top, right, bottom = self.boundary
+		return (
+			shape.getVarBoundaryLeft() == left,
+			shape.getVarBoundaryTop() == top,
+			shape.getVarBoundaryRight() == right,
+			shape.getVarBoundaryBottom() == bottom
+			)
+
+	def getObjectives(self):
+		return ()
+

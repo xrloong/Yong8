@@ -144,13 +144,6 @@ class ConstraintRegion(ConstraintShape):
 		problem.appendConstraint(self.getVarBoundaryWidth() == self.getVarBoundaryRight() - self.getVarBoundaryLeft())
 		problem.appendConstraint(self.getVarBoundaryHeight() == self.getVarBoundaryBottom() - self.getVarBoundaryTop())
 
-	def appendConstraintsWithBoundary(self, problem, boundary):
-		left, top, right, bottom = boundary
-		problem.appendConstraint(self.getVarBoundaryLeft() == left)
-		problem.appendConstraint(self.getVarBoundaryTop() == top)
-		problem.appendConstraint(self.getVarBoundaryRight() == right)
-		problem.appendConstraint(self.getVarBoundaryBottom() == bottom)
-
 	def appendConstraintsWithSizeCenter(self, problem, size, center):
 		width, height = size
 		centerX, centerY = center

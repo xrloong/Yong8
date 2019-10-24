@@ -4,6 +4,8 @@ from .base import GlyphSolver
 from yong8.factory import SegmentFactory
 from yong8.factory import StrokeFactory
 
+from yong8.constraint import BoundaryConstraint
+
 class ConstraintStrokeTestCase(BaseTestCase):
 	def setUp(self):
 		super().setUp()
@@ -35,8 +37,9 @@ class ConstraintStrokeTestCase(BaseTestCase):
 		strokeFactory = injector.get(StrokeFactory)
 		stroke = strokeFactory.generateStroke([s1, s2])
 
+		stroke.addCompoundConstraint(BoundaryConstraint(stroke, (38, 61, 182, 129)))
+
 		problem = stroke.generateProblem()
-		stroke.appendConstraintsWithBoundary(problem, (38, 61, 182, 129))
 
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
@@ -60,8 +63,9 @@ class ConstraintStrokeTestCase(BaseTestCase):
 		strokeFactory = injector.get(StrokeFactory)
 		stroke = strokeFactory.generateStroke((s1, s2, s3, s4), ((1, 0), (0, 3), (2, 0), (0, 1)))
 
+		stroke.addCompoundConstraint(BoundaryConstraint(stroke, (38, 61, 182, 129)))
+
 		problem = stroke.generateProblem()
-		stroke.appendConstraintsWithBoundary(problem, (38, 61, 182, 129))
 
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)

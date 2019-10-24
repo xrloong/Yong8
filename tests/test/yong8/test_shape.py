@@ -3,6 +3,8 @@ from .base import GlyphSolver
 
 from yong8.factory import ShapeFactory
 
+from yong8.constraint import BoundaryConstraint
+
 class ConstraintBoundaryShape_TestCase(BaseTestCase):
 	def setUp(self):
 		super().setUp()
@@ -67,8 +69,9 @@ class ConstraintBoundaryShape_TestCase(BaseTestCase):
 		shapeFactory = injector.get(ShapeFactory)
 		shape = shapeFactory.generateShape()
 
+		shape.addCompoundConstraint(BoundaryConstraint(shape, (38, 61, 182, 129)))
+
 		problem = shape.generateProblem()
-		shape.appendConstraintsWithBoundary(problem, (38, 61, 182, 129))
 
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)

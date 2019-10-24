@@ -10,6 +10,7 @@ from yong8.constraint import IntersectionPos
 from yong8.constraint import SegmentIntersectionConstraint
 from yong8.constraint import PointMatchingConstraint
 from yong8.constraint import AlignCenterConstraint
+from yong8.constraint import BoundaryConstraint
 
 class ConstraintComponentTestCase(BaseTestCase):
 	def setUp(self):
@@ -41,9 +42,9 @@ class ConstraintComponentTestCase(BaseTestCase):
 		compoundConstraint1 = AlignCenterConstraint(component, stroke)
 		component.addCompoundConstraint(compoundConstraint1)
 
+		component.addCompoundConstraint(BoundaryConstraint(component, (40, 20, 215, 235)))
 
 		problem = component.generateProblem()
-		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
 
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
@@ -69,9 +70,9 @@ class ConstraintComponentTestCase(BaseTestCase):
 		component.addCompoundConstraint(compoundConstraint1)
 		component.addCompoundConstraint(compoundConstraint2)
 
+		component.addCompoundConstraint(BoundaryConstraint(component, (40, 20, 215, 235)))
 
 		problem = component.generateProblem()
-		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
 
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
@@ -104,9 +105,9 @@ class ConstraintComponentTestCase(BaseTestCase):
 		component.addCompoundConstraint(compoundConstraint2)
 		component.addCompoundConstraint(compoundConstraint3)
 
+		component.addCompoundConstraint(BoundaryConstraint(component, (40, 20, 215, 235)))
 
 		problem = component.generateProblem()
-		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
 
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
@@ -132,12 +133,13 @@ class ConstraintComponentTestCase(BaseTestCase):
 		compoundConstraint1 = SegmentIntersectionConstraint(stroke1.getSegments()[0], stroke2.getSegments()[0])
 		component.addCompoundConstraint(compoundConstraint1)
 
+		component.addCompoundConstraint(BoundaryConstraint(component, (40, 20, 215, 235)))
+
 		problem = component.generateProblem()
 
 		(t1, t2) = compoundConstraint1.intersections
 		problem.appendConstraint(t1==0.5)
 		problem.appendConstraint(t2==0.5)
-		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
 
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
@@ -164,11 +166,12 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		component.addCompoundConstraint(compoundConstraint1)
 
+		component.addCompoundConstraint(BoundaryConstraint(component, (40, 20, 215, 235)))
+
 		problem = component.generateProblem()
 
 		(t1, t2) = compoundConstraint1.intersections
 		problem.appendConstraint(t1==0.5)
-		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
 
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
@@ -200,8 +203,9 @@ class ConstraintComponentTestCase(BaseTestCase):
 		component.addCompoundConstraint(compoundConstraint2)
 		component.addCompoundConstraint(compoundConstraint3)
 
+		component.addCompoundConstraint(BoundaryConstraint(component, (40, 20, 215, 235)))
+
 		problem = component.generateProblem()
-		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
 
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
@@ -234,6 +238,7 @@ class ConstraintComponentTestCase(BaseTestCase):
 		component.addCompoundConstraint(compoundConstraint1)
 		component.addCompoundConstraint(compoundConstraint2)
 
+		component.addCompoundConstraint(BoundaryConstraint(component, (40, 20, 215, 235)))
 
 		problem = component.generateProblem()
 		problem.appendConstraint(stroke1.getVarBoundaryWidth() / stroke3.getVarBoundaryWidth() == 0.9)
@@ -243,7 +248,6 @@ class ConstraintComponentTestCase(BaseTestCase):
 		problem.appendConstraint(t2==0.5)
 		(t1, t2) = compoundConstraint2.intersections
 		problem.appendConstraint(t2==0.5)
-		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
 
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
@@ -277,6 +281,7 @@ class ConstraintComponentTestCase(BaseTestCase):
 		component.addCompoundConstraint(compoundConstraint1)
 		component.addCompoundConstraint(compoundConstraint2)
 
+		component.addCompoundConstraint(BoundaryConstraint(component, (40, 20, 215, 235)))
 
 		problem = component.generateProblem()
 		problem.appendConstraint(stroke3.getVarBoundaryWidth() / stroke1.getVarBoundaryWidth() == 0.9)
@@ -286,7 +291,6 @@ class ConstraintComponentTestCase(BaseTestCase):
 		problem.appendConstraint(t2==0.5)
 		(t1, t2) = compoundConstraint2.intersections
 		problem.appendConstraint(t2==0.5)
-		component.appendConstraintsWithBoundary(problem, (40, 20, 215, 235))
 
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)

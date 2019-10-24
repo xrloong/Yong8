@@ -3,6 +3,8 @@ from .base import GlyphSolver
 
 from yong8.factory import SegmentFactory
 
+from yong8.constraint import BoundaryConstraint
+
 class ConstraintSegmentTestCase(BaseTestCase):
 	def setUp(self):
 		super().setUp()
@@ -25,8 +27,9 @@ class ConstraintSegmentTestCase(BaseTestCase):
 		segmentFactory = injector.get(SegmentFactory)
 		s = segmentFactory.generateBeelineSegment_NN()
 
+		s.addCompoundConstraint(BoundaryConstraint(s, (38, 61, 182, 129)))
+
 		problem = s.generateProblem()
-		s.appendConstraintsWithBoundary(problem, [38, 61, 182, 129])
 
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
@@ -41,8 +44,9 @@ class ConstraintSegmentTestCase(BaseTestCase):
 		segmentFactory = injector.get(SegmentFactory)
 		s = segmentFactory.generateBeelineSegment_NP()
 
+		s.addCompoundConstraint(BoundaryConstraint(s, (38, 61, 182, 129)))
+
 		problem = s.generateProblem()
-		s.appendConstraintsWithBoundary(problem, [38, 61, 182, 129])
 
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
@@ -57,8 +61,9 @@ class ConstraintSegmentTestCase(BaseTestCase):
 		segmentFactory = injector.get(SegmentFactory)
 		s = segmentFactory.generateBeelineSegment_PN()
 
+		s.addCompoundConstraint(BoundaryConstraint(s, (38, 61, 182, 129)))
+
 		problem = s.generateProblem()
-		s.appendConstraintsWithBoundary(problem, [38, 61, 182, 129])
 
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
@@ -73,8 +78,9 @@ class ConstraintSegmentTestCase(BaseTestCase):
 		segmentFactory = injector.get(SegmentFactory)
 		s = segmentFactory.generateBeelineSegment_PP()
 
+		s.addCompoundConstraint(BoundaryConstraint(s, (38, 61, 182, 129)))
+
 		problem = s.generateProblem()
-		s.appendConstraintsWithBoundary(problem, [38, 61, 182, 129])
 
 		glyphSolver = injector.get(GlyphSolver)
 		glyphSolver.solveProblem(problem)
