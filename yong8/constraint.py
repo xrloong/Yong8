@@ -89,44 +89,6 @@ class SegmentIntersectionConstraint(CompoundConstraint):
 		return ()
 
 
-class PointMatchingConstraint(CompoundConstraint):
-	def __init__(self, point1, point2):
-		self.point1 = point1
-		self.point2 = point2
-
-	def getVariables(self):
-		return ()
-
-	def getConstraints(self):
-		point1 = self.point1
-		point2 = self.point2
-		return (
-			point1[0] == point2[0],
-			point1[1] == point2[1],
-			)
-
-	def getObjectives(self):
-		return ()
-
-class AlignCenterConstraint(CompoundConstraint):
-	def __init__(self, shape1, shape2):
-		self.shape1 = shape1
-		self.shape2 = shape2
-
-	def getVariables(self):
-		return ()
-
-	def getConstraints(self):
-		shape1 = self.shape1
-		shape2 = self.shape2
-		return (
-			shape1.getVarBoundaryCenterX() == shape2.getVarBoundaryCenterX(),
-			shape1.getVarBoundaryCenterY() == shape2.getVarBoundaryCenterY()
-			)
-
-	def getObjectives(self):
-		return ()
-
 class BoundaryConstraint(CompoundConstraint):
 	def __init__(self, shape, boundary):
 		self.shape = shape
@@ -148,24 +110,23 @@ class BoundaryConstraint(CompoundConstraint):
 	def getObjectives(self):
 		return ()
 
-class SizeCenterConstraint(CompoundConstraint):
-	def __init__(self, shape, size, center):
+
+class SymmetricConstraint(CompoundConstraint):
+	def __init__(self, host, shape):
+		self.host = host
 		self.shape = shape
-		self.size = size
-		self.center = center
 
 	def getVariables(self):
 		return ()
 
 	def getConstraints(self):
+		host = self.host
 		shape = self.shape
-		width, height = self.size
-		centerX, centerY = self.center
+		hostBoundary = host.getVarBoundary()
+		shapeOccupationBoundary = shape.getVarOccupationBoundary()
 		return (
-			shape.getVarBoundaryWidth() == width,
-			shape.getVarBoundaryHeight() == height,
-			shape.getVarBoundaryCenterX() == centerX,
-			shape.getVarBoundaryCenterY() == centerY
+			shapeOccupationBoundary[0] - hostBoundary[0] == hostBoundary[2] - shapeOccupationBoundary[2],
+			shapeOccupationBoundary[1] - hostBoundary[1] == hostBoundary[3] - shapeOccupationBoundary[3],
 			)
 
 	def getObjectives(self):

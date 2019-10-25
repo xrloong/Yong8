@@ -102,6 +102,14 @@ class ConstraintRegion(ConstraintShape):
 		return self.boundaryCenterY
 
 
+	def getVarBoundary(self):
+		return (
+			self.getVarBoundaryLeft(),
+			self.getVarBoundaryTop(),
+			self.getVarBoundaryRight(),
+			self.getVarBoundaryBottom(),
+			)
+
 	def getBoundary(self):
 		return (
 			self.getVarBoundaryLeft().getValue(),
@@ -165,6 +173,14 @@ class ConstraintBoundaryShape(ConstraintRegion):
 
 	def getVarMaxY(self):
 		return self.maxY
+
+	def getVarOccupationBoundary(self):
+		return (
+			self.getVarMinX(),
+			self.getVarMinY(),
+			self.getVarMaxX(),
+			self.getVarMaxY(),
+			)
 
 	def getMinX(self):
 		return self.minX.getValue()

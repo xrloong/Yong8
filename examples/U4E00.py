@@ -3,7 +3,7 @@ from yong8.factory import ComponentFactory
 
 from yong8.component import ConstraintComponent
 
-from yong8.constraint import AlignCenterConstraint
+from yong8.constraint import SymmetricConstraint
 from yong8.constraint import BoundaryConstraint
 
 from solver import Solver
@@ -15,7 +15,7 @@ componentFactory = ComponentFactory()
 stroke = strokeFactory.橫()
 component = componentFactory.generateComponent([stroke])
 
-compoundConstraint1 = AlignCenterConstraint(component, stroke)
+compoundConstraint1 = SymmetricConstraint(component, stroke)
 component.addCompoundConstraint(compoundConstraint1)
 
 component.addCompoundConstraint(BoundaryConstraint(component, (10, 10, 245, 245)))

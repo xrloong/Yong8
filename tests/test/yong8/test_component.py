@@ -8,9 +8,8 @@ from yong8.component import ConstraintComponent
 
 from yong8.constraint import IntersectionPos
 from yong8.constraint import SegmentIntersectionConstraint
-from yong8.constraint import PointMatchingConstraint
-from yong8.constraint import AlignCenterConstraint
 from yong8.constraint import BoundaryConstraint
+from yong8.constraint import SymmetricConstraint
 
 class ConstraintComponentTestCase(BaseTestCase):
 	def setUp(self):
@@ -39,7 +38,7 @@ class ConstraintComponentTestCase(BaseTestCase):
 		stroke = strokeFactory.橫()
 		component = componentFactory.generateComponent([stroke])
 
-		compoundConstraint1 = AlignCenterConstraint(component, stroke)
+		compoundConstraint1 = SymmetricConstraint(component, stroke)
 		component.addCompoundConstraint(compoundConstraint1)
 
 		component.addCompoundConstraint(BoundaryConstraint(component, (40, 20, 215, 235)))
@@ -51,71 +50,6 @@ class ConstraintComponentTestCase(BaseTestCase):
 
 		self.assertSequenceAlmostEqual(stroke.getStartPoint(), (40, 127.5))
 		self.assertSequenceAlmostEqual(stroke.getEndPoint(), (215, 127.5))
-
-	def testComponent_2(self):
-		# 十
-
-		injector = self.getInjector()
-
-		strokeFactory = injector.get(StrokeFactory)
-		componentFactory = injector.get(ComponentFactory)
-
-		stroke1 = strokeFactory.橫()
-		stroke2 = strokeFactory.豎()
-
-		component = componentFactory.generateComponent([stroke1, stroke2])
-
-		compoundConstraint1 = AlignCenterConstraint(component, stroke1)
-		compoundConstraint2 = AlignCenterConstraint(component, stroke2)
-		component.addCompoundConstraint(compoundConstraint1)
-		component.addCompoundConstraint(compoundConstraint2)
-
-		component.addCompoundConstraint(BoundaryConstraint(component, (40, 20, 215, 235)))
-
-		problem = component.generateProblem()
-
-		glyphSolver = injector.get(GlyphSolver)
-		glyphSolver.solveProblem(problem)
-
-		self.assertSequenceAlmostEqual(stroke1.getStartPoint(), (40, 127.5))
-		self.assertSequenceAlmostEqual(stroke1.getEndPoint(), (215, 127.5))
-		self.assertSequenceAlmostEqual(stroke2.getStartPoint(), (127.5, 20))
-		self.assertSequenceAlmostEqual(stroke2.getEndPoint(), (127.5, 235))
-
-	def testComponent_3(self):
-		# 口
-
-		injector = self.getInjector()
-
-		strokeFactory = injector.get(StrokeFactory)
-		componentFactory = injector.get(ComponentFactory)
-
-		stroke1 = strokeFactory.豎()
-		stroke2 = strokeFactory.橫折()
-		stroke3 = strokeFactory.橫()
-
-		component = componentFactory.generateComponent([stroke1, stroke2, stroke3])
-
-
-		compoundConstraint1 = PointMatchingConstraint(stroke1.resolvePointStart(), stroke2.resolvePointStart())
-		compoundConstraint2 = PointMatchingConstraint(stroke1.resolvePointEnd(), stroke3.resolvePointStart())
-		compoundConstraint3 = PointMatchingConstraint(stroke2.resolvePointEnd(), stroke3.resolvePointEnd())
-
-		component.addCompoundConstraint(compoundConstraint1)
-		component.addCompoundConstraint(compoundConstraint2)
-		component.addCompoundConstraint(compoundConstraint3)
-
-		component.addCompoundConstraint(BoundaryConstraint(component, (40, 20, 215, 235)))
-
-		problem = component.generateProblem()
-
-		glyphSolver = injector.get(GlyphSolver)
-		glyphSolver.solveProblem(problem)
-
-		self.assertSequenceAlmostEqual(stroke2.getStartPoint(), (40.0, 20.0))
-		self.assertSequenceAlmostEqual(stroke2.getEndPoint(), (215.0, 235.0))
-		self.assertSequenceAlmostEqual(stroke3.getStartPoint(), (40.0, 235.0))
-		self.assertSequenceAlmostEqual(stroke3.getEndPoint(), (215.0, 235.0))
 
 	def testComponent_4(self):
 		# 十

@@ -1,10 +1,8 @@
 from .base import BaseTestCase
 from .base import GlyphSolver
-
 from yong8.factory import ShapeFactory
 
 from yong8.constraint import BoundaryConstraint
-from yong8.constraint import SizeCenterConstraint
 
 class ConstraintBoundaryShape_TestCase(BaseTestCase):
 	def setUp(self):
@@ -79,19 +77,4 @@ class ConstraintBoundaryShape_TestCase(BaseTestCase):
 
 		self.assertSequenceAlmostEqual(shape.getSize(), (144, 68))
 		self.assertSequenceAlmostEqual(shape.getBoundaryCenter(), (110.0, 95.0))
-
-	def testConstraintBoundaryShape_bindSizeCenter(self):
-		injector = self.getInjector()
-
-		shapeFactory = injector.get(ShapeFactory)
-		shape = shapeFactory.generateShape()
-
-		shape.addCompoundConstraint(SizeCenterConstraint(shape, (144, 68), (110.0, 95.0)))
-
-		problem = shape.generateProblem()
-
-		glyphSolver = injector.get(GlyphSolver)
-		glyphSolver.solveProblem(problem)
-
-		self.assertSequenceAlmostEqual(shape.getBoundary(), (38, 61, 182, 129))
 
