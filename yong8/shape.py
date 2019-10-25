@@ -305,13 +305,6 @@ class ConstraintPath(ConstraintBoundaryShape):
 	def getPathParams(self):
 		return self.pathParams
 
-	def getStartPoint(self):
-		return (self.startX.getValue(),
-			self.startY.getValue())
-
-	def getEndPoint(self):
-		return (self.endX.getValue(),
-			self.endY.getValue())
 
 	def getVarStartX(self):
 		return self.startX
@@ -325,6 +318,19 @@ class ConstraintPath(ConstraintBoundaryShape):
 	def getVarEndY(self):
 		return self.endY
 
+	def getVarStartPoint(self):
+		return (self.getVarStartX(), self.getVarStartY())
+
+	def getVarEndPoint(self):
+		return (self.getVarEndX(), self.getVarEndY())
+
+	def getStartPoint(self):
+		return (self.getVarStartX().getValue(), self.getVarStartY().getValue())
+
+	def getEndPoint(self):
+		return (self.getVarEndX().getValue(), self.getVarEndY().getValue())
+
+
 	def appendVariablesTo(self, problem):
 		super().appendVariablesTo(problem)
 		problem.addVariable(self.getVarStartX())
@@ -337,10 +343,4 @@ class ConstraintPath(ConstraintBoundaryShape):
 
 	def appendObjectivesTo(self, problem):
 		super().appendObjectivesTo(problem)
-
-	def resolvePointStart(self):
-		return (self.getVarStartX(), self.getVarStartY())
-
-	def resolvePointEnd(self):
-		return (self.getVarEndX(), self.getVarEndY())
 
