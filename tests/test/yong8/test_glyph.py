@@ -64,7 +64,6 @@ class ConstraintGlyphTestCase(BaseTestCase):
 		glyphSolver.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(glyph.getBoundary(), (40.0, 20.0, 215.0, 235.0))
-		self.assertSequenceAlmostEqual(glyph.getMargin(), (40.0, 20.0, 215.0, 235.0))
 
 	def testGlyphMargin(self):
 		injector = self.getInjector()
@@ -88,5 +87,4 @@ class ConstraintGlyphTestCase(BaseTestCase):
 		glyphSolver.solveProblem(problem)
 
 		self.assertSequenceAlmostEqual(glyph.getBoundary(), (40.0, 20.0, 215.0, 235.0))
-		self.assertSequenceAlmostEqual(glyph.getMargin(), (40.0, 20.0, 215.0, 235.0))
 

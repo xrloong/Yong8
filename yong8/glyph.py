@@ -20,9 +20,6 @@ class ConstraintGlyph(ConstraintBoundaryShape):
 	def getComponents(self):
 		return self.components
 
-	def getMargin(self):
-		return self.getBoundary()
-
 	def appendChildrenProblemTo(self, problem):
 		super().appendChildrenProblemTo(problem)
 
