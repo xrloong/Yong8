@@ -86,8 +86,8 @@ class BaseConstraintBeelineSegment(AbsConstraintSegment):
 		return "{1}-{2}, {0}, {3}".format(self.getBoundary(), self.getStartPoint(), self.getEndPoint(), self.params)
 
 	def getPointAt(self, t):
-		pointStart = self.resolvePointStart();
-		pointEnd = self.resolvePointEnd();
+		pointStart = self.getVarStartPoint();
+		pointEnd = self.getVarEndPoint();
 		return ((1-t) * pointStart[0] + t * pointEnd[0],
 			(1-t) * pointStart[1] + t * pointEnd[1])
 
@@ -96,6 +96,9 @@ class BaseConstraintBeelineSegment(AbsConstraintSegment):
 
 	def getVarVectorY(self):
 		return self.params[1]
+
+	def getVarVector(self):
+		return (self.getVarVectorX(), getVarVectorY())
 
 	def appendVariablesTo(self, problem):
 		super().appendVariablesTo(problem)
