@@ -51,7 +51,31 @@ class ConstraintComponentTestCase(BaseTestCase):
 		self.assertSequenceAlmostEqual(stroke.getStartPoint(), (40, 127.5))
 		self.assertSequenceAlmostEqual(stroke.getEndPoint(), (215, 127.5))
 
-	def testComponent_4(self):
+	def testComponent_2(self):
+		# 丨
+
+		injector = self.getInjector()
+
+		strokeFactory = injector.get(StrokeFactory)
+		componentFactory = injector.get(ComponentFactory)
+
+		stroke = strokeFactory.豎()
+		component = componentFactory.generateComponent([stroke])
+
+		compoundConstraint1 = SymmetricConstraint(component, stroke)
+		component.addCompoundConstraint(compoundConstraint1)
+
+		component.addCompoundConstraint(BoundaryConstraint(component, (40, 20, 215, 235)))
+
+		problem = component.generateProblem()
+
+		glyphSolver = injector.get(GlyphSolver)
+		glyphSolver.solveProblem(problem)
+
+		self.assertSequenceAlmostEqual(stroke.getStartPoint(), (127.5, 20))
+		self.assertSequenceAlmostEqual(stroke.getEndPoint(), (127.5, 235))
+
+	def testComponent_3(self):
 		# 十
 
 		injector = self.getInjector()
@@ -83,39 +107,7 @@ class ConstraintComponentTestCase(BaseTestCase):
 		self.assertSequenceAlmostEqual(stroke2.getStartPoint(), (127.5, 20))
 		self.assertSequenceAlmostEqual(stroke2.getEndPoint(), (127.5, 235))
 
-	def testComponent_5(self):
-		# 丅
-
-		injector = self.getInjector()
-
-		strokeFactory = injector.get(StrokeFactory)
-		componentFactory = injector.get(ComponentFactory)
-
-		stroke1 = strokeFactory.橫()
-		stroke2 = strokeFactory.豎()
-
-		component = componentFactory.generateComponent([stroke1, stroke2])
-
-		compoundConstraint1 = SegmentIntersectionConstraint(stroke1.getSegments()[0], stroke2.getSegments()[0], IntersectionPos.BetweenStartEnd, IntersectionPos.Start)
-
-		component.addCompoundConstraint(compoundConstraint1)
-
-		component.addCompoundConstraint(BoundaryConstraint(component, (40, 20, 215, 235)))
-
-		problem = component.generateProblem()
-
-		(t1, t2) = compoundConstraint1.intersections
-		problem.appendConstraint(t1==0.5)
-
-		glyphSolver = injector.get(GlyphSolver)
-		glyphSolver.solveProblem(problem)
-
-		self.assertSequenceAlmostEqual(stroke1.getStartPoint(), (40, 20.0))
-		self.assertSequenceAlmostEqual(stroke1.getEndPoint(), (215, 20.0))
-		self.assertSequenceAlmostEqual(stroke2.getStartPoint(), (127.5, 20))
-		self.assertSequenceAlmostEqual(stroke2.getEndPoint(), (127.5, 235))
-
-	def testComponent_6(self):
+	def testComponent_4(self):
 		# 口
 
 		injector = self.getInjector()
@@ -152,7 +144,7 @@ class ConstraintComponentTestCase(BaseTestCase):
 		self.assertSequenceAlmostEqual(stroke3.getEndPoint(), (215.0, 235.0))
 
 
-	def testComponent_7(self):
+	def testComponent_5(self):
 		# 土
 
 		injector = self.getInjector()
@@ -195,7 +187,7 @@ class ConstraintComponentTestCase(BaseTestCase):
 		self.assertSequenceAlmostEqual(stroke3.getStartPoint(), (40, 235))
 		self.assertSequenceAlmostEqual(stroke3.getEndPoint(), (215, 235))
 
-	def testComponent_8(self):
+	def testComponent_6(self):
 		# 士
 
 		injector = self.getInjector()
