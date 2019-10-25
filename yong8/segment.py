@@ -213,11 +213,13 @@ class BaseConstraintQCurveSegment(AbsConstraintSegment):
 		problem.addVariable(self.getVarControlX())
 		problem.addVariable(self.getVarControlY())
 
-	def appendConstraintsForPath(self):
-		return (
-			self.getVarStartX() + self.getVarVectorX_1() + self.getVarVectorX_2() == self.getVarEndX(),
-			self.getVarStartY() + self.getVarVectorY_1() + self.getVarVectorY_2() == self.getVarEndY(),
-			)
+	def appendConstraintsTo(self, problem):
+		super().appendConstraintsTo(problem)
+
+		problem.appendConstraint(self.getVarControlX() == self.getVarStartX() + self.getVarVectorX_1())
+		problem.appendConstraint(self.getVarControlY() == self.getVarStartY() + self.getVarVectorY_1())
+		problem.appendConstraint(self.getVarEndX() == self.getVarControlX() + self.getVarVectorX_2())
+		problem.appendConstraint(self.getVarEndY() == self.getVarControlY() + self.getVarVectorY_2())
 
 	def appendObjectivesTo(self, problem):
 		super().appendObjectivesTo(problem)
