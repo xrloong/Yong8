@@ -5,6 +5,8 @@ from yong8.factory import SegmentFactory
 
 from yong8.constraint import BoundaryConstraint
 
+from yong8.segment import BaseConstraintQCurveSegment
+
 class ConstraintSegmentTestCase(BaseTestCase):
 	def setUp(self):
 		super().setUp()
@@ -89,4 +91,24 @@ class ConstraintSegmentTestCase(BaseTestCase):
 		self.assertSequenceAlmostEqual(s.getEndPoint(), (182.0, 129.0))
 		self.assertSequenceAlmostEqual(s.getOccupationBoundary(), (38.0, 61.0, 182.0, 129.0))
 
+	def testBaseConstraintQCurveSegment_1(self):
+		injector = self.getInjector()
+
+		segmentFactory = injector.get(SegmentFactory)
+		s = BaseConstraintQCurveSegment()
+
+		s.addCompoundConstraint(BoundaryConstraint(s, (38, 61, 182, 129)))
+
+		problem = s.generateProblem()
+		problem.appendConstraint(s.getVarMinX() == s.getVarStartX())
+		problem.appendConstraint(s.getVarMinY() == s.getVarStartY())
+		problem.appendConstraint(s.getVarMaxX() == s.getVarEndX())
+		problem.appendConstraint(s.getVarMaxY() == s.getVarEndY())
+
+		glyphSolver = injector.get(GlyphSolver)
+		glyphSolver.solveProblem(problem)
+
+		self.assertSequenceAlmostEqual(s.getStartPoint(), (38.0, 61.0))
+		self.assertSequenceAlmostEqual(s.getEndPoint(), (182.0, 129.0))
+		self.assertSequenceAlmostEqual(s.getOccupationBoundary(), (38.0, 61.0, 182.0, 129.0))
 
