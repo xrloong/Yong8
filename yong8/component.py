@@ -34,12 +34,6 @@ class ConstraintComponent(ConstraintBoundaryShape):
 	def appendConstraintsTo(self, problem):
 		super().appendConstraintsTo(problem)
 
-		for stroke in self.getStrokes():
-			problem.appendConstraint(self.getVarMinX() <= stroke.getVarMinX())
-			problem.appendConstraint(self.getVarMinY() <= stroke.getVarMinY())
-			problem.appendConstraint(self.getVarMaxX() >= stroke.getVarMaxX())
-			problem.appendConstraint(self.getVarMaxY() >= stroke.getVarMaxY())
-
 	def appendChildrenProblemTo(self, problem):
 		super().appendChildrenProblemTo(problem)
 
