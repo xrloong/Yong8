@@ -3,7 +3,14 @@ from .shape import ConstraintPath
 
 sign = lambda x: x and (1, -1)[x < 0]
 
-class BaseConstraintBeelineSegment(ConstraintPath):
+class AbsConstraintSegment(ConstraintPath):
+	def __init__(self):
+		super().__init__()
+
+	def getPointAt(self, t):
+		raise NotImplementedError('users must define getPointAt(t) to use this base class')
+
+class BaseConstraintBeelineSegment(AbsConstraintSegment):
 	def __init__(self, dirConfig = None):
 		super().__init__()
 
@@ -112,7 +119,7 @@ class BaseConstraintBeelineSegment(ConstraintPath):
 		super().appendObjectivesTo(problem)
 
 
-class BaseConstraintQCurveSegment(ConstraintPath):
+class BaseConstraintQCurveSegment(AbsConstraintSegment):
 	def __init__(self):
 		super().__init__()
 
@@ -123,9 +130,19 @@ class BaseConstraintQCurveSegment(ConstraintPath):
 			generateVariable(componentPrefix, "param_2"),
 			generateVariable(componentPrefix, "param_3"),
 				]
+		self.controllX = generateVariable(componentPrefix, "controll_x")
+		self.controllY = generateVariable(componentPrefix, "controll_y")
+
 
 	def getComponentName(self):
 		return "curve_segment"
+
+	def getPointAt(self, t):
+		pointStart = self.getVarStartPoint();
+		pointControl = self.getVarControlPoint();
+		pointEnd = self.getVarEndPoint();
+		return ((1-t)*(1-t) * pointStart[0] + 2*(1-t)*t*pointControl[0] + t*t*pointEnd[0],
+			(1-t)*(1-t) * pointStart[1] + 2*(1-t)*t*pointControl[1] + t*t*pointEnd[1])
 
 	def getVarVectorX_1(self):
 		return self.params[0]
@@ -139,14 +156,39 @@ class BaseConstraintQCurveSegment(ConstraintPath):
 	def getVarVectorY_2(self):
 		return self.params[3]
 
+	def getVarVector1(self):
+		return (self.getVarVectorX_1(), self.getVarVectorY_1())
+
+	def getVarVector2(self):
+		return (self.getVarVectorX_2(), self.getVarVectorY_2())
+
+
+	def getVarControlX(self):
+		return self.controllX
+
+	def getVarControlY(self):
+		return self.controllY
+
+	def getVarControlPoint(self):
+		return (self.getVarControlX(), self.getVarControlY())
+
+	def getControlPoint(self):
+		return (self.getVarControlX().getValue(), self.getVarControlY().getValue())
+
+
 	def appendVariablesTo(self, problem):
 		super().appendVariablesTo(problem)
 		for variable in self.params:
 			problem.addVariable(variable)
+		problem.addVariable(self.getVarControlX())
+		problem.addVariable(self.getVarControlY())
 
 	def appendConstraintsForPath(self):
 		return (
 			self.getVarStartX() + self.getVarVectorX_1() + self.getVarVectorX_2() == self.getVarEndX(),
 			self.getVarStartY() + self.getVarVectorY_1() + self.getVarVectorY_2() == self.getVarEndY(),
 			)
+
+	def appendObjectivesTo(self, problem):
+		super().appendObjectivesTo(problem)
 
