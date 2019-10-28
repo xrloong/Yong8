@@ -335,15 +335,6 @@ class ConstraintPath(ConstraintBoundaryShape):
 	def appendConstraintsTo(self, problem):
 		super().appendConstraintsTo(problem)
 
-		problem.appendConstraint(self.getVarBoundaryLeft() <= self.getVarStartX())
-		problem.appendConstraint(self.getVarBoundaryLeft() <= self.getVarEndX())
-		problem.appendConstraint(self.getVarBoundaryTop() <= self.getVarStartY())
-		problem.appendConstraint(self.getVarBoundaryTop() <= self.getVarEndY())
-		problem.appendConstraint(self.getVarBoundaryRight() >= self.getVarStartX())
-		problem.appendConstraint(self.getVarBoundaryRight() >= self.getVarEndX())
-		problem.appendConstraint(self.getVarBoundaryBottom() >= self.getVarStartY())
-		problem.appendConstraint(self.getVarBoundaryBottom() >= self.getVarEndY())
-
 		problem.appendConstraint(self.getVarMinX() <= self.getVarStartX())
 		problem.appendConstraint(self.getVarMinX() <= self.getVarEndX())
 		problem.appendConstraint(self.getVarMinY() <= self.getVarStartY())
