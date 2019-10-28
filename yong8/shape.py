@@ -335,28 +335,8 @@ class ConstraintPath(ConstraintBoundaryShape):
 	def appendConstraintsTo(self, problem):
 		super().appendConstraintsTo(problem)
 
-		problem.appendConstraint(self.getVarMinX() <= self.getVarStartX())
-		problem.appendConstraint(self.getVarMinX() <= self.getVarEndX())
-		problem.appendConstraint(self.getVarMinY() <= self.getVarStartY())
-		problem.appendConstraint(self.getVarMinY() <= self.getVarEndY())
-
-		problem.appendConstraint(self.getVarMaxX() >= self.getVarStartX())
-		problem.appendConstraint(self.getVarMaxX() >= self.getVarEndX())
-		problem.appendConstraint(self.getVarMaxY() >= self.getVarStartY())
-		problem.appendConstraint(self.getVarMaxY() >= self.getVarEndY())
-
 	def appendObjectivesTo(self, problem):
 		super().appendObjectivesTo(problem)
-
-		problem.appendObjective(Objective(self.getVarStartX() - self.getVarMinX(), Optimization.Minimize))
-		problem.appendObjective(Objective(self.getVarEndX() - self.getVarMinX(), Optimization.Minimize))
-		problem.appendObjective(Objective(self.getVarStartY() - self.getVarMinY(), Optimization.Minimize))
-		problem.appendObjective(Objective(self.getVarEndY() - self.getVarMinY(), Optimization.Minimize))
-
-		problem.appendObjective(Objective(self.getVarMaxX() - self.getVarStartX(), Optimization.Minimize))
-		problem.appendObjective(Objective(self.getVarMaxX() - self.getVarEndX(), Optimization.Minimize))
-		problem.appendObjective(Objective(self.getVarMaxY() - self.getVarStartY(), Optimization.Minimize))
-		problem.appendObjective(Objective(self.getVarMaxY() - self.getVarEndY(), Optimization.Minimize))
 
 	def resolvePointStart(self):
 		return (self.getVarStartX(), self.getVarStartY())

@@ -106,11 +106,15 @@ class ConstraintStroke(ConstraintPath):
 	def appendConstraintsTo(self, problem):
 		super().appendConstraintsTo(problem)
 
-		for segment in self.getSegments():
-			problem.appendConstraint(self.getVarMinX() <= segment.getVarMinX())
-			problem.appendConstraint(self.getVarMinY() <= segment.getVarMinY())
-			problem.appendConstraint(self.getVarMaxX() >= segment.getVarMaxX())
-			problem.appendConstraint(self.getVarMaxY() >= segment.getVarMaxY())
+		problem.appendConstraint(self.getVarMinX() <= self.getVarStartX())
+		problem.appendConstraint(self.getVarMinX() <= self.getVarEndX())
+		problem.appendConstraint(self.getVarMinY() <= self.getVarStartY())
+		problem.appendConstraint(self.getVarMinY() <= self.getVarEndY())
+
+		problem.appendConstraint(self.getVarMaxX() >= self.getVarStartX())
+		problem.appendConstraint(self.getVarMaxX() >= self.getVarEndX())
+		problem.appendConstraint(self.getVarMaxY() >= self.getVarStartY())
+		problem.appendConstraint(self.getVarMaxY() >= self.getVarEndY())
 
 	def appendChildrenProblemTo(self, problem):
 		super().appendChildrenProblemTo(problem)
@@ -150,4 +154,14 @@ class ConstraintStroke(ConstraintPath):
 			problem.appendObjective(Objective(10*(segment.getVarMinY() - self.getVarMinY()), Optimization.Minimize))
 			problem.appendObjective(Objective(10*(self.getVarMaxX() - segment.getVarMaxX()), Optimization.Minimize))
 			problem.appendObjective(Objective(10*(self.getVarMaxY() - segment.getVarMaxY()), Optimization.Minimize))
+
+		problem.appendObjective(Objective(self.getVarStartX() - self.getVarMinX(), Optimization.Minimize))
+		problem.appendObjective(Objective(self.getVarEndX() - self.getVarMinX(), Optimization.Minimize))
+		problem.appendObjective(Objective(self.getVarStartY() - self.getVarMinY(), Optimization.Minimize))
+		problem.appendObjective(Objective(self.getVarEndY() - self.getVarMinY(), Optimization.Minimize))
+
+		problem.appendObjective(Objective(self.getVarMaxX() - self.getVarStartX(), Optimization.Minimize))
+		problem.appendObjective(Objective(self.getVarMaxX() - self.getVarEndX(), Optimization.Minimize))
+		problem.appendObjective(Objective(self.getVarMaxY() - self.getVarStartY(), Optimization.Minimize))
+		problem.appendObjective(Objective(self.getVarMaxY() - self.getVarEndY(), Optimization.Minimize))
 
