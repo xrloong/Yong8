@@ -45,7 +45,6 @@ class SolverProblem:
 class SolverProblemConverter:
 	def __init__(self, glyphSolver):
 		self.glyphSolver = glyphSolver
-		self.useCustomAlgebra = self.glyphSolver.useCustomAlgebra()
 		self.solverVariableMap = {}
 
 	def getSolverVariable(self, symbol):
@@ -86,10 +85,7 @@ class SolverProblemConverter:
 			rhsConverted = self.convertSymExpr(symExpr.rhs)
 
 			if isinstance(symExpr, Eq):
-				if self.useCustomAlgebra:
-					return lhsConverted == rhsConverted
-				else:
-					return Eq(lhsConverted, rhsConverted, evaluate=False)
+				return self.glyphSolver.constraintEq(lhsConverted, rhsConverted)
 			elif isinstance(symExpr, Lt):
 				return lhsConverted < rhsConverted
 			elif isinstance(symExpr, Le):
@@ -126,11 +122,11 @@ class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
 	def __init__(self):
 		pass
 
-	def useCustomAlgebra(self):
-		return True
-
 	def generateSolverVariable(self, totalName):
 		raise NotImplementedError('users must define generateSolverVariable() to use this base class')
+
+	def constraintEq(self, lhs, rhs):
+		return lhs==rhs
 
 	def solveProblem(self, problem: Problem):
 		problemConverter = SolverProblemConverter(self)

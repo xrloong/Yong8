@@ -4,12 +4,13 @@ class DeapGlyphSolver(AbsGlyphSolver):
 	def __init__(self):
 		super().__init__()
 
-	def useCustomAlgebra(self):
-	       return False
-
 	def generateSolverVariable(self, totalName):
 	       import sympy as sp
 	       return sp.Symbol(totalName)
+
+	def constraintEq(self, lhs, rhs):
+		import sympy as sp
+		return sp.Eq(lhs, rhs, evaluate=False)
 
 	def doSolve(self, problem):
 		from deap_solver import deapSolve
