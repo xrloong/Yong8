@@ -106,10 +106,6 @@ class ConstraintStroke(ConstraintPath):
 	def appendConstraintsTo(self, problem):
 		super().appendConstraintsTo(problem)
 
-		# Work arround for CVXPY
-		problem.appendConstraint(self.unitWidth == self.unitWidth)
-		problem.appendConstraint(self.unitHeight == self.unitHeight)
-
 		for segment in self.getSegments():
 			problem.appendConstraint(self.getVarMinX() <= segment.getVarMinX())
 			problem.appendConstraint(self.getVarMinY() <= segment.getVarMinY())
