@@ -60,10 +60,11 @@ class SolverProblemConverter:
 		for variable in problem.getVariables():
 			variableName = "x{0}".format(variableCounter)
 			variableCounter += 1
+			lb = variable.getLowerBound()
+			ub = variable.getUpperBound()
+			solverVariable = self.glyphSolver.generateSolverVariable(variableName, lb, ub)
 
 			symbol = variable.getSymExpr()
-
-			solverVariable = self.glyphSolver.generateSolverVariable(variableName)
 			self.solverVariableMap[symbol] = solverVariable
 			symbols.append(symbol)
 			variables.append(solverVariable)

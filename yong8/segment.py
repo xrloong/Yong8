@@ -16,8 +16,8 @@ class BaseConstraintBeelineSegment(AbsConstraintSegment):
 
 		componentPrefix = self.getComponentPrefix()
 		self.params = [
-			generateVariable(componentPrefix, "param_0"),
-			generateVariable(componentPrefix, "param_1"),
+			generateVariable(componentPrefix, "param_0", lb=0),
+			generateVariable(componentPrefix, "param_1", lb=0),
 			]
 		self.setDirConfig(dirConfig)
 
@@ -93,7 +93,6 @@ class BaseConstraintBeelineSegment(AbsConstraintSegment):
 				problem.appendConstraint(self.getVarStartX() == self.getVarEndX())
 				problem.appendConstraint(self.getVarVectorX() == 0)
 				problem.appendConstraint(self.getVarBoundaryWidth() == 0)
-			problem.appendConstraint(self.getVarVectorX() >= 0)
 
 			if yDir == 1:
 				problem.appendConstraint(self.getVarBoundaryTop() == self.getVarStartY())
@@ -109,7 +108,6 @@ class BaseConstraintBeelineSegment(AbsConstraintSegment):
 				problem.appendConstraint(self.getVarStartY() == self.getVarEndY())
 				problem.appendConstraint(self.getVarVectorY() == 0)
 				problem.appendConstraint(self.getVarBoundaryHeight() == 0)
-			problem.appendConstraint(self.getVarVectorY() >= 0)
 
 	def appendConstraintsTo(self, problem):
 		super().appendConstraintsTo(problem)
