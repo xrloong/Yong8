@@ -7,8 +7,13 @@ class GekkoGlyphSolver(AbsGlyphSolver):
 		from gekko import GEKKO
 		self.model = GEKKO(remote = False)
 
-	def generateSolverVariable(self, totalName):
-		return self.model.Var(name=totalName, value=0)
+	def generateSolverVariable(self, variableName, lowerBound=None, upperBound=None):
+		params = {"name": variableName, "value": 0}
+		if lowerBound is not None:
+			params["lb"] = lowerBound
+		if upperBound is not None:
+			params["ub"] = upperBound
+		return self.model.Var(**params)
 
 	def doSolve(self, problem):
 		variables = problem.getVariables()

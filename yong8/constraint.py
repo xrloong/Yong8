@@ -33,8 +33,8 @@ class SegmentIntersectionConstraint(CompoundConstraint):
 		intersectionPrefix = "intersection-{0}-{1}".format(segment1.getId(), segment2.getId())
 		self.intersectionX = generateVariable(intersectionPrefix, "intersection_x")
 		self.intersectionY = generateVariable(intersectionPrefix, "intersection_y")
-		self.t1 = generateVariable(intersectionPrefix, "t1")
-		self.t2 = generateVariable(intersectionPrefix, "t2")
+		self.t1 = generateVariable(intersectionPrefix, "t1", lb=0, ub=1)
+		self.t2 = generateVariable(intersectionPrefix, "t2", lb=0, ub=1)
 		self.intersections = (self.t1, self.t2)
 		self.pos1 = intersectionPos1
 		self.pos2 = intersectionPos2
@@ -76,9 +76,6 @@ class SegmentIntersectionConstraint(CompoundConstraint):
 			constraintList.append(t2 > 1)
 
 		return (
-			0 <= self.t1, self.t1 <= 1,
-			0 <= self.t2, self.t2 <= 1,
-
 			point1[0] == self.intersectionX,
 			point1[1] == self.intersectionY,
 			point2[0] == self.intersectionX,

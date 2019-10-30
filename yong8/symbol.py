@@ -111,11 +111,13 @@ class A:
 		return C(symexpr)
 
 class V(A):
-	def __init__(self, name):
+	def __init__(self, name, lb = None, ub = None):
 		from sympy import Symbol
+		super().__init__(Symbol(name))
 
 		self.name = name
-		super().__init__(Symbol(name))
+		self.lb = lb
+		self.ub = ub
 
 		self.value = 0
 
@@ -124,6 +126,15 @@ class V(A):
 
 	def getValue(self):
 		return self.value
+
+	def getName(self):
+		return self.name
+
+	def getLowerBound(self):
+		return self.lb
+
+	def getUpperBound(self):
+		return self.ub
 
 class E(A):
 	def __init__(self, symexpr):
