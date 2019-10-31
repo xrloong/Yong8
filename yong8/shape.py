@@ -234,18 +234,8 @@ class PathParams:
 		self.range_weight_end_y = 1
 		self.range_weight_max_y = 0
 
-	def setWeights(self, width_weight, height_weight):
-		self.layout_width_weight = width_weight
-		self.layout_height_weight = height_weight
-
 	def getWeights(self):
 		return (self.layout_width_weight, self.layout_height_weight)
-
-	def getWidthWeight(self):
-		return self.layout_width_weight
-
-	def getHeightWeight(self):
-		return self.layout_height_weight
 
 	def setWidthWeight(self, layout_width_weight):
 		self.layout_width_weight = layout_width_weight
@@ -271,30 +261,12 @@ class PathParams:
 	def getRangeWeightMaxY(self):
 		return self.range_weight_max_y
 
-	def setRangeWeightStartX(self, weight):
-		self.range_weight_start_x = weight
-
-	def setRangeWeightEndX(self, weight):
-		self.range_weight_end_x = weight
-
-	def setRangeWeightMaxX(self, weight):
-		self.range_weight_max_x = weight
-
 	def setRangeWeightX(self, weightStart, weightEnd, weightMax = 1):
 		assert 0 <= weightStart <= weightMax
 		assert 0 <= weightEnd <= weightMax
 		self.range_weight_start_x = weightStart
 		self.range_weight_end_x = weightEnd
 		self.range_weight_max_x = weightMax
-
-	def setRangeWeightStartY(self, weight):
-		self.range_weight_start_y = weight
-
-	def setRangeWeightEndY(self, weight):
-		self.range_weight_end_y = weight
-
-	def setRangeWeightMaxY(self, weight):
-		self.range_weight_max_y = weight
 
 	def setRangeWeightY(self, weightStart, weightEnd, weightMax = 1):
 		assert 0 <= weightStart <= weightMax
