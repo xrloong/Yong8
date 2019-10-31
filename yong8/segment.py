@@ -151,6 +151,7 @@ class BaseConstraintQCurveSegment(AbsConstraintSegment):
 	def __init__(self):
 		super().__init__()
 		self.numOfMiddle = 4
+		self.vertexT = 0.4
 
 		componentPrefix = self.getComponentPrefix()
 		self.params = [
@@ -219,6 +220,22 @@ class BaseConstraintQCurveSegment(AbsConstraintSegment):
 		problem.appendConstraint(self.getVarControlY() == self.getVarStartY() + self.getVarVectorY_1())
 		problem.appendConstraint(self.getVarEndX() == self.getVarControlX() + self.getVarVectorX_2())
 		problem.appendConstraint(self.getVarEndY() == self.getVarControlY() + self.getVarVectorY_2())
+
+		# https://math.stackexchange.com/questions/217522/how-do-you-find-the-vertex-of-a-b%C3%A9zier-quadratic-curve
+		p0 = self.getVarStartPoint()
+		p1 = self.getPointAt(0.4)
+		p2 = self.getVarEndPoint()
+		p3 = (p0[0]+p2[0], p0[1]+p2[1])
+
+		lhs_1 = (p0[0]-p1[0], p0[1]-p1[1])
+		lhs_2 = (p3[0]-p1[0]*2, p3[1]-p1[1]*2)
+		lhs = lhs_1[0]*lhs_2[1] + lhs_1[1]*lhs_2[0]
+
+		rhs_1 = (p3[0]-p1[0], p3[1]-p1[1])
+		rhs = p3[0]*p3[1]+p3[1]*p3[0] - 4 * (p1[0]*rhs_1[1]+p1[1]*rhs_1[0])
+		problem.appendConstraint(rhs * self.vertexT == lhs)
+
+
 
 	def appendObjectivesTo(self, problem):
 		super().appendObjectivesTo(problem)
