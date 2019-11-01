@@ -9,6 +9,17 @@ sign = lambda x: x and (1, -1)[x < 0]
 class AbsConstraintSegment(ConstraintPath):
 	def __init__(self):
 		super().__init__()
+		self.numOfMiddle = 0
+
+	def getExtremeCandidatePoints(self):
+		points = []
+		points.append(self.getVarStartPoint())
+		for i in range(self.numOfMiddle):
+			t = i / (self.numOfMiddle+1)
+			midPoint = self.getPointAt(t)
+			points.append(midPoint)
+		points.append(self.getVarEndPoint())
+		return points
 
 	def getPointAt(self, t):
 		raise NotImplementedError('users must define getPointAt(t) to use this base class')
@@ -16,32 +27,30 @@ class AbsConstraintSegment(ConstraintPath):
 	def appendConstraintsTo(self, problem):
 		super().appendConstraintsTo(problem)
 
-		problem.appendConstraint(self.getVarMinX() <= self.getVarStartX())
-		problem.appendConstraint(self.getVarMinX() <= self.getVarEndX())
-		problem.appendConstraint(self.getVarMinY() <= self.getVarStartY())
-		problem.appendConstraint(self.getVarMinY() <= self.getVarEndY())
-
-		problem.appendConstraint(self.getVarMaxX() >= self.getVarStartX())
-		problem.appendConstraint(self.getVarMaxX() >= self.getVarEndX())
-		problem.appendConstraint(self.getVarMaxY() >= self.getVarStartY())
-		problem.appendConstraint(self.getVarMaxY() >= self.getVarEndY())
-
 	def appendObjectivesTo(self, problem):
 		super().appendObjectivesTo(problem)
 
-		problem.appendObjective(Objective(self.getVarStartX() - self.getVarMinX(), Optimization.Minimize))
-		problem.appendObjective(Objective(self.getVarEndX() - self.getVarMinX(), Optimization.Minimize))
-		problem.appendObjective(Objective(self.getVarStartY() - self.getVarMinY(), Optimization.Minimize))
-		problem.appendObjective(Objective(self.getVarEndY() - self.getVarMinY(), Optimization.Minimize))
+		expMinX = 1
+		expMinY = 1
+		expMaxX = 1
+		expMaxY = 1
 
-		problem.appendObjective(Objective(self.getVarMaxX() - self.getVarStartX(), Optimization.Minimize))
-		problem.appendObjective(Objective(self.getVarMaxX() - self.getVarEndX(), Optimization.Minimize))
-		problem.appendObjective(Objective(self.getVarMaxY() - self.getVarStartY(), Optimization.Minimize))
-		problem.appendObjective(Objective(self.getVarMaxY() - self.getVarEndY(), Optimization.Minimize))
+		candidates = self.getExtremeCandidatePoints()
+		for point in candidates:
+			expMinX *= (point[0] - self.getVarMinX())
+			expMinY *= (point[1] - self.getVarMinY())
+			expMaxX *= (self.getVarMaxX() - point[0])
+			expMaxY *= (self.getVarMaxY() - point[1])
+
+		problem.appendObjective(Objective(expMinX, Optimization.Minimize))
+		problem.appendObjective(Objective(expMinY, Optimization.Minimize))
+		problem.appendObjective(Objective(expMaxX, Optimization.Minimize))
+		problem.appendObjective(Objective(expMaxY, Optimization.Minimize))
 
 class BaseConstraintBeelineSegment(AbsConstraintSegment):
 	def __init__(self, dirConfig = None):
 		super().__init__()
+		self.numOfMiddle = 0
 
 		componentPrefix = self.getComponentPrefix()
 		self.params = [
@@ -152,6 +161,7 @@ class BaseConstraintBeelineSegment(AbsConstraintSegment):
 class BaseConstraintQCurveSegment(AbsConstraintSegment):
 	def __init__(self):
 		super().__init__()
+		self.numOfMiddle = 4
 
 		componentPrefix = self.getComponentPrefix()
 		self.params = [
