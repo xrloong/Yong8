@@ -1,6 +1,8 @@
 import abc
 import uuid
 
+from .symbol import One
+
 from .problem import generateVariable
 from .problem import Objective
 from .problem import Optimization
@@ -162,6 +164,12 @@ class ConstraintBoundaryShape(ConstraintRegion):
 	def getComponentName(self):
 		return "region"
 
+	def getMinCandidatePoints(self):
+		return ()
+
+	def getMaxCandidatePoints(self):
+		return ()
+
 	def getVarMinX(self):
 		return self.minX
 
@@ -181,6 +189,12 @@ class ConstraintBoundaryShape(ConstraintRegion):
 			self.getVarMaxX(),
 			self.getVarMaxY(),
 			)
+
+	def getVarOccupationTopLeft(self):
+		return (self.getVarMinX(), self.getVarMinY())
+
+	def getVarOccupationBottomRight(self):
+		return (self.getVarMaxX(), self.getVarMaxY())
 
 	def getMinX(self):
 		return self.minX.getValue()
@@ -220,6 +234,23 @@ class ConstraintBoundaryShape(ConstraintRegion):
 
 	def appendObjectivesTo(self, problem):
 		super().appendObjectivesTo(problem)
+
+		expMinX = One
+		expMinY = One
+		expMaxX = One
+		expMaxY = One
+		for point in self.getMinCandidatePoints():
+			expMinX *= (point[0] - self.getVarMinX())
+			expMinY *= (point[1] - self.getVarMinY())
+
+		for point in self.getMaxCandidatePoints():
+			expMaxX *= (self.getVarMaxX() - point[0])
+			expMaxY *= (self.getVarMaxY() - point[1])
+
+		problem.appendObjective(Objective(expMinX, Optimization.Minimize))
+		problem.appendObjective(Objective(expMinY, Optimization.Minimize))
+		problem.appendObjective(Objective(expMaxX, Optimization.Minimize))
+		problem.appendObjective(Objective(expMaxY, Optimization.Minimize))
 
 
 class PathParams:

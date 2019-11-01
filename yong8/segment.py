@@ -21,6 +21,12 @@ class AbsConstraintSegment(ConstraintPath):
 		points.append(self.getVarEndPoint())
 		return points
 
+	def getMinCandidatePoints(self):
+		return self.getExtremeCandidatePoints()
+
+	def getMaxCandidatePoints(self):
+		return self.getExtremeCandidatePoints()
+
 	def getPointAt(self, t):
 		raise NotImplementedError('users must define getPointAt(t) to use this base class')
 
@@ -29,23 +35,6 @@ class AbsConstraintSegment(ConstraintPath):
 
 	def appendObjectivesTo(self, problem):
 		super().appendObjectivesTo(problem)
-
-		expMinX = 1
-		expMinY = 1
-		expMaxX = 1
-		expMaxY = 1
-
-		candidates = self.getExtremeCandidatePoints()
-		for point in candidates:
-			expMinX *= (point[0] - self.getVarMinX())
-			expMinY *= (point[1] - self.getVarMinY())
-			expMaxX *= (self.getVarMaxX() - point[0])
-			expMaxY *= (self.getVarMaxY() - point[1])
-
-		problem.appendObjective(Objective(expMinX, Optimization.Minimize))
-		problem.appendObjective(Objective(expMinY, Optimization.Minimize))
-		problem.appendObjective(Objective(expMaxX, Optimization.Minimize))
-		problem.appendObjective(Objective(expMaxY, Optimization.Minimize))
 
 class BaseConstraintBeelineSegment(AbsConstraintSegment):
 	def __init__(self, dirConfig = None):

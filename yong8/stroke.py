@@ -98,6 +98,12 @@ class ConstraintStroke(ConstraintPath):
 	def getSegments(self):
 		return self.segments
 
+	def getMinCandidatePoints(self):
+		return tuple(segment.getVarOccupationTopLeft() for segment in self.getSegments())
+
+	def getMaxCandidatePoints(self):
+		return tuple(segment.getVarOccupationBottomRight() for segment in self.getSegments())
+
 	def appendVariablesTo(self, problem):
 		super().appendVariablesTo(problem)
 		problem.addVariable(self.unitWidth)
@@ -143,28 +149,4 @@ class ConstraintStroke(ConstraintPath):
 
 	def appendObjectivesTo(self, problem):
 		super().appendObjectivesTo(problem)
-
-		expMinX = 1
-		expMinY = 1
-		expMaxX = 1
-		expMaxY = 1
-		for segment in self.getSegments():
-			expMinX *= segment.getVarMinX() - self.getVarMinX()
-			expMinY *= segment.getVarMinY() - self.getVarMinY()
-			expMaxX *= self.getVarMaxX() - segment.getVarMaxX()
-			expMaxY *= self.getVarMaxY() - segment.getVarMaxY()
-		problem.appendObjective(Objective(expMinX, Optimization.Minimize))
-		problem.appendObjective(Objective(expMinY, Optimization.Minimize))
-		problem.appendObjective(Objective(expMaxX, Optimization.Minimize))
-		problem.appendObjective(Objective(expMaxY, Optimization.Minimize))
-
-		expMinX = (self.getVarStartX() - self.getVarMinX()) * (self.getVarEndX() - self.getVarMinX())
-		expMinY = (self.getVarStartY() - self.getVarMinY()) * (self.getVarEndY() - self.getVarMinY())
-		expMaxX = (self.getVarMaxX() - self.getVarStartX()) * (self.getVarMaxX() - self.getVarEndX())
-		expMaxY = (self.getVarMaxY() - self.getVarStartY()) * (self.getVarMaxY() - self.getVarEndY())
-
-		problem.appendObjective(Objective(expMinX, Optimization.Minimize))
-		problem.appendObjective(Objective(expMinY, Optimization.Minimize))
-		problem.appendObjective(Objective(expMaxX, Optimization.Minimize))
-		problem.appendObjective(Objective(expMaxY, Optimization.Minimize))
 

@@ -148,3 +148,6 @@ Symbol = V
 Expr = E
 Relational = C
 
+from sympy import simplify
+One = E(simplify(1))
+

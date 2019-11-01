@@ -31,6 +31,12 @@ class ConstraintComponent(ConstraintBoundaryShape):
 	def getStrokes(self):
 		return self.strokes
 
+	def getMinCandidatePoints(self):
+		return tuple(stroke.getVarOccupationTopLeft() for stroke in self.getStrokes())
+
+	def getMaxCandidatePoints(self):
+		return tuple(stroke.getVarOccupationBottomRight() for stroke in self.getStrokes())
+
 	def appendConstraintsTo(self, problem):
 		super().appendConstraintsTo(problem)
 
@@ -48,18 +54,4 @@ class ConstraintComponent(ConstraintBoundaryShape):
 
 	def appendObjectivesTo(self, problem):
 		super().appendObjectivesTo(problem)
-
-		expMinX = 1
-		expMinY = 1
-		expMaxX = 1
-		expMaxY = 1
-		for stroke in self.getStrokes():
-			expMinX *= stroke.getVarMinX() - self.getVarMinX()
-			expMinY *= stroke.getVarMinY() - self.getVarMinY()
-			expMaxX *= self.getVarMaxX() - stroke.getVarMaxX()
-			expMaxY *= self.getVarMaxY() - stroke.getVarMaxY()
-		problem.appendObjective(Objective(expMinX, Optimization.Minimize))
-		problem.appendObjective(Objective(expMinY, Optimization.Minimize))
-		problem.appendObjective(Objective(expMaxX, Optimization.Minimize))
-		problem.appendObjective(Objective(expMaxY, Optimization.Minimize))
 
