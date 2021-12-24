@@ -43,8 +43,8 @@ class SolverProblem:
 		self.objectives = objectives
 
 class SolverProblemConverter:
-	def __init__(self, glyphSolver):
-		self.glyphSolver = glyphSolver
+	def __init__(self, solver):
+		self.solver = solver
 		self.solverVariableMap = {}
 
 	def getSolverVariable(self, symbol):
@@ -62,7 +62,7 @@ class SolverProblemConverter:
 			variableCounter += 1
 			lb = variable.getLowerBound()
 			ub = variable.getUpperBound()
-			solverVariable = self.glyphSolver.generateSolverVariable(variableName, lb, ub)
+			solverVariable = self.solver.generateSolverVariable(variableName, lb, ub)
 
 			symbol = variable.getSymExpr()
 			self.solverVariableMap[symbol] = solverVariable
@@ -86,7 +86,7 @@ class SolverProblemConverter:
 			rhsConverted = self.convertSymExpr(symExpr.rhs)
 
 			if isinstance(symExpr, Eq):
-				return self.glyphSolver.constraintEq(lhsConverted, rhsConverted)
+				return self.solver.constraintEq(lhsConverted, rhsConverted)
 			elif isinstance(symExpr, Lt):
 				return lhsConverted < rhsConverted
 			elif isinstance(symExpr, Le):
