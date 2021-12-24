@@ -247,10 +247,10 @@ class ConstraintBoundaryShape(ConstraintRegion):
 			expMaxX *= (self.getVarMaxX() - point[0])
 			expMaxY *= (self.getVarMaxY() - point[1])
 
-		problem.appendObjective(Objective(expMinX, Optimization.Minimize))
-		problem.appendObjective(Objective(expMinY, Optimization.Minimize))
-		problem.appendObjective(Objective(expMaxX, Optimization.Minimize))
-		problem.appendObjective(Objective(expMaxY, Optimization.Minimize))
+		problem.appendObjective(expMinX, Optimization.Minimize)
+		problem.appendObjective(expMinY, Optimization.Minimize)
+		problem.appendObjective(expMaxX, Optimization.Minimize)
+		problem.appendObjective(expMaxY, Optimization.Minimize)
 
 
 class PathParams:

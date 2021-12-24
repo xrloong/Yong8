@@ -2,13 +2,14 @@ from .constants import Optimization
 from .constraint import CompoundConstraint
 from .symbol import V
 from .symbol import C
+from .symbol import E
 
 def generateVariable(prefix, name, lb=None, ub=None) -> V:
 	variableName = prefix+"."+name
 	return V(variableName, lb, ub)
 
 class Objective:
-	def __init__(self, function, optimization: Optimization = Optimization.Maximize):
+	def __init__(self, function, optimization: Optimization):
 		self.optimization = optimization
 		self.function = function
 
@@ -30,20 +31,17 @@ class Problem(CompoundConstraint):
 	def appendConstraint(self, constraint: C):
 		self.constraints.append(constraint)
 
-	def appendObjective(self, objective: Objective):
-		self.objectives.append(objective)
+	def appendObjective(self, function: E, optimization: Optimization = Optimization.Maximize):
+		self.objectives.append(Objective(function, optimization))
 
 	def _addAllVariables(self, variables):
-		for variable in variables:
-			self.addVariable(variable)
+		self.variables.extend(variables)
 
 	def _appendAllConstraints(self, constraints):
-		for constraint in constraints:
-			self.appendConstraint(constraint)
+		self.constraints.extend(constraints)
 
-	def _appendAllObjectives(self, objectives):
-		for objective in objectives:
-			self.appendObjective(objective)
+	def _appendAllObjectives(self, objectives: [Objective]):
+		self.objectives.extend(objectives)
 
 	def appendCompoundConstraint(self, constraint: CompoundConstraint):
 		self._addAllVariables(constraint.getVariables())
