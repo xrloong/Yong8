@@ -119,7 +119,7 @@ class SolverProblemConverter:
 		else:
 			return None
 
-class AbsGlyphSolver(object, metaclass=abc.ABCMeta):
+class AbsSolver(object, metaclass=abc.ABCMeta):
 	def __init__(self):
 		pass
 

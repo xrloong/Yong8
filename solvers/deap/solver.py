@@ -1,6 +1,6 @@
-from yong8.solver import AbsGlyphSolver
+from yong8.solver import AbsSolver
 
-class DeapGlyphSolver(AbsGlyphSolver):
+class DeapSolver(AbsSolver):
 	def __init__(self):
 		super().__init__()
 		self.boundConstraints = []
@@ -29,4 +29,4 @@ class DeapGlyphSolver(AbsGlyphSolver):
 		solution = dict(zip(symbols, result))
 		return solution
 
-Solver = DeapGlyphSolver
+Solver = DeapSolver

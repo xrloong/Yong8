@@ -1,6 +1,6 @@
-from yong8.solver import AbsGlyphSolver
+from yong8.solver import AbsSolver
 
-class GekkoGlyphSolver(AbsGlyphSolver):
+class GekkoSolver(AbsSolver):
 	def __init__(self):
 		super().__init__()
 
@@ -47,4 +47,4 @@ class GekkoGlyphSolver(AbsGlyphSolver):
 
 		return solutions
 
-Solver = GekkoGlyphSolver
+Solver = GekkoSolver
