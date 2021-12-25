@@ -1,9 +1,9 @@
 import abc
 import uuid
 
+from .symbol import V
 from .symbol import One
 
-from .problem import generateVariable
 from .problem import Optimization
 from .problem import Problem
 
@@ -14,6 +14,10 @@ class ConstraintShape(object, metaclass=abc.ABCMeta):
 
 	def addCompoundConstraint(self, compoundConstraint):
 		self.compoundConstraints.append(compoundConstraint)
+
+	def generateVariable(self, prefix, name, lb=None, ub=None) -> V:
+		variableName = prefix+"."+name
+		return V(variableName, lb, ub)
 
 	def appendVariablesTo(self, problem):
 		raise NotImplementedError('users must define appendVariablesTo() to use this base class')
@@ -54,14 +58,14 @@ class ConstraintRegion(ConstraintShape):
 
 		componentPrefix = self.getComponentPrefix()
 
-		self.boundaryLeft = generateVariable(componentPrefix, "boundary_left")
-		self.boundaryTop = generateVariable(componentPrefix, "boundary_top")
-		self.boundaryRight = generateVariable(componentPrefix, "boundary_right")
-		self.boundaryBottom = generateVariable(componentPrefix, "boundary_bottom")
-		self.boundaryWidth = generateVariable(componentPrefix, "boundary_width")
-		self.boundaryHeight = generateVariable(componentPrefix, "boundary_height")
-		self.boundaryCenterX = generateVariable(componentPrefix, "boundary_centerX")
-		self.boundaryCenterY = generateVariable(componentPrefix, "boundary_centerY")
+		self.boundaryLeft = self.generateVariable(componentPrefix, "boundary_left")
+		self.boundaryTop = self.generateVariable(componentPrefix, "boundary_top")
+		self.boundaryRight = self.generateVariable(componentPrefix, "boundary_right")
+		self.boundaryBottom = self.generateVariable(componentPrefix, "boundary_bottom")
+		self.boundaryWidth = self.generateVariable(componentPrefix, "boundary_width")
+		self.boundaryHeight = self.generateVariable(componentPrefix, "boundary_height")
+		self.boundaryCenterX = self.generateVariable(componentPrefix, "boundary_centerX")
+		self.boundaryCenterY = self.generateVariable(componentPrefix, "boundary_centerY")
 
 	def getId(self):
 		return self.uuid
@@ -155,10 +159,10 @@ class ConstraintBoundaryShape(ConstraintRegion):
 
 		componentPrefix = self.getComponentPrefix()
 
-		self.minX = generateVariable(componentPrefix, "min_x")
-		self.minY = generateVariable(componentPrefix, "min_y")
-		self.maxX = generateVariable(componentPrefix, "max_x")
-		self.maxY = generateVariable(componentPrefix, "max_y")
+		self.minX = self.generateVariable(componentPrefix, "min_x")
+		self.minY = self.generateVariable(componentPrefix, "min_y")
+		self.maxX = self.generateVariable(componentPrefix, "max_x")
+		self.maxY = self.generateVariable(componentPrefix, "max_y")
 
 	def getComponentName(self):
 		return "region"
@@ -312,10 +316,10 @@ class ConstraintPath(ConstraintBoundaryShape):
 		self.pathParams = PathParams()
 
 		componentPrefix = self.getComponentPrefix()
-		self.startX = generateVariable(componentPrefix, "start_x")
-		self.startY = generateVariable(componentPrefix, "start_y")
-		self.endX = generateVariable(componentPrefix, "end_x")
-		self.endY = generateVariable(componentPrefix, "end_y")
+		self.startX = self.generateVariable(componentPrefix, "start_x")
+		self.startY = self.generateVariable(componentPrefix, "start_y")
+		self.endX = self.generateVariable(componentPrefix, "end_x")
+		self.endY = self.generateVariable(componentPrefix, "end_y")
 
 	def __ne__(self, other):
 		return not self.__eq__(other)

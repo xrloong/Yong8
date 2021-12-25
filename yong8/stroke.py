@@ -1,12 +1,11 @@
-from .problem import generateVariable
 from .shape import ConstraintPath
 
 class ConstraintStroke(ConstraintPath):
 	def __init__(self, segments, weights = None):
 		super().__init__()
 		componentPrefix = self.getComponentPrefix()
-		self.unitWidth = generateVariable(componentPrefix, "unit_width")
-		self.unitHeight = generateVariable(componentPrefix, "unit_height")
+		self.unitWidth = self.generateVariable(componentPrefix, "unit_width")
+		self.unitHeight = self.generateVariable(componentPrefix, "unit_height")
 
 		self._setSegments(segments, weights)
 

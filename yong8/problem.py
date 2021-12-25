@@ -4,10 +4,6 @@ from .symbol import V
 from .symbol import C
 from .symbol import E
 
-def generateVariable(prefix, name, lb=None, ub=None) -> V:
-	variableName = prefix+"."+name
-	return V(variableName, lb, ub)
-
 class Objective:
 	def __init__(self, function, optimization: Optimization):
 		self.optimization = optimization

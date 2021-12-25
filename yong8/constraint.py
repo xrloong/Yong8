@@ -2,7 +2,13 @@ import abc
 import uuid
 from enum import Enum
 
+from .symbol import V
+
 class CompoundConstraint(object, metaclass=abc.ABCMeta):
+	def generateVariable(self, prefix, name, lb=None, ub=None) -> V:
+		variableName = prefix+"."+name
+		return V(variableName, lb, ub)
+
 	def getVariables(self):
 		raise NotImplementedError('users must define getVariables() to use this base class')
 
@@ -28,13 +34,11 @@ class SegmentIntersectionConstraint(CompoundConstraint):
 
 		self.uuid = uuid.uuid4()
 
-		from .problem import generateVariable
-
 		intersectionPrefix = "intersection-{0}-{1}".format(segment1.getId(), segment2.getId())
-		self.intersectionX = generateVariable(intersectionPrefix, "intersection_x")
-		self.intersectionY = generateVariable(intersectionPrefix, "intersection_y")
-		self.t1 = generateVariable(intersectionPrefix, "t1", lb=0, ub=1)
-		self.t2 = generateVariable(intersectionPrefix, "t2", lb=0, ub=1)
+		self.intersectionX = self.generateVariable(intersectionPrefix, "intersection_x")
+		self.intersectionY = self.generateVariable(intersectionPrefix, "intersection_y")
+		self.t1 = self.generateVariable(intersectionPrefix, "t1", lb=0, ub=1)
+		self.t2 = self.generateVariable(intersectionPrefix, "t2", lb=0, ub=1)
 		self.intersections = (self.t1, self.t2)
 		self.pos1 = intersectionPos1
 		self.pos2 = intersectionPos2

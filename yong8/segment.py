@@ -1,5 +1,3 @@
-from .problem import generateVariable
-
 from .shape import ConstraintPath
 
 sign = lambda x: x and (1, -1)[x < 0]
@@ -41,8 +39,8 @@ class BaseConstraintBeelineSegment(AbsConstraintSegment):
 
 		componentPrefix = self.getComponentPrefix()
 		self.params = [
-			generateVariable(componentPrefix, "param_0", lb=0),
-			generateVariable(componentPrefix, "param_1", lb=0),
+			self.generateVariable(componentPrefix, "param_0", lb=0),
+			self.generateVariable(componentPrefix, "param_1", lb=0),
 			]
 		self.setDirConfig(dirConfig)
 
@@ -152,13 +150,13 @@ class BaseConstraintQCurveSegment(AbsConstraintSegment):
 
 		componentPrefix = self.getComponentPrefix()
 		self.params = [
-			generateVariable(componentPrefix, "param_0"),
-			generateVariable(componentPrefix, "param_1"),
-			generateVariable(componentPrefix, "param_2"),
-			generateVariable(componentPrefix, "param_3"),
+			self.generateVariable(componentPrefix, "param_0"),
+			self.generateVariable(componentPrefix, "param_1"),
+			self.generateVariable(componentPrefix, "param_2"),
+			self.generateVariable(componentPrefix, "param_3"),
 				]
-		self.controllX = generateVariable(componentPrefix, "controll_x")
-		self.controllY = generateVariable(componentPrefix, "controll_y")
+		self.controllX = self.generateVariable(componentPrefix, "controll_x")
+		self.controllY = self.generateVariable(componentPrefix, "controll_y")
 
 
 	def getComponentName(self):
