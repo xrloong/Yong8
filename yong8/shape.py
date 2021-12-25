@@ -4,7 +4,6 @@ import uuid
 from .symbol import One
 
 from .problem import generateVariable
-from .problem import Objective
 from .problem import Optimization
 from .problem import Problem
 

@@ -1,8 +1,5 @@
 from enum import Enum
 
-from .constants import Optimization
-from .problem import generateVariable
-from .problem import Objective
 from .shape import ConstraintBoundaryShape
 
 class ConstraintComponent(ConstraintBoundaryShape):

@@ -1,6 +1,4 @@
 from .problem import generateVariable
-from .problem import Objective
-from .problem import Optimization
 
 from .shape import ConstraintPath
 
