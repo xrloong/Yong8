@@ -21,6 +21,10 @@ class Problem(CompoundConstraint):
 		self.constraints = []
 		self.objectives = []
 
+		zero = V("zero", lb=0, ub=0)
+		self.addVariable(zero)
+		self.appendObjective(zero)
+
 	def addVariable(self, variable: V):
 		self.variables.append(variable)
 
