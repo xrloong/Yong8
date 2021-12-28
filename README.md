@@ -32,8 +32,14 @@ $ pip3 install <<package-name>>
 
 測試
 ====
+使用 pytest 及其插件 pytest-pythonpath 。安裝方式為：
 ```console
-$ sh test.sh
+$ pip3 install pytest pytest-pythonpath
+```
+
+測試方式為：
+```console
+$ pytest
 ```
 
 範例（Examples）
