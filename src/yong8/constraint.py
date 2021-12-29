@@ -2,22 +2,7 @@ import abc
 import uuid
 from enum import Enum
 
-from .symbol import V
-
-class CompoundConstraint(object, metaclass=abc.ABCMeta):
-	def generateVariable(self, prefix, name, lb=None, ub=None) -> V:
-		variableName = prefix+"."+name
-		return V(variableName, lb, ub)
-
-	def getVariables(self):
-		raise NotImplementedError('users must define getVariables() to use this base class')
-
-	def getConstraints(self):
-		raise NotImplementedError('users must define getConstraints() to use this base class')
-
-	def getObjectives(self):
-		raise NotImplementedError('users must define getObjectives() to use this base class')
-
+from xrsolver.core.constraint import CompoundConstraint
 
 class IntersectionPos(Enum):
 	Unknown = 0
@@ -29,16 +14,18 @@ class IntersectionPos(Enum):
 
 class SegmentIntersectionConstraint(CompoundConstraint):
 	def __init__(self, segment1, segment2, intersectionPos1 = IntersectionPos.BetweenStartEnd, intersectionPos2 = IntersectionPos.BetweenStartEnd):
+		intersectionPrefix = "intersection-{0}-{1}".format(segment1.getId(), segment2.getId())
+		super().__init__(intersectionPrefix)
+
 		self.seg1 = segment1
 		self.seg2 = segment2
 
 		self.uuid = uuid.uuid4()
 
-		intersectionPrefix = "intersection-{0}-{1}".format(segment1.getId(), segment2.getId())
-		self.intersectionX = self.generateVariable(intersectionPrefix, "intersection_x")
-		self.intersectionY = self.generateVariable(intersectionPrefix, "intersection_y")
-		self.t1 = self.generateVariable(intersectionPrefix, "t1", lb=0, ub=1)
-		self.t2 = self.generateVariable(intersectionPrefix, "t2", lb=0, ub=1)
+		self.intersectionX = self.generateVariable("intersection_x")
+		self.intersectionY = self.generateVariable("intersection_y")
+		self.t1 = self.generateVariable("t1", lb=0, ub=1)
+		self.t2 = self.generateVariable("t2", lb=0, ub=1)
 		self.intersections = (self.t1, self.t2)
 		self.pos1 = intersectionPos1
 		self.pos2 = intersectionPos2
@@ -92,6 +79,8 @@ class SegmentIntersectionConstraint(CompoundConstraint):
 
 class BoundaryConstraint(CompoundConstraint):
 	def __init__(self, shape, boundary):
+		super().__init__()
+
 		self.shape = shape
 		self.boundary = boundary
 
@@ -114,6 +103,8 @@ class BoundaryConstraint(CompoundConstraint):
 
 class SymmetricConstraint(CompoundConstraint):
 	def __init__(self, host, shape):
+		super().__init__()
+
 		self.host = host
 		self.shape = shape
 

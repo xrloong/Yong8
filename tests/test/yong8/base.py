@@ -19,7 +19,7 @@ class BaseTestCase(unittest.TestCase):
 		from .injection import DrawingModule
 		from .injection import FactoryModule
 
-		from solver import Solver
+		from xrsolver.solver.gekko import Solver
 
 		def configure(binder):
 			binder.bind(GlyphSolver, to=Solver())

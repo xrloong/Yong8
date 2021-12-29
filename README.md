@@ -16,19 +16,18 @@ The goal of the project is to develop such technique to describe Hanzi glyph by 
 安裝
 ====
 
-* 第三方函式庫（Third-party libraries）
+* 使用 [xrSolver](https://github.com/xrloong/xrSolver) 來求解，且使用其非線性求解器插件（可考慮 gekko 或 deap）。
+
+xrSolver:
 ```console
-$ pip3 install <<package-name>>
+$ pip3 install https://github.com/xrloong/xrSolver/releases/download/0.0.2/xrSolver-0.0.2-py3-none-any.whl
 ```
 
-|   solver  | PIP package |
-| :-------: | :---------: |
-| cassowary |  cassowary  |
-|   cvxpy   |    cvxpy    |
-|   dreal   |    dreal    |
-|   gekko   |    gekko    |
-|    pulp   |    PuLP     |
-|     z3    |  z3-solver  |
+xrSolver 求解器:
+```console
+$ pip3 install https://github.com/xrloong/xrSolver/releases/download/0.0.2/xrSolver_gekko-0.0.2-py3-none-any.whl
+$ pip3 install https://github.com/xrloong/xrSolver/releases/download/0.0.2/xrSolver_deap-0.0.2-py3-none-any.whl
+```
 
 測試
 ====

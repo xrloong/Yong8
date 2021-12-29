@@ -1,11 +1,11 @@
 import abc
 import uuid
 
-from .symbol import V
-from .symbol import One
+from xrsolver.core.symbol import V
+from xrsolver.core.symbol import One
 
-from .problem import Optimization
-from .problem import Problem
+from xrsolver.core.problem import Optimization
+from xrsolver.core.problem import Problem
 
 class ConstraintShape(object, metaclass=abc.ABCMeta):
 	def __init__(self):
