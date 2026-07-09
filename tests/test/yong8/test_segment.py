@@ -2,6 +2,7 @@ from .base import BaseTestCase
 from .base import GlyphSolver
 
 from yong8.factory import SegmentFactory
+from yong8.segment import BaseConstraintQCurveSegment
 
 from yong8.constraint import BoundaryConstraint
 
@@ -20,6 +21,26 @@ class ConstraintSegmentTestCase(BaseTestCase):
 		injector = self.getInjector()
 		segmentFactory = injector.get(SegmentFactory)
 		self.assertIsNotNone(segmentFactory)
+
+	def testQCurveSegment(self):
+		injector = self.getInjector()
+
+		s = BaseConstraintQCurveSegment()
+
+		problem = s.generateProblem()
+		problem.appendConstraint(s.getVarStartX() == 38)
+		problem.appendConstraint(s.getVarStartY() == 61)
+		problem.appendConstraint(s.getVarVectorX_1() == 72)
+		problem.appendConstraint(s.getVarVectorY_1() == 0)
+		problem.appendConstraint(s.getVarVectorX_2() == 72)
+		problem.appendConstraint(s.getVarVectorY_2() == 68)
+
+		glyphSolver = injector.get(GlyphSolver)
+		glyphSolver.solveProblem(problem)
+
+		self.assertSequenceAlmostEqual(s.getStartPoint(), (38.0, 61.0))
+		self.assertSequenceAlmostEqual(s.getControlPoint(), (110.0, 61.0))
+		self.assertSequenceAlmostEqual(s.getEndPoint(), (182.0, 129.0))
 
 	def testBeelineSegment_P0(self):
 		injector = self.getInjector()
