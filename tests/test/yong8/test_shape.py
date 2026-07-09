@@ -1,8 +1,59 @@
 from .base import BaseTestCase
 from .base import GlyphSolver
 from yong8.factory import ShapeFactory
+from yong8.shape import PathParams
 
 from yong8.constraint import BoundaryConstraint
+
+class PathParamsTestCase(BaseTestCase):
+	def testDefaultValues(self):
+		pathParams = PathParams()
+
+		self.assertEqual(pathParams.getWeights(), (0, 0))
+		self.assertEqual(pathParams.getRangeWeightStartX(), 0)
+		self.assertEqual(pathParams.getRangeWeightEndX(), 0)
+		self.assertEqual(pathParams.getRangeWeightMaxX(), 0)
+		self.assertEqual(pathParams.getRangeWeightStartY(), 0)
+		self.assertEqual(pathParams.getRangeWeightEndY(), 1)
+		self.assertEqual(pathParams.getRangeWeightMaxY(), 0)
+
+	def testSetWeights(self):
+		pathParams = PathParams()
+
+		pathParams.setWidthWeight(2)
+		pathParams.setHeightWeight(3)
+
+		self.assertEqual(pathParams.getWeights(), (2, 3))
+
+	def testSetRangeWeightX(self):
+		pathParams = PathParams()
+
+		pathParams.setRangeWeightX(0.25, 0.75)
+
+		self.assertEqual(pathParams.getRangeWeightStartX(), 0.25)
+		self.assertEqual(pathParams.getRangeWeightEndX(), 0.75)
+		self.assertEqual(pathParams.getRangeWeightMaxX(), 1)
+
+	def testSetRangeWeightY(self):
+		pathParams = PathParams()
+
+		pathParams.setRangeWeightY(0.5, 2, 4)
+
+		self.assertEqual(pathParams.getRangeWeightStartY(), 0.5)
+		self.assertEqual(pathParams.getRangeWeightEndY(), 2)
+		self.assertEqual(pathParams.getRangeWeightMaxY(), 4)
+
+	def testSetRangeWeightOutOfRange(self):
+		pathParams = PathParams()
+
+		with self.assertRaises(AssertionError):
+			pathParams.setRangeWeightX(2, 0)
+		with self.assertRaises(AssertionError):
+			pathParams.setRangeWeightX(0, 2)
+		with self.assertRaises(AssertionError):
+			pathParams.setRangeWeightY(-1, 0)
+		with self.assertRaises(AssertionError):
+			pathParams.setRangeWeightY(0, -1)
 
 class ConstraintBoundaryShape_TestCase(BaseTestCase):
 	def setUp(self):
