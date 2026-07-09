@@ -21,7 +21,7 @@ class ConstraintComponent(ConstraintBoundaryShape):
 	def resolve(self, uuid):
 		for stroke in self.strokes:
 			s = stroke.resolve(uuid)
-			if s != None:
+			if s is not None:
 				return s
 		return None
 

@@ -27,6 +27,25 @@ class ConstraintComponentTestCase(BaseTestCase):
 		componentFactory = injector.get(ComponentFactory)
 		self.assertIsNotNone(componentFactory)
 
+	def testResolve(self):
+		import uuid
+
+		injector = self.getInjector()
+
+		strokeFactory = injector.get(StrokeFactory)
+		componentFactory = injector.get(ComponentFactory)
+
+		stroke1 = strokeFactory.橫()
+		stroke2 = strokeFactory.豎()
+
+		component = componentFactory.generateComponent([stroke1, stroke2])
+
+		segment1 = stroke1.getSegments()[0]
+		segment2 = stroke2.getSegments()[0]
+		self.assertIs(component.resolve(segment1.getId()), segment1)
+		self.assertIs(component.resolve(segment2.getId()), segment2)
+		self.assertIsNone(component.resolve(uuid.uuid4()))
+
 	def testComponent_1(self):
 		# 一
 
