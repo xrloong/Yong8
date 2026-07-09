@@ -16,35 +16,29 @@ The goal of the project is to develop such technique to describe Hanzi glyph by 
 安裝
 ====
 
-* 使用 [xrSolver](https://github.com/xrloong/xrSolver) 來求解，且使用其非線性求解器插件（可考慮 gekko 或 deap）。
+本專案使用 [uv](https://docs.astral.sh/uv/) 管理相依套件與虛擬環境：
 
-xrSolver:
 ```console
-$ pip3 install https://github.com/xrloong/xrSolver/releases/download/0.0.2/xrSolver-0.0.2-py3-none-any.whl
+$ uv sync
 ```
 
-xrSolver 求解器:
+使用 [xrSolver](https://github.com/xrloong/xrSolver) 來求解，且使用其非線性求解器插件（可考慮 gekko 或 deap），以 extras 方式安裝：
+
 ```console
-$ pip3 install https://github.com/xrloong/xrSolver/releases/download/0.0.2/xrSolver_gekko-0.0.2-py3-none-any.whl
-$ pip3 install https://github.com/xrloong/xrSolver/releases/download/0.0.2/xrSolver_deap-0.0.2-py3-none-any.whl
+$ uv sync --extra gekko
+$ uv sync --extra deap
 ```
 
 測試
 ====
-使用 pytest 及其插件 pytest-pythonpath 。安裝方式為：
 ```console
-$ pip3 install pytest pytest-pythonpath
-```
-
-測試方式為：
-```console
-$ pytest
+$ uv run pytest
 ```
 
 範例（Examples）
 ====
 ```console
-$ PYTHONPATH=".:solvers/gekko" python3 examples/<<example>>.py
+$ uv run --extra gekko python examples/<<example>>.py
 ```
 
 目前的範例有：

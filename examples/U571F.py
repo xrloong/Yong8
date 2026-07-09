@@ -7,7 +7,7 @@ from yong8.constraint import IntersectionPos
 from yong8.constraint import SegmentIntersectionConstraint
 from yong8.constraint import BoundaryConstraint
 
-from solver import Solver
+from xrsolver.solver.gekko import Solver
 # 土
 
 strokeFactory = StrokeFactory()

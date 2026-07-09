@@ -6,7 +6,7 @@ from yong8.component import ConstraintComponent
 from yong8.constraint import SymmetricConstraint
 from yong8.constraint import BoundaryConstraint
 
-from solver import Solver
+from xrsolver.solver.gekko import Solver
 # 一
 
 strokeFactory = StrokeFactory()

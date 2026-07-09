@@ -1,7 +1,55 @@
-[build-system]
-requires = [
-    "setuptools>=42",
-    "wheel"
+[project]
+name = "Yong8"
+version = "0.0.1"
+description = "以限制滿足問題來建構漢字字形（Use Constraint Satisfaction Problem to Construct Hanzi Glyph）。"
+readme = "README.md"
+authors = [
+    { name = "Xrloong Wang", email = "xrloong@gmail.com" },
 ]
+requires-python = ">=3.9"
+license-files = ["LICENSE"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Topic :: Text Processing :: Fonts",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    # xrsolver 0.0.2 以 pkg_resources 宣告 namespace package，
+    # 執行期需要 setuptools（pkg_resources 已於 setuptools 81 移除）
+    "setuptools<81",
+    "xrsolver @ https://github.com/xrloong/xrSolver/releases/download/0.0.2/xrSolver-0.0.2-py3-none-any.whl",
+]
+
+[project.optional-dependencies]
+gekko = [
+    "xrsolver-gekko @ https://github.com/xrloong/xrSolver/releases/download/0.0.2/xrSolver_gekko-0.0.2-py3-none-any.whl",
+]
+deap = [
+    "xrsolver-deap @ https://github.com/xrloong/xrSolver/releases/download/0.0.2/xrSolver_deap-0.0.2-py3-none-any.whl",
+]
+
+[project.urls]
+Homepage = "https://github.com/xrloong/Yong8"
+"Bug Tracker" = "https://github.com/xrloong/Yong8/issues"
+
+[dependency-groups]
+dev = [
+    "injector<0.15",
+    "pytest>=7",
+    "xrsolver-gekko @ https://github.com/xrloong/xrSolver/releases/download/0.0.2/xrSolver_gekko-0.0.2-py3-none-any.whl",
+]
+
+[build-system]
+requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+python_files = "*.py"
+addopts = "--pyargs"
+pythonpath = ["src"]
+testpaths = ["tests"]
