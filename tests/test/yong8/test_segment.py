@@ -93,6 +93,23 @@ class ConstraintSegmentTestCase(BaseTestCase):
 		self.assertSequenceAlmostEqual(s.getEndPoint(), (38.0, 129.0))
 		self.assertSequenceAlmostEqual(s.getOccupationBoundary(), (38.0, 61.0, 38.0, 129.0))
 
+	def testBeelineSegment_0N(self):
+		injector = self.getInjector()
+
+		segmentFactory = injector.get(SegmentFactory)
+		s = segmentFactory.generateBeelineSegment_0N()
+
+		s.addCompoundConstraint(BoundaryConstraint(s, (38, 61, 38, 129)))
+
+		problem = s.generateProblem()
+
+		glyphSolver = injector.get(GlyphSolver)
+		glyphSolver.solveProblem(problem)
+
+		self.assertSequenceAlmostEqual(s.getStartPoint(), (38.0, 129.0))
+		self.assertSequenceAlmostEqual(s.getEndPoint(), (38.0, 61.0))
+		self.assertSequenceAlmostEqual(s.getOccupationBoundary(), (38.0, 61.0, 38.0, 129.0))
+
 	def testBeelineSegment_NN(self):
 		injector = self.getInjector()
 

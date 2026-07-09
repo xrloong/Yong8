@@ -29,7 +29,7 @@ class SegmentFactory:
 		return BaseConstraintBeelineSegment([-1, 1])
 
 	def generateBeelineSegment_0N(self):
-		return BaseConstraintBeelineSegment([0, 1])
+		return BaseConstraintBeelineSegment([0, -1])
 
 	def generateBeelineSegment_00(self):
 		return BaseConstraintBeelineSegment([0, 0])
