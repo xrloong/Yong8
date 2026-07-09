@@ -21,6 +21,57 @@ class ConstraintSegmentTestCase(BaseTestCase):
 		segmentFactory = injector.get(SegmentFactory)
 		self.assertIsNotNone(segmentFactory)
 
+	def testBeelineSegment_P0(self):
+		injector = self.getInjector()
+
+		segmentFactory = injector.get(SegmentFactory)
+		s = segmentFactory.generateBeelineSegment_P0()
+
+		s.addCompoundConstraint(BoundaryConstraint(s, (38, 61, 182, 61)))
+
+		problem = s.generateProblem()
+
+		glyphSolver = injector.get(GlyphSolver)
+		glyphSolver.solveProblem(problem)
+
+		self.assertSequenceAlmostEqual(s.getStartPoint(), (38.0, 61.0))
+		self.assertSequenceAlmostEqual(s.getEndPoint(), (182.0, 61.0))
+		self.assertSequenceAlmostEqual(s.getOccupationBoundary(), (38.0, 61.0, 182.0, 61.0))
+
+	def testBeelineSegment_N0(self):
+		injector = self.getInjector()
+
+		segmentFactory = injector.get(SegmentFactory)
+		s = segmentFactory.generateBeelineSegment_N0()
+
+		s.addCompoundConstraint(BoundaryConstraint(s, (38, 61, 182, 61)))
+
+		problem = s.generateProblem()
+
+		glyphSolver = injector.get(GlyphSolver)
+		glyphSolver.solveProblem(problem)
+
+		self.assertSequenceAlmostEqual(s.getStartPoint(), (182.0, 61.0))
+		self.assertSequenceAlmostEqual(s.getEndPoint(), (38.0, 61.0))
+		self.assertSequenceAlmostEqual(s.getOccupationBoundary(), (38.0, 61.0, 182.0, 61.0))
+
+	def testBeelineSegment_0P(self):
+		injector = self.getInjector()
+
+		segmentFactory = injector.get(SegmentFactory)
+		s = segmentFactory.generateBeelineSegment_0P()
+
+		s.addCompoundConstraint(BoundaryConstraint(s, (38, 61, 38, 129)))
+
+		problem = s.generateProblem()
+
+		glyphSolver = injector.get(GlyphSolver)
+		glyphSolver.solveProblem(problem)
+
+		self.assertSequenceAlmostEqual(s.getStartPoint(), (38.0, 61.0))
+		self.assertSequenceAlmostEqual(s.getEndPoint(), (38.0, 129.0))
+		self.assertSequenceAlmostEqual(s.getOccupationBoundary(), (38.0, 61.0, 38.0, 129.0))
+
 	def testBeelineSegment_NN(self):
 		injector = self.getInjector()
 
