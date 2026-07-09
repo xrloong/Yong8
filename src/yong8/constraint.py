@@ -24,11 +24,22 @@ class SegmentIntersectionConstraint(CompoundConstraint):
 
 		self.intersectionX = self.generateVariable("intersection_x")
 		self.intersectionY = self.generateVariable("intersection_y")
-		self.t1 = self.generateVariable("t1", lb=0, ub=1)
-		self.t2 = self.generateVariable("t2", lb=0, ub=1)
+		self.t1 = self.generateVariable("t1", *self.boundsForIntersectionPos(intersectionPos1))
+		self.t2 = self.generateVariable("t2", *self.boundsForIntersectionPos(intersectionPos2))
 		self.intersections = (self.t1, self.t2)
 		self.pos1 = intersectionPos1
 		self.pos2 = intersectionPos2
+
+	@staticmethod
+	def boundsForIntersectionPos(pos):
+		if pos == IntersectionPos.BeforeStart:
+			return (None, 0)
+		elif pos == IntersectionPos.AfterEnd:
+			return (1, None)
+		elif pos == IntersectionPos.Unknown:
+			return (None, None)
+		else:
+			return (0, 1)
 
 	def getVariables(self):
 		return (self.intersectionX, self.intersectionY, self.t1, self.t2)

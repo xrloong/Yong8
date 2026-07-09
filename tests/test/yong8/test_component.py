@@ -158,6 +158,66 @@ class ConstraintComponentTestCase(BaseTestCase):
 		self.assertAlmostEqual(t1.getValue(), 0.5)
 		self.assertAlmostEqual(t2.getValue(), 0.5)
 
+	def testSegmentIntersection_AfterEnd(self):
+		# 橫 ends before reaching 豎; their extensions cross at t1 > 1
+
+		injector = self.getInjector()
+
+		strokeFactory = injector.get(StrokeFactory)
+		componentFactory = injector.get(ComponentFactory)
+
+		stroke1 = strokeFactory.橫()
+		stroke2 = strokeFactory.豎()
+
+		component = componentFactory.generateComponent([stroke1, stroke2])
+
+		stroke1.addCompoundConstraint(BoundaryConstraint(stroke1, (40, 127.5, 100, 127.5)))
+		stroke2.addCompoundConstraint(BoundaryConstraint(stroke2, (150, 20, 150, 235)))
+
+		compoundConstraint1 = SegmentIntersectionConstraint(stroke1.getSegments()[0], stroke2.getSegments()[0], IntersectionPos.AfterEnd, IntersectionPos.BetweenStartEnd)
+		component.addCompoundConstraint(compoundConstraint1)
+
+		problem = component.generateProblem()
+
+		glyphSolver = injector.get(GlyphSolver)
+		glyphSolver.solveProblem(problem)
+
+		(t1, t2) = compoundConstraint1.intersections
+		self.assertAlmostEqual(compoundConstraint1.intersectionX.getValue(), 150.0, places=4)
+		self.assertAlmostEqual(compoundConstraint1.intersectionY.getValue(), 127.5, places=4)
+		self.assertAlmostEqual(t1.getValue(), 110/60, places=4)
+		self.assertAlmostEqual(t2.getValue(), 0.5, places=4)
+
+	def testSegmentIntersection_BeforeStart(self):
+		# 豎 stands before 橫 starts; their extensions cross at t1 < 0
+
+		injector = self.getInjector()
+
+		strokeFactory = injector.get(StrokeFactory)
+		componentFactory = injector.get(ComponentFactory)
+
+		stroke1 = strokeFactory.橫()
+		stroke2 = strokeFactory.豎()
+
+		component = componentFactory.generateComponent([stroke1, stroke2])
+
+		stroke1.addCompoundConstraint(BoundaryConstraint(stroke1, (100, 127.5, 215, 127.5)))
+		stroke2.addCompoundConstraint(BoundaryConstraint(stroke2, (50, 20, 50, 235)))
+
+		compoundConstraint1 = SegmentIntersectionConstraint(stroke1.getSegments()[0], stroke2.getSegments()[0], IntersectionPos.BeforeStart, IntersectionPos.BetweenStartEnd)
+		component.addCompoundConstraint(compoundConstraint1)
+
+		problem = component.generateProblem()
+
+		glyphSolver = injector.get(GlyphSolver)
+		glyphSolver.solveProblem(problem)
+
+		(t1, t2) = compoundConstraint1.intersections
+		self.assertAlmostEqual(compoundConstraint1.intersectionX.getValue(), 50.0, places=4)
+		self.assertAlmostEqual(compoundConstraint1.intersectionY.getValue(), 127.5, places=4)
+		self.assertAlmostEqual(t1.getValue(), -50/115, places=4)
+		self.assertAlmostEqual(t2.getValue(), 0.5, places=4)
+
 	def testComponent_4(self):
 		# 口
 
