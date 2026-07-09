@@ -15,7 +15,7 @@ class ConstraintStroke(ConstraintPath):
 	def resolve(self, uuid):
 		for segment in self.segments:
 			s = segment.resolve(uuid)
-			if s != None:
+			if s is not None:
 				return s
 		return None
 

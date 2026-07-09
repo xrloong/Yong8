@@ -27,6 +27,45 @@ class ConstraintStrokeTestCase(BaseTestCase):
 		strokeFactory = injector.get(StrokeFactory)
 		self.assertIsNotNone(strokeFactory)
 
+	def testStrokeFactory_橫折(self):
+		injector = self.getInjector()
+
+		strokeFactory = injector.get(StrokeFactory)
+		stroke = strokeFactory.橫折()
+
+		stroke.addCompoundConstraint(BoundaryConstraint(stroke, (38, 61, 182, 129)))
+
+		problem = stroke.generateProblem()
+
+		glyphSolver = injector.get(GlyphSolver)
+		glyphSolver.solveProblem(problem)
+
+		(s1, s2) = stroke.getSegments()
+		self.assertSequenceAlmostEqual(s1.getStartPoint(), (38.0, 61.0))
+		self.assertSequenceAlmostEqual(s1.getEndPoint(), (182.0, 61.0))
+		self.assertSequenceAlmostEqual(s2.getStartPoint(), (182.0, 61.0))
+		self.assertSequenceAlmostEqual(s2.getEndPoint(), (182.0, 129.0))
+		self.assertSequenceAlmostEqual(stroke.getStartPoint(), (38.0, 61.0))
+		self.assertSequenceAlmostEqual(stroke.getEndPoint(), (182.0, 129.0))
+
+	def testResolve(self):
+		import uuid
+
+		injector = self.getInjector()
+
+		segmentFactory = injector.get(SegmentFactory)
+		s1 = segmentFactory.generateBeelineSegment_橫()
+		s2 = segmentFactory.generateBeelineSegment_豎()
+
+		strokeFactory = injector.get(StrokeFactory)
+		stroke = strokeFactory.generateStroke([s1, s2])
+
+		self.assertIs(s1.resolve(s1.getId()), s1)
+		self.assertIsNone(s1.resolve(s2.getId()))
+		self.assertIs(stroke.resolve(s1.getId()), s1)
+		self.assertIs(stroke.resolve(s2.getId()), s2)
+		self.assertIsNone(stroke.resolve(uuid.uuid4()))
+
 	def testStroke_1(self):
 		injector = self.getInjector()
 
