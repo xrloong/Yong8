@@ -16,18 +16,15 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dependencies = [
-    # xrsolver 0.0.2 以 pkg_resources 宣告 namespace package，
-    # 執行期需要 setuptools（pkg_resources 已於 setuptools 81 移除）
-    "setuptools<81",
-    "xrsolver @ https://github.com/xrloong/xrSolver/releases/download/0.0.2/xrSolver-0.0.2-py3-none-any.whl",
+    "xrsolver @ https://github.com/xrloong/xrSolver/releases/download/v0.0.3/xrsolver-0.0.3-py3-none-any.whl",
 ]
 
 [project.optional-dependencies]
 gekko = [
-    "xrsolver-gekko @ https://github.com/xrloong/xrSolver/releases/download/0.0.2/xrSolver_gekko-0.0.2-py3-none-any.whl",
+    "xrsolver-gekko @ https://github.com/xrloong/xrSolver/releases/download/v0.0.3/xrsolver_gekko-0.0.3-py3-none-any.whl",
 ]
 deap = [
-    "xrsolver-deap @ https://github.com/xrloong/xrSolver/releases/download/0.0.2/xrSolver_deap-0.0.2-py3-none-any.whl",
+    "xrsolver-deap @ https://github.com/xrloong/xrSolver/releases/download/v0.0.3/xrsolver_deap-0.0.3-py3-none-any.whl",
 ]
 
 [project.urls]
@@ -38,7 +35,7 @@ Homepage = "https://github.com/xrloong/Yong8"
 dev = [
     "injector<0.15",
     "pytest>=7",
-    "xrsolver-gekko @ https://github.com/xrloong/xrSolver/releases/download/0.0.2/xrSolver_gekko-0.0.2-py3-none-any.whl",
+    "xrsolver-gekko @ https://github.com/xrloong/xrSolver/releases/download/v0.0.3/xrsolver_gekko-0.0.3-py3-none-any.whl",
 ]
 
 [build-system]

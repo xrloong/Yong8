@@ -620,15 +620,6 @@ wheels = [
 ]
 
 [[package]]
-name = "setuptools"
-version = "80.10.2"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/76/95/faf61eb8363f26aa7e1d762267a8d602a1b26d4f3a1e758e92cb3cb8b054/setuptools-80.10.2.tar.gz", hash = "sha256:8b0e9d10c784bf7d262c4e5ec5d4ec94127ce206e8738f29a437945fbc219b70", size = 1200343, upload-time = "2026-01-25T22:38:17.252Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/94/b8/f1f62a5e3c0ad2ff1d189590bfa4c46b4f3b6e49cef6f26c6ee4e575394d/setuptools-80.10.2-py3-none-any.whl", hash = "sha256:95b30ddfb717250edb492926c92b5221f7ef3fbcc2b07579bcd4a27da21d0173", size = 1064234, upload-time = "2026-01-25T22:38:15.216Z" },
-]
-
-[[package]]
 name = "sympy"
 version = "1.14.0"
 source = { registry = "https://pypi.org/simple" }
@@ -705,13 +696,13 @@ wheels = [
 
 [[package]]
 name = "xrsolver"
-version = "0.0.2"
-source = { url = "https://github.com/xrloong/xrSolver/releases/download/0.0.2/xrSolver-0.0.2-py3-none-any.whl" }
+version = "0.0.3"
+source = { url = "https://github.com/xrloong/xrSolver/releases/download/v0.0.3/xrsolver-0.0.3-py3-none-any.whl" }
 dependencies = [
     { name = "sympy" },
 ]
 wheels = [
-    { url = "https://github.com/xrloong/xrSolver/releases/download/0.0.2/xrSolver-0.0.2-py3-none-any.whl", hash = "sha256:5fcf4c9cbf7d64bb98f296ae7b56e1c15315751baa9611517143f1ba67ce4777" },
+    { url = "https://github.com/xrloong/xrSolver/releases/download/v0.0.3/xrsolver-0.0.3-py3-none-any.whl", hash = "sha256:081adb74c8aaf9b399b90e57037bbfc9ce9bbdbdd7a727a1108c0c8847273aa3" },
 ]
 
 [package.metadata]
@@ -719,14 +710,14 @@ requires-dist = [{ name = "sympy" }]
 
 [[package]]
 name = "xrsolver-deap"
-version = "0.0.2"
-source = { url = "https://github.com/xrloong/xrSolver/releases/download/0.0.2/xrSolver_deap-0.0.2-py3-none-any.whl" }
+version = "0.0.3"
+source = { url = "https://github.com/xrloong/xrSolver/releases/download/v0.0.3/xrsolver_deap-0.0.3-py3-none-any.whl" }
 dependencies = [
     { name = "deap", version = "1.4.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
     { name = "deap", version = "1.4.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
 ]
 wheels = [
-    { url = "https://github.com/xrloong/xrSolver/releases/download/0.0.2/xrSolver_deap-0.0.2-py3-none-any.whl", hash = "sha256:8c29ef86887a72dd1407d9af79fe322f1bea67081089035de3a045d530186299" },
+    { url = "https://github.com/xrloong/xrSolver/releases/download/v0.0.3/xrsolver_deap-0.0.3-py3-none-any.whl", hash = "sha256:e0c22d6023c6df22e99064a6f6cb364d2bc7d14c0858a25ee49f0e03d11aff03" },
 ]
 
 [package.metadata]
@@ -734,13 +725,13 @@ requires-dist = [{ name = "deap" }]
 
 [[package]]
 name = "xrsolver-gekko"
-version = "0.0.2"
-source = { url = "https://github.com/xrloong/xrSolver/releases/download/0.0.2/xrSolver_gekko-0.0.2-py3-none-any.whl" }
+version = "0.0.3"
+source = { url = "https://github.com/xrloong/xrSolver/releases/download/v0.0.3/xrsolver_gekko-0.0.3-py3-none-any.whl" }
 dependencies = [
     { name = "gekko" },
 ]
 wheels = [
-    { url = "https://github.com/xrloong/xrSolver/releases/download/0.0.2/xrSolver_gekko-0.0.2-py3-none-any.whl", hash = "sha256:944620681ec55143f010f8834f015186be08e6c76c64b3118e9556659afba9d2" },
+    { url = "https://github.com/xrloong/xrSolver/releases/download/v0.0.3/xrsolver_gekko-0.0.3-py3-none-any.whl", hash = "sha256:878eefe2d38030a9b2fe2f84fa6b20798d5661b34f282847bcf60548dbd53b7b" },
 ]
 
 [package.metadata]
@@ -751,7 +742,6 @@ name = "yong8"
 version = "0.0.1"
 source = { editable = "." }
 dependencies = [
-    { name = "setuptools" },
     { name = "xrsolver" },
 ]
 
@@ -773,10 +763,9 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "setuptools", specifier = "<81" },
-    { name = "xrsolver", url = "https://github.com/xrloong/xrSolver/releases/download/0.0.2/xrSolver-0.0.2-py3-none-any.whl" },
-    { name = "xrsolver-deap", marker = "extra == 'deap'", url = "https://github.com/xrloong/xrSolver/releases/download/0.0.2/xrSolver_deap-0.0.2-py3-none-any.whl" },
-    { name = "xrsolver-gekko", marker = "extra == 'gekko'", url = "https://github.com/xrloong/xrSolver/releases/download/0.0.2/xrSolver_gekko-0.0.2-py3-none-any.whl" },
+    { name = "xrsolver", url = "https://github.com/xrloong/xrSolver/releases/download/v0.0.3/xrsolver-0.0.3-py3-none-any.whl" },
+    { name = "xrsolver-deap", marker = "extra == 'deap'", url = "https://github.com/xrloong/xrSolver/releases/download/v0.0.3/xrsolver_deap-0.0.3-py3-none-any.whl" },
+    { name = "xrsolver-gekko", marker = "extra == 'gekko'", url = "https://github.com/xrloong/xrSolver/releases/download/v0.0.3/xrsolver_gekko-0.0.3-py3-none-any.whl" },
 ]
 provides-extras = ["gekko", "deap"]
 
@@ -784,5 +773,5 @@ provides-extras = ["gekko", "deap"]
 dev = [
     { name = "injector", specifier = "<0.15" },
     { name = "pytest", specifier = ">=7" },
-    { name = "xrsolver-gekko", url = "https://github.com/xrloong/xrSolver/releases/download/0.0.2/xrSolver_gekko-0.0.2-py3-none-any.whl" },
+    { name = "xrsolver-gekko", url = "https://github.com/xrloong/xrSolver/releases/download/v0.0.3/xrsolver_gekko-0.0.3-py3-none-any.whl" },
 ]
