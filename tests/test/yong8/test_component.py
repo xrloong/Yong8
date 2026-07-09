@@ -126,6 +126,38 @@ class ConstraintComponentTestCase(BaseTestCase):
 		self.assertSequenceAlmostEqual(stroke2.getStartPoint(), (127.5, 20))
 		self.assertSequenceAlmostEqual(stroke2.getEndPoint(), (127.5, 235))
 
+	def testSegmentIntersectionPoint(self):
+		# 十, verifying the solved intersection point
+
+		injector = self.getInjector()
+
+		strokeFactory = injector.get(StrokeFactory)
+		componentFactory = injector.get(ComponentFactory)
+
+		stroke1 = strokeFactory.橫()
+		stroke2 = strokeFactory.豎()
+
+		component = componentFactory.generateComponent([stroke1, stroke2])
+
+		compoundConstraint1 = SegmentIntersectionConstraint(stroke1.getSegments()[0], stroke2.getSegments()[0])
+		component.addCompoundConstraint(compoundConstraint1)
+
+		component.addCompoundConstraint(BoundaryConstraint(component, (40, 20, 215, 235)))
+
+		problem = component.generateProblem()
+
+		(t1, t2) = compoundConstraint1.intersections
+		problem.appendConstraint(t1==0.5)
+		problem.appendConstraint(t2==0.5)
+
+		glyphSolver = injector.get(GlyphSolver)
+		glyphSolver.solveProblem(problem)
+
+		self.assertAlmostEqual(compoundConstraint1.intersectionX.getValue(), 127.5)
+		self.assertAlmostEqual(compoundConstraint1.intersectionY.getValue(), 127.5)
+		self.assertAlmostEqual(t1.getValue(), 0.5)
+		self.assertAlmostEqual(t2.getValue(), 0.5)
+
 	def testComponent_4(self):
 		# 口
 
