@@ -12,8 +12,8 @@ class ConstraintGlyph(ConstraintBoundaryShape):
 
 	def resolve(self, uuid):
 		for component in self.components:
-			c = componenet.resolve(uuid)
-			if c != None:
+			c = component.resolve(uuid)
+			if c is not None:
 				return c
 		return None
 

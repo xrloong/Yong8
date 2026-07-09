@@ -14,6 +14,28 @@ class ConstraintGlyphTestCase(BaseTestCase):
 	def tearDown(self):
 		super().tearDown()
 
+	def testResolve(self):
+		import uuid
+
+		injector = self.getInjector()
+
+		strokeFactory = injector.get(StrokeFactory)
+		componentFactory = injector.get(ComponentFactory)
+		glyphFactory = injector.get(GlyphFactory)
+
+		stroke1 = strokeFactory.橫()
+		stroke2 = strokeFactory.豎()
+
+		component1 = componentFactory.generateComponent([stroke1])
+		component2 = componentFactory.generateComponent([stroke2])
+		glyph = glyphFactory.generateGlyph([component1, component2])
+
+		segment1 = stroke1.getSegments()[0]
+		segment2 = stroke2.getSegments()[0]
+		self.assertIs(glyph.resolve(segment1.getId()), segment1)
+		self.assertIs(glyph.resolve(segment2.getId()), segment2)
+		self.assertIsNone(glyph.resolve(uuid.uuid4()))
+
 	def testGlyph_1(self):
 		injector = self.getInjector()
 
